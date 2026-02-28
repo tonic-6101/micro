@@ -1,0 +1,240 @@
+{
+	"actions": [],
+	"autoname": "format:MC-{####}",
+	"creation": "2026-02-27 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"name_section",
+		"name1",
+		"last_name",
+		"full_name",
+		"column_break_name",
+		"contact_type",
+		"status",
+		"pipeline_stage",
+		"organization",
+		"image",
+		"contact_section",
+		"email",
+		"phone",
+		"mobile",
+		"column_break_contact",
+		"website",
+		"source",
+		"address_section",
+		"address",
+		"city",
+		"column_break_address",
+		"postal_code",
+		"country",
+		"notes_section",
+		"notes"
+	],
+	"fields": [
+		{
+			"fieldname": "name_section",
+			"fieldtype": "Section Break",
+			"label": "Name"
+		},
+		{
+			"fieldname": "name1",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "First Name",
+			"reqd": 1
+		},
+		{
+			"fieldname": "last_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Last Name"
+		},
+		{
+			"fieldname": "full_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Full Name",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_name",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "Person",
+			"fieldname": "contact_type",
+			"fieldtype": "Select",
+			"in_standard_filter": 1,
+			"label": "Contact Type",
+			"options": "Person\nOrganization",
+			"reqd": 1
+		},
+		{
+			"default": "Potential",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Potential\nActive\nInactive",
+			"reqd": 1
+		},
+		{
+			"fieldname": "pipeline_stage",
+			"fieldtype": "Link",
+			"in_standard_filter": 1,
+			"label": "Pipeline Stage",
+			"options": "Micro Pipeline Stage"
+		},
+		{
+			"depends_on": "eval:doc.contact_type=='Person'",
+			"fieldname": "organization",
+			"fieldtype": "Link",
+			"in_standard_filter": 1,
+			"label": "Organization",
+			"options": "Micro Customer"
+		},
+		{
+			"fieldname": "image",
+			"fieldtype": "Attach Image",
+			"hidden": 1,
+			"label": "Image"
+		},
+		{
+			"fieldname": "contact_section",
+			"fieldtype": "Section Break",
+			"label": "Contact Details"
+		},
+		{
+			"fieldname": "email",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Email",
+			"options": "Email"
+		},
+		{
+			"fieldname": "phone",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Phone",
+			"options": "Phone"
+		},
+		{
+			"fieldname": "mobile",
+			"fieldtype": "Data",
+			"label": "Mobile",
+			"options": "Phone"
+		},
+		{
+			"fieldname": "column_break_contact",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "website",
+			"fieldtype": "Data",
+			"label": "Website",
+			"options": "URL"
+		},
+		{
+			"fieldname": "source",
+			"fieldtype": "Select",
+			"in_standard_filter": 1,
+			"label": "Source",
+			"options": "\nManual\nGoogle Ads\nFacebook\nInstagram\nLinkedIn\nEmail Campaign\nCold Call\nWeb Form\nOrganic Search\nReferral\nPartner\nEvent\nImport\nOther"
+		},
+		{
+			"fieldname": "address_section",
+			"fieldtype": "Section Break",
+			"label": "Address"
+		},
+		{
+			"fieldname": "address",
+			"fieldtype": "Small Text",
+			"label": "Street Address"
+		},
+		{
+			"fieldname": "city",
+			"fieldtype": "Data",
+			"label": "City"
+		},
+		{
+			"fieldname": "column_break_address",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "postal_code",
+			"fieldtype": "Data",
+			"label": "Postal Code"
+		},
+		{
+			"fieldname": "country",
+			"fieldtype": "Link",
+			"label": "Country",
+			"options": "Country"
+		},
+		{
+			"fieldname": "notes_section",
+			"fieldtype": "Section Break",
+			"label": "Notes"
+		},
+		{
+			"fieldname": "notes",
+			"fieldtype": "Text",
+			"label": "Notes"
+		}
+	],
+	"image_field": "image",
+	"links": [],
+	"modified": "2026-02-27 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Customer",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"quick_entry": 1,
+	"search_fields": "full_name,email,phone",
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "full_name",
+	"track_changes": 1
+}

@@ -1,0 +1,195 @@
+{
+	"actions": [],
+	"creation": "2026-02-27 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"company_section",
+		"company_name",
+		"company_email",
+		"company_phone",
+		"column_break_company",
+		"company_address",
+		"company_logo",
+		"defaults_section",
+		"default_currency",
+		"default_language",
+		"column_break_defaults",
+		"customer_limit",
+		"article_limit",
+		"compliance_section",
+		"draft_watermark_text",
+		"column_break_compliance",
+		"draft_disclaimer",
+		"tax_advisor_section",
+		"tax_advisor_name",
+		"column_break_tax",
+		"tax_advisor_email",
+		"orga_section",
+		"enable_orga_integration"
+	],
+	"fields": [
+		{
+			"fieldname": "company_section",
+			"fieldtype": "Section Break",
+			"label": "Company Information"
+		},
+		{
+			"fieldname": "company_name",
+			"fieldtype": "Data",
+			"label": "Company Name",
+			"reqd": 1
+		},
+		{
+			"fieldname": "company_email",
+			"fieldtype": "Data",
+			"label": "Company Email",
+			"options": "Email"
+		},
+		{
+			"fieldname": "company_phone",
+			"fieldtype": "Data",
+			"label": "Company Phone",
+			"options": "Phone"
+		},
+		{
+			"fieldname": "column_break_company",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "company_address",
+			"fieldtype": "Small Text",
+			"label": "Company Address"
+		},
+		{
+			"fieldname": "company_logo",
+			"fieldtype": "Attach Image",
+			"label": "Company Logo"
+		},
+		{
+			"fieldname": "defaults_section",
+			"fieldtype": "Section Break",
+			"label": "Defaults"
+		},
+		{
+			"default": "EUR",
+			"fieldname": "default_currency",
+			"fieldtype": "Link",
+			"label": "Default Currency",
+			"options": "Currency",
+			"reqd": 1
+		},
+		{
+			"default": "de",
+			"fieldname": "default_language",
+			"fieldtype": "Link",
+			"label": "Default Language",
+			"options": "Language",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_defaults",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "100",
+			"fieldname": "customer_limit",
+			"fieldtype": "Int",
+			"label": "Customer Limit",
+			"description": "Community edition: 100. Pro: unlimited."
+		},
+		{
+			"default": "50",
+			"fieldname": "article_limit",
+			"fieldtype": "Int",
+			"label": "Article Limit",
+			"description": "Community edition: 50. Pro: unlimited."
+		},
+		{
+			"fieldname": "compliance_section",
+			"fieldtype": "Section Break",
+			"label": "Compliance (Zone 2 Guardrails)"
+		},
+		{
+			"default": "ENTWURF",
+			"fieldname": "draft_watermark_text",
+			"fieldtype": "Data",
+			"label": "Draft Watermark Text",
+			"description": "G1: Displayed on all Zone 2 documents"
+		},
+		{
+			"fieldname": "column_break_compliance",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "draft_disclaimer",
+			"fieldtype": "Small Text",
+			"label": "Draft Disclaimer",
+			"description": "G4: Footer on all Zone 2 documents"
+		},
+		{
+			"fieldname": "tax_advisor_section",
+			"fieldtype": "Section Break",
+			"label": "Tax Advisor (Steuerberater)"
+		},
+		{
+			"fieldname": "tax_advisor_name",
+			"fieldtype": "Data",
+			"label": "Tax Advisor Name"
+		},
+		{
+			"fieldname": "column_break_tax",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "tax_advisor_email",
+			"fieldtype": "Data",
+			"label": "Tax Advisor Email",
+			"options": "Email"
+		},
+		{
+			"fieldname": "orga_section",
+			"fieldtype": "Section Break",
+			"label": "Integrations"
+		},
+		{
+			"default": "0",
+			"fieldname": "enable_orga_integration",
+			"fieldtype": "Check",
+			"label": "Enable Orga Integration",
+			"description": "Auto-detected if Orga is installed"
+		}
+	],
+	"issingle": 1,
+	"links": [],
+	"modified": "2026-02-27 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Settings",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"print": 1,
+			"read": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"read": 1,
+			"role": "Micro Manager",
+			"write": 1
+		},
+		{
+			"read": 1,
+			"role": "Micro User"
+		}
+	],
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 1
+}

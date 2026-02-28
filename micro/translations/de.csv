@@ -1,0 +1,221 @@
+Active,Aktiv
+Active Leads,Aktive Leads
+Additional notes...,Zusätzliche Notizen...
+Add New,Neu hinzufügen
+Address,Adresse
+All Categories,Alle Kategorien
+Amount,Betrag
+Article,Artikel
+Article Code,Artikelnummer
+Article Limit,Artikellimit
+Article Name,Artikelname
+Articles,Artikel
+Assigned To,Zugewiesen an
+Basic Info,Grunddaten
+Business organizer for micro businesses,Geschäftsorganizer für Kleinstunternehmen
+Cancel,Abbrechen
+Cancelled,Abgebrochen
+Category,Kategorie
+City,Ort
+Company Address,Firmenadresse
+Company Email,Firmen-E-Mail
+Company Information,Firmeninformationen
+Company Logo,Firmenlogo
+Company Name,Firmenname
+Company Phone,Firmentelefon
+Completed,Abgeschlossen
+Compliance (Zone 2),Compliance (Zone 2)
+Contact Details,Kontaktdaten
+Contact Type,Kontakttyp
+Customer,Kunde
+Customer Limit,Kundenlimit
+Customers,Kunden
+Content,Inhalt
+Country,Land
+CRM,CRM
+Currency,Währung
+Dashboard,Übersicht
+Date,Datum
+Default Currency,Standardwährung
+Default Language,Standardsprache
+Defaults,Standardwerte
+Description,Beschreibung
+Disclaimer,Haftungsausschluss
+Documents,Dokumente
+documents to export,Dokumente zum Exportieren
+Document Type,Dokumenttyp
+Download CSV,CSV herunterladen
+Draft,Entwurf
+Draft Disclaimer,Entwurf-Haftungsausschluss
+Draft Watermark Text,Entwurf-Wasserzeichen
+Due Date,Fälligkeitsdatum
+Edit in Desk,Im Desk bearbeiten
+Email,E-Mail
+Enable Orga Integration,Orga-Integration aktivieren
+Expected Value,Erwarteter Wert
+Export,Export
+Exported,Exportiert
+Exporting...,Exportiere...
+Export now,Jetzt exportieren
+Export to Tax Advisor,Export an Steuerberater
+Failed to create customer,Kunde konnte nicht erstellt werden
+Failed to load customer,Kunde konnte nicht geladen werden
+Failed to load customers. Please try again.,Kunden konnten nicht geladen werden. Bitte erneut versuchen.
+Filters,Filter
+First Name,Vorname
+First name is required,Vorname ist erforderlich
+Food,Lebensmittel
+From Date,Von Datum
+From Offer,Aus Angebot
+From Time Entries,Aus Zeiterfassung
+Full Name,Vollständiger Name
+High,Hoch
+Image,Bild
+Inactive,Inaktiv
+In Progress,In Bearbeitung
+Integrations,Integrationen
+Internal Notes,Interne Notizen
+Invalid email address: {0},Ungültige E-Mail-Adresse: {0}
+Invoice Draft,Rechnungsentwurf
+Invoice Drafts,Rechnungsentwürfe
+Is Draft,Ist Entwurf
+Items,Positionen
+just now,gerade eben
+Language,Sprache
+Last Name,Nachname
+Loading...,Wird geladen...
+lost,verloren
+Lost,Verloren
+Low,Niedrig
+Manual,Manuell
+Mark as exported after download,Nach Download als exportiert markieren
+Materials,Material
+Medium,Mittel
+Micro,Micro
+Mobile,Mobil
+Name,Name
+New Article,Neuer Artikel
+New Customer,Neuer Kunde
+New Invoice Draft,Neuer Rechnungsentwurf
+New Offer,Neues Angebot
+New Receipt,Neuer Beleg
+New Task,Neue Aufgabe
+Next,Weiter
+Next Follow-up,Nächstes Follow-up
+No articles found,Keine Artikel gefunden
+No customers yet,Noch keine Kunden
+No customers match your search,Keine Kunden entsprechen Ihrer Suche
+No invoice drafts found,Keine Rechnungsentwürfe gefunden
+No offer drafts found,Keine Angebotsentwürfe gefunden
+No receipts found,Keine Belege gefunden
+No recent activity,Keine aktuelle Aktivität
+No tasks found,Keine Aufgaben gefunden
+Notes,Notizen
+Notes for Client,Notizen für Kunden
+Offer,Angebot
+Offer Draft,Angebotsentwurf
+Offer Drafts,Angebotsentwürfe
+Office,Büro
+Only unexported,Nur nicht exportierte
+Open,Offen
+Open Tasks,Offene Aufgaben
+Organization,Organisation
+Organization name,Name der Organisation
+Other,Sonstiges
+Page,Seite
+Person,Person
+Phone,Telefon
+Potential,Potenziell
+Postal Code,Postleitzahl
+Preview,Vorschau
+Previous,Zurück
+Priority,Priorität
+Qty,Menge
+Quick Actions,Schnellaktionen
+Rate,Preis
+Receipt,Beleg
+Receipt Date,Belegdatum
+Receipt Image,Belegbild
+Receipts,Belege
+receipts not yet exported to tax advisor,Belege noch nicht an Steuerberater exportiert
+Recent Activity,Aktuelle Aktivität
+Reference,Referenz
+Save Customer,Kunde speichern
+Saving...,Speichern...
+Search articles...,Artikel suchen...
+Search by vendor...,Nach Lieferant suchen...
+Search customers...,Kunden suchen...
+Search invoice drafts...,Rechnungsentwürfe suchen...
+Search offer drafts...,Angebotsentwürfe suchen...
+Select...,Auswählen...
+Selling Price (VK),Verkaufspreis (VK)
+Sent,Gesendet
+Sent to Tax Advisor,An Steuerberater gesendet
+Services,Dienstleistungen
+Settings,Einstellungen
+Software,Software
+Source,Quelle
+Source Offer,Quell-Angebot
+Status,Status
+Street address,Straße
+Subject,Betreff
+Supplier,Lieferant
+Task,Aufgabe
+Tasks,Aufgaben
+Tax Advisor,Steuerberater
+Tax Advisor Email,Steuerberater E-Mail
+Tax Advisor Name,Steuerberater Name
+Tax fields are not allowed on draft documents (compliance guardrail G3),Steuerfelder sind in Entwurfsdokumenten nicht erlaubt (Compliance-Richtlinie G3)
+Tax fields are not allowed on draft line items (compliance guardrail G3),Steuerfelder sind in Entwurfspositionen nicht erlaubt (Compliance-Richtlinie G3)
+To Date,Bis Datum
+Tools,Werkzeuge
+Total,Gesamt
+Travel,Reise
+Type,Typ
+Unit,Einheit
+unlimited,unbegrenzt
+Unsupported document type for export: {0},Nicht unterstützter Dokumenttyp für Export: {0}
+Usage & Limits,Nutzung & Limits
+Valid Until,Gültig bis
+Vendor,Lieferant
+VK,VK
+Watermark Text,Wasserzeichentext
+Website,Website
+Company name is required,Firmenname ist erforderlich
+Create your first customer,Erstellen Sie Ihren ersten Kunden
+Customer limit reached ({0}). Upgrade to Micro Pro for unlimited customers.,Kundenlimit erreicht ({0}). Upgrade auf Micro Pro für unbegrenzte Kunden.
+Last name is required,Nachname ist erforderlich
+Last name is required for Person customers,Nachname ist für Personenkunden erforderlich
+potential,potenziell
+active,aktiv
+All Sources,Alle Quellen
+Back to Customers,Zurück zu Kunden
+Cold Call,Kaltakquise
+Customers by Source,Kunden nach Quelle
+Email Campaign,E-Mail-Kampagne
+Event,Veranstaltung
+Facebook,Facebook
+Google Ads,Google Ads
+Instagram,Instagram
+LinkedIn,LinkedIn
+Organic Search,Organische Suche
+Partner,Partner
+Unknown,Unbekannt
+Pipeline,Pipeline
+Pipeline Stage,Pipeline-Stufe
+Stage Name,Stufenname
+Sort Order,Sortierung
+Is Closed,Ist abgeschlossen
+Contacted,Kontaktiert
+Offer Sent,Angebot gesendet
+Negotiating,In Verhandlung
+Won,Gewonnen
+Show closed stages,Abgeschlossene Stufen anzeigen
+Edit Stages,Stufen bearbeiten
+No customers,Keine Kunden
+No pipeline stages configured,Keine Pipeline-Stufen konfiguriert
+Failed to load pipeline. Please try again.,Pipeline konnte nicht geladen werden. Bitte erneut versuchen.
+Unassigned,Nicht zugeordnet
+customers,Kunden
+Customer not found,Kunde nicht gefunden
+Pipeline stage not found,Pipeline-Stufe nicht gefunden

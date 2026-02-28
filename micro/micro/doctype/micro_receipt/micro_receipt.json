@@ -1,0 +1,179 @@
+{
+	"actions": [],
+	"autoname": "format:MR-{####}",
+	"creation": "2026-02-27 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"details_section",
+		"receipt_date",
+		"vendor",
+		"column_break_details",
+		"amount",
+		"category",
+		"description_section",
+		"description",
+		"image",
+		"references_section",
+		"contact",
+		"column_break_references",
+		"notes",
+		"export_section",
+		"exported",
+		"column_break_export",
+		"export_date"
+	],
+	"fields": [
+		{
+			"fieldname": "details_section",
+			"fieldtype": "Section Break",
+			"label": "Details"
+		},
+		{
+			"default": "Today",
+			"fieldname": "receipt_date",
+			"fieldtype": "Date",
+			"in_list_view": 1,
+			"label": "Receipt Date",
+			"reqd": 1
+		},
+		{
+			"fieldname": "vendor",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Vendor"
+		},
+		{
+			"fieldname": "column_break_details",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "0",
+			"fieldname": "amount",
+			"fieldtype": "Currency",
+			"in_list_view": 1,
+			"label": "Amount",
+			"reqd": 1
+		},
+		{
+			"default": "Other",
+			"fieldname": "category",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Category",
+			"options": "Materials\nTravel\nOffice\nFood\nSoftware\nServices\nOther"
+		},
+		{
+			"fieldname": "description_section",
+			"fieldtype": "Section Break",
+			"label": "Description"
+		},
+		{
+			"fieldname": "description",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Description"
+		},
+		{
+			"fieldname": "image",
+			"fieldtype": "Attach Image",
+			"label": "Receipt Image"
+		},
+		{
+			"fieldname": "references_section",
+			"fieldtype": "Section Break",
+			"label": "References"
+		},
+		{
+			"fieldname": "contact",
+			"fieldtype": "Link",
+			"in_standard_filter": 1,
+			"label": "Customer",
+			"options": "Micro Customer"
+		},
+		{
+			"fieldname": "column_break_references",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "notes",
+			"fieldtype": "Text",
+			"label": "Notes"
+		},
+		{
+			"fieldname": "export_section",
+			"fieldtype": "Section Break",
+			"label": "Tax Advisor Export"
+		},
+		{
+			"default": "0",
+			"fieldname": "exported",
+			"fieldtype": "Check",
+			"in_list_view": 1,
+			"label": "Exported",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_export",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "export_date",
+			"fieldtype": "Date",
+			"label": "Last Export Date",
+			"read_only": 1
+		}
+	],
+	"image_field": "image",
+	"links": [],
+	"modified": "2026-02-27 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Receipt",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"search_fields": "vendor,description,category",
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "vendor",
+	"track_changes": 1
+}

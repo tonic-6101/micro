@@ -1,0 +1,182 @@
+{
+	"actions": [],
+	"autoname": "format:MA-{####}",
+	"creation": "2026-02-27 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"details_section",
+		"article_name",
+		"article_code",
+		"column_break_details",
+		"category",
+		"unit",
+		"is_active",
+		"pricing_section",
+		"selling_price",
+		"column_break_pricing",
+		"purchase_price",
+		"description_section",
+		"description",
+		"image",
+		"supplier_section",
+		"supplier",
+		"column_break_supplier",
+		"notes"
+	],
+	"fields": [
+		{
+			"fieldname": "details_section",
+			"fieldtype": "Section Break",
+			"label": "Details"
+		},
+		{
+			"fieldname": "article_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Article Name",
+			"reqd": 1
+		},
+		{
+			"fieldname": "article_code",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Article Code"
+		},
+		{
+			"fieldname": "column_break_details",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "category",
+			"fieldtype": "Data",
+			"in_standard_filter": 1,
+			"label": "Category"
+		},
+		{
+			"default": "Stück",
+			"fieldname": "unit",
+			"fieldtype": "Select",
+			"label": "Unit",
+			"options": "Stück\nStunde\nPauschal\nkg\nm\nm²\nLiter"
+		},
+		{
+			"default": "1",
+			"fieldname": "is_active",
+			"fieldtype": "Check",
+			"in_list_view": 1,
+			"label": "Active"
+		},
+		{
+			"fieldname": "pricing_section",
+			"fieldtype": "Section Break",
+			"label": "Pricing"
+		},
+		{
+			"default": "0",
+			"fieldname": "selling_price",
+			"fieldtype": "Currency",
+			"in_list_view": 1,
+			"label": "Selling Price (VK)",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_pricing",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "0",
+			"fieldname": "purchase_price",
+			"fieldtype": "Currency",
+			"label": "Purchase Price (EK)"
+		},
+		{
+			"fieldname": "description_section",
+			"fieldtype": "Section Break",
+			"label": "Description"
+		},
+		{
+			"fieldname": "description",
+			"fieldtype": "Text",
+			"label": "Description"
+		},
+		{
+			"fieldname": "image",
+			"fieldtype": "Attach Image",
+			"hidden": 1,
+			"label": "Image"
+		},
+		{
+			"fieldname": "supplier_section",
+			"fieldtype": "Section Break",
+			"label": "Supplier & Notes"
+		},
+		{
+			"fieldname": "supplier",
+			"fieldtype": "Data",
+			"label": "Supplier"
+		},
+		{
+			"fieldname": "column_break_supplier",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "notes",
+			"fieldtype": "Text",
+			"label": "Notes"
+		}
+	],
+	"image_field": "image",
+	"links": [],
+	"modified": "2026-02-27 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Article",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"quick_entry": 1,
+	"search_fields": "article_name,article_code,category",
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "article_name",
+	"track_changes": 1
+}

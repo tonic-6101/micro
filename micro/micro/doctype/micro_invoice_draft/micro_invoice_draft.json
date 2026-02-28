@@ -1,0 +1,235 @@
+{
+	"actions": [],
+	"autoname": "field:reference",
+	"creation": "2026-02-27 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"details_section",
+		"reference",
+		"title",
+		"contact",
+		"column_break_details",
+		"date",
+		"status",
+		"language",
+		"source_section",
+		"source",
+		"column_break_source",
+		"offer_draft",
+		"items_section",
+		"items",
+		"total_section",
+		"total",
+		"notes_section",
+		"notes",
+		"column_break_notes",
+		"internal_notes",
+		"compliance_section",
+		"is_draft",
+		"watermark_text",
+		"disclaimer"
+	],
+	"fields": [
+		{
+			"fieldname": "details_section",
+			"fieldtype": "Section Break",
+			"label": "Details"
+		},
+		{
+			"fieldname": "reference",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Reference",
+			"read_only": 1,
+			"reqd": 1,
+			"unique": 1
+		},
+		{
+			"fieldname": "title",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"label": "Title"
+		},
+		{
+			"fieldname": "contact",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Customer",
+			"options": "Micro Customer",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_details",
+			"fieldtype": "Column Break"
+		},
+		{
+			"default": "Today",
+			"fieldname": "date",
+			"fieldtype": "Date",
+			"in_list_view": 1,
+			"label": "Date",
+			"reqd": 1
+		},
+		{
+			"default": "Draft",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Draft\nSent to Tax Advisor\nArchived",
+			"reqd": 1
+		},
+		{
+			"fieldname": "language",
+			"fieldtype": "Link",
+			"label": "Language",
+			"options": "Language"
+		},
+		{
+			"fieldname": "source_section",
+			"fieldtype": "Section Break",
+			"label": "Source"
+		},
+		{
+			"default": "Manual",
+			"fieldname": "source",
+			"fieldtype": "Select",
+			"label": "Source",
+			"options": "Manual\nFrom Offer\nFrom Time Entries",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_source",
+			"fieldtype": "Column Break"
+		},
+		{
+			"depends_on": "eval:doc.source=='From Offer'",
+			"fieldname": "offer_draft",
+			"fieldtype": "Link",
+			"label": "Source Offer",
+			"options": "Micro Offer Draft",
+			"read_only": 1
+		},
+		{
+			"fieldname": "items_section",
+			"fieldtype": "Section Break",
+			"label": "Items"
+		},
+		{
+			"fieldname": "items",
+			"fieldtype": "Table",
+			"label": "Items",
+			"options": "Micro Invoice Item",
+			"reqd": 1
+		},
+		{
+			"fieldname": "total_section",
+			"fieldtype": "Section Break",
+			"label": "Total"
+		},
+		{
+			"default": "0",
+			"fieldname": "total",
+			"fieldtype": "Currency",
+			"label": "Total",
+			"read_only": 1
+		},
+		{
+			"fieldname": "notes_section",
+			"fieldtype": "Section Break",
+			"label": "Notes"
+		},
+		{
+			"fieldname": "notes",
+			"fieldtype": "Text",
+			"label": "Notes for Client"
+		},
+		{
+			"fieldname": "column_break_notes",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "internal_notes",
+			"fieldtype": "Text",
+			"label": "Internal Notes"
+		},
+		{
+			"fieldname": "compliance_section",
+			"fieldtype": "Section Break",
+			"collapsible": 1,
+			"label": "Compliance (Auto-managed)"
+		},
+		{
+			"default": "1",
+			"fieldname": "is_draft",
+			"fieldtype": "Check",
+			"label": "Is Draft",
+			"read_only": 1
+		},
+		{
+			"fieldname": "watermark_text",
+			"fieldtype": "Data",
+			"label": "Watermark Text",
+			"read_only": 1
+		},
+		{
+			"fieldname": "disclaimer",
+			"fieldtype": "Small Text",
+			"label": "Disclaimer",
+			"read_only": 1
+		}
+	],
+	"links": [],
+	"modified": "2026-02-27 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Invoice Draft",
+	"naming_rule": "By fieldname",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"email": 1,
+			"export": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"share": 1,
+			"write": 1
+		}
+	],
+	"search_fields": "reference,title,contact",
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "reference",
+	"track_changes": 1
+}

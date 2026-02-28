@@ -1,0 +1,226 @@
+{#
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Copyright (C) 2026 Tonic
+
+  Micro Invoice Draft — Watermarked Print Format
+  Zone 2 Compliance: G1 (watermark), G4 (disclaimer), G5 (safe terminology)
+#}
+
+<style>
+	.micro-invoice-watermark {
+		position: fixed;
+		top: 40%;
+		left: 50%;
+		transform: translate(-50%, -50%) rotate(-45deg);
+		font-size: 80px;
+		font-weight: bold;
+		color: rgba(0, 0, 0, 0.08);
+		z-index: -1;
+		pointer-events: none;
+		white-space: nowrap;
+		letter-spacing: 12px;
+	}
+
+	.micro-invoice-header {
+		margin-bottom: 24px;
+	}
+
+	.micro-invoice-header h2 {
+		margin: 0 0 4px 0;
+		font-size: 22px;
+		font-weight: bold;
+	}
+
+	.micro-invoice-header .reference {
+		font-size: 12px;
+		color: #666;
+	}
+
+	.micro-invoice-meta {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 24px;
+		gap: 24px;
+	}
+
+	.micro-invoice-meta .meta-block {
+		flex: 1;
+	}
+
+	.micro-invoice-meta .meta-label {
+		font-size: 10px;
+		text-transform: uppercase;
+		color: #999;
+		margin-bottom: 2px;
+	}
+
+	.micro-invoice-meta .meta-value {
+		font-size: 13px;
+	}
+
+	.micro-invoice-items {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 24px;
+	}
+
+	.micro-invoice-items th {
+		text-align: left;
+		font-size: 10px;
+		text-transform: uppercase;
+		color: #666;
+		border-bottom: 2px solid #333;
+		padding: 6px 8px;
+	}
+
+	.micro-invoice-items th.text-right {
+		text-align: right;
+	}
+
+	.micro-invoice-items td {
+		padding: 8px;
+		border-bottom: 1px solid #eee;
+		font-size: 12px;
+	}
+
+	.micro-invoice-items td.text-right {
+		text-align: right;
+	}
+
+	.micro-invoice-total {
+		text-align: right;
+		margin-bottom: 24px;
+		padding: 8px;
+		border-top: 2px solid #333;
+	}
+
+	.micro-invoice-total .total-label {
+		font-size: 12px;
+		color: #666;
+	}
+
+	.micro-invoice-total .total-value {
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.micro-invoice-notes {
+		margin-bottom: 24px;
+		font-size: 12px;
+		color: #444;
+	}
+
+	.micro-invoice-notes h4 {
+		font-size: 11px;
+		text-transform: uppercase;
+		color: #999;
+		margin: 0 0 4px 0;
+	}
+
+	.micro-invoice-disclaimer {
+		margin-top: 32px;
+		padding-top: 12px;
+		border-top: 1px solid #ccc;
+		font-size: 10px;
+		color: #999;
+		text-align: center;
+		font-style: italic;
+	}
+
+	.micro-draft-badge {
+		display: inline-block;
+		background: #f0f0f0;
+		color: #666;
+		font-size: 10px;
+		font-weight: bold;
+		text-transform: uppercase;
+		padding: 2px 8px;
+		border-radius: 3px;
+		letter-spacing: 1px;
+	}
+
+	.micro-invoice-source {
+		font-size: 11px;
+		color: #888;
+		margin-top: 4px;
+	}
+</style>
+
+{# G1: Draft Watermark — prominently displayed #}
+<div class="micro-invoice-watermark">
+	{{ doc.watermark_text or "ENTWURF" }}
+</div>
+
+{# Header #}
+<div class="micro-invoice-header">
+	<h2>{{ doc.title or _("Invoice Draft") }}</h2>
+	<div class="reference">{{ doc.reference }}</div>
+	<span class="micro-draft-badge">{{ doc.watermark_text or "ENTWURF" }}</span>
+	{% if doc.source != "Manual" %}
+	<div class="micro-invoice-source">
+		{{ _("Source") }}: {{ _(doc.source) }}
+		{% if doc.offer_draft %} — {{ doc.offer_draft }}{% endif %}
+	</div>
+	{% endif %}
+</div>
+
+{# Metadata #}
+<div class="micro-invoice-meta">
+	<div class="meta-block">
+		<div class="meta-label">{{ _("Customer") }}</div>
+		<div class="meta-value">{{ doc.contact }}</div>
+	</div>
+	<div class="meta-block">
+		<div class="meta-label">{{ _("Date") }}</div>
+		<div class="meta-value">{{ doc.get_formatted("date") }}</div>
+	</div>
+	<div class="meta-block">
+		<div class="meta-label">{{ _("Status") }}</div>
+		<div class="meta-value">{{ _(doc.status) }}</div>
+	</div>
+</div>
+
+{# Items Table #}
+{% if doc.items %}
+<table class="micro-invoice-items">
+	<thead>
+		<tr>
+			<th style="width: 40%">{{ _("Description") }}</th>
+			<th class="text-right" style="width: 15%">{{ _("Qty") }}</th>
+			<th style="width: 10%">{{ _("Unit") }}</th>
+			<th class="text-right" style="width: 15%">{{ _("Rate") }}</th>
+			<th class="text-right" style="width: 20%">{{ _("Amount") }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in doc.items %}
+		<tr>
+			<td>{{ item.description }}</td>
+			<td class="text-right">{{ item.get_formatted("quantity") }}</td>
+			<td>{{ item.unit or "" }}</td>
+			<td class="text-right">{{ item.get_formatted("rate", doc) }}</td>
+			<td class="text-right">{{ item.get_formatted("amount", doc) }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{# Total #}
+<div class="micro-invoice-total">
+	<span class="total-label">{{ _("Total") }}: </span>
+	<span class="total-value">{{ doc.get_formatted("total") }}</span>
+</div>
+{% endif %}
+
+{# Notes for Client #}
+{% if doc.notes %}
+<div class="micro-invoice-notes">
+	<h4>{{ _("Notes") }}</h4>
+	<p>{{ doc.notes }}</p>
+</div>
+{% endif %}
+
+{# G4: Disclaimer Footer — legally required #}
+<div class="micro-invoice-disclaimer">
+	{{ doc.disclaimer or _("Draft — not a legally binding invoice. Final invoice to be created by your tax advisor.") }}
+</div>
