@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
 ![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-green)
-![Frappe](https://img.shields.io/badge/frappe-v15%2B-blue)
+![Frappe](https://img.shields.io/badge/frappe-v16%2B-blue)
 ![Tests](https://img.shields.io/badge/tests-272%20passing-brightgreen)
 
 **Business organizer for micro businesses.**
@@ -67,7 +67,7 @@ The Micro frontend provides a clean, modern interface:
 
 ## Tech Stack
 
-- **Backend:** Python 3.10+ on Frappe v15
+- **Backend:** Python 3.14+ on Frappe v16
 - **Frontend:** Vue 3 + TypeScript + Tailwind CSS + FrappeUI
 - **Database:** MariaDB
 - **Build:** Vite

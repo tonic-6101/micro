@@ -2,10 +2,10 @@
 
 ## Requirements
 
-- Frappe v15 or later
-- Python 3.10+
+- Frappe v16 or later
+- Python 3.14+
 - MariaDB
-- Node.js 18+
+- Node.js 24+
 
 ## Installation
 

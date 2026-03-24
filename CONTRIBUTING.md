@@ -10,9 +10,9 @@ Be respectful, constructive, and inclusive. We follow the [Contributor Covenant]
 
 ### Prerequisites
 
-- Frappe v15 or later
-- Python 3.10+
-- Node.js 18+
+- Frappe v16 or later
+- Python 3.14+
+- Node.js 24+
 - MariaDB
 
 ### Development Setup
