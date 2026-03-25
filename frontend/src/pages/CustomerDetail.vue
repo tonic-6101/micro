@@ -138,34 +138,5 @@ const statusClasses: Record<string, string> = {
       </div>
     </div>
 
-    <!-- Related tasks -->
-    <div v-if="customer.data.tasks?.length">
-      <h3 class="mb-3 text-lg font-semibold text-gray-900">{{ __('Tasks') }}</h3>
-      <div class="space-y-2">
-        <div
-          v-for="task in customer.data.tasks"
-          :key="task.name"
-          class="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3"
-        >
-          <div>
-            <p class="text-sm font-medium text-gray-900">{{ task.subject }}</p>
-            <p v-if="task.due_date" class="text-xs text-gray-500">
-              {{ __('Due') }}: {{ task.due_date }}
-            </p>
-          </div>
-          <span
-            class="rounded-full px-2 py-0.5 text-xs font-medium"
-            :class="{
-              'bg-green-100 text-green-800': task.status === 'Completed',
-              'bg-yellow-100 text-yellow-800': task.status === 'Open',
-              'bg-blue-100 text-blue-800': task.status === 'In Progress',
-              'bg-gray-100 text-gray-800': task.status === 'Cancelled',
-            }"
-          >
-            {{ __(task.status) }}
-          </span>
-        </div>
-      </div>
-    </div>
   </div>
 </template>

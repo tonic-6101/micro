@@ -2,6 +2,8 @@
 // Copyright (C) 2026 Tonic
 
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+// @ts-ignore — served by Dock's built assets
+import { dockSharedRoutes } from '/assets/dock/js/dock-navbar.esm.js'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -29,11 +31,6 @@ const routes: RouteRecordRaw[] = [
     path: '/micro/pipeline',
     name: 'Pipeline',
     component: () => import('@/pages/Pipeline.vue'),
-  },
-  {
-    path: '/micro/tasks',
-    name: 'Tasks',
-    component: () => import('@/pages/Tasks.vue'),
   },
   {
     path: '/micro/articles',
@@ -72,11 +69,8 @@ const routes: RouteRecordRaw[] = [
     name: 'Export',
     component: () => import('@/pages/Export.vue'),
   },
-  {
-    path: '/micro/settings',
-    name: 'Settings',
-    component: () => import('@/pages/Settings.vue'),
-  },
+  // Dock shared pages (Calendar, People, Notifications, Notes, Bookmarks, Activity, Discussions)
+  ...dockSharedRoutes('/micro'),
 ]
 
 const router = createRouter({

@@ -26,8 +26,8 @@ def execute():
 			# Remove the DocType record itself
 			frappe.delete_doc("DocType", dt, force=True, ignore_permissions=True)
 
-	# Remove the lead field from Note and Task tables if it exists
-	for table in ["tabMicro Note", "tabMicro Task"]:
+	# Remove the lead field from Note table if it exists
+	for table in ["tabMicro Note"]:
 		if frappe.db.table_exists(table) and frappe.db.has_column(table, "lead"):
 			frappe.db.sql(f"ALTER TABLE `{table}` DROP COLUMN `lead`")
 

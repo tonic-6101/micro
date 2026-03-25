@@ -12,7 +12,6 @@ class TestDashboardAPI(FrappeTestCase):
 
 		result = get_dashboard_kpis()
 		self.assertIn("customers", result)
-		self.assertIn("tasks", result)
 		self.assertIn("offers", result)
 		self.assertIn("invoices", result)
 		self.assertIn("receipts", result)

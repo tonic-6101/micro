@@ -30,14 +30,13 @@ First public release of Micro — a business organizer for micro businesses.
 ### Added
 
 - **Customer Management** — Micro Customer DocType with person/organization support, status tracking (Potential/Active/Inactive), full name auto-computation, email validation, phone, mobile, website, address, city, postal code, country, notes, source, and image fields. Paginated list, detail, and create API endpoints with search. Community limit: 100 customers.
-- **Task Management** — Micro Task DocType for simple to-do items linked to customers with status, priority, and due date fields.
 - **Notes** — Micro Note DocType for context notes and correspondence records linked to customers.
 - **Article Catalog** — Micro Article DocType with article name, code, category, unit, selling price (VK), and purchase price (EK). Paginated list and detail API with search. Community limit: 50 articles.
 - **Offer Drafts** — Micro Offer Draft DocType with line items (Micro Offer Item), random reference codes (non-sequential), customer linking, status tracking (Draft, Sent, Accepted, Declined, Expired), date and validity tracking. Watermarked PDF print format.
 - **Invoice Drafts** — Micro Invoice Draft DocType with line items (Micro Invoice Item), random reference codes, customer linking, and status tracking. Create-from-offer flow copies items automatically. Watermarked PDF print format.
 - **Receipt Collection** — Micro Receipt DocType with vendor, amount, category (Materials, Travel, Office, Food, Software, Services, Other), image upload, receipt date, export tracking, and customer linking.
 - **Tax Advisor Export** — CSV export for receipts and invoice drafts with semicolon delimiter. Supports date range filtering, category filtering, unexported-only filtering. Mark-as-exported functionality with export date tracking.
-- **Dashboard** — Aggregated KPI endpoint with customer count by status, open tasks, offer/invoice status breakdown, receipt stats (total, unexported, by category, total amount), and recent activity feed.
+- **Dashboard** — Aggregated KPI endpoint with customer count by status, offer/invoice status breakdown, receipt stats (total, unexported, by category, total amount), and recent activity feed.
 - **Compliance Engine** — Zone 2 guardrail enforcement service with 6 guardrails: G1 (draft watermark in 8 languages), G2 (random reference codes), G3 (no tax/VAT fields), G4 (disclaimer footer in 8 languages), G5 (safe terminology), G6 (no payment tracking).
 - **Settings** — Micro Settings (Single DocType) for module configuration: default currency, language, customer/article limits, watermark text, disclaimer text.
 - **Print Formats** — Watermarked PDF print formats for offer drafts and invoice drafts with ENTWURF/DRAFT overlay and disclaimer footer.

@@ -14,7 +14,7 @@ Browser → Vue 3 SPA → Frappe REST API → Micro API → MariaDB
 
 ```
 micro/
-├── api/              # Whitelisted API endpoints (7 modules)
+├── api/              # Whitelisted API endpoints (6 modules)
 ├── config/           # Frappe desk configuration
 ├── micro/
 │   ├── doctype/      # 10 DocTypes (schemas + controllers)
@@ -41,14 +41,13 @@ frontend/src/
 
 ## DocTypes
 
-Micro uses 10 DocTypes organized in two zones:
+Micro uses 9 DocTypes organized in two zones:
 
 ### Zone 1: The Organizer (no financial data)
 
 | DocType | Controller | Description |
 |---------|------------|-------------|
 | Micro Customer | `micro_customer.py` | CRM customers |
-| Micro Task | `micro_task.py` | To-do items |
 | Micro Note | `micro_note.py` | Correspondence notes |
 
 ### Zone 2: Financial Draft Layer (guardrails enforced)

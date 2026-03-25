@@ -229,17 +229,6 @@ const doctypeLabels: Record<string, string> = {
         </div>
       </div>
 
-      <!-- Open Tasks -->
-      <div class="rounded-lg border border-gray-200 bg-white p-5">
-        <div class="flex items-center justify-between">
-          <h2 class="text-sm font-medium uppercase text-gray-500">
-            {{ __('Open Tasks') }}
-          </h2>
-          <span class="text-2xl font-bold text-gray-900">
-            {{ kpis.data.tasks.open }}
-          </span>
-        </div>
-      </div>
     </div>
   </div>
 </template>

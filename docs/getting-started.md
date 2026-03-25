@@ -62,7 +62,6 @@ The Vue SPA handles all routing under `/micro/*`:
 | `/micro/customers` | Customer list |
 | `/micro/customers/new` | New customer form |
 | `/micro/customers/:id` | Customer detail |
-| `/micro/tasks` | Task list |
 | `/micro/articles` | Article catalog |
 | `/micro/offers` | Offer drafts |
 | `/micro/offers/:id` | Offer detail |

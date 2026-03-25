@@ -69,7 +69,6 @@ class TestCustomersAPI(FrappeTestCase):
 		result = get_customer(self.customers[0].name)
 		self.assertIn("customer", result)
 		self.assertIn("notes", result)
-		self.assertIn("tasks", result)
 
 	def test_get_customer_has_full_data(self):
 		result = get_customer(self.customers[0].name)
@@ -90,19 +89,6 @@ class TestCustomersAPI(FrappeTestCase):
 
 		result = get_customer(customer_id)
 		self.assertGreaterEqual(len(result["notes"]), 1)
-
-	def test_get_customer_with_related_task(self):
-		customer_id = self.customers[0].name
-
-		frappe.get_doc({
-			"doctype": "Micro Task",
-			"subject": "_Test Related Task",
-			"contact": customer_id,
-			"status": "Open",
-		}).insert(ignore_permissions=True)
-
-		result = get_customer(customer_id)
-		self.assertGreaterEqual(len(result["tasks"]), 1)
 
 	def test_get_customer_nonexistent(self):
 		with self.assertRaises(frappe.DoesNotExistError):

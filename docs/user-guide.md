@@ -7,7 +7,6 @@ Micro is a business organizer for micro businesses. This guide walks through the
 The dashboard (`/micro`) shows a summary of your business at a glance:
 
 - **Customer count** — total customers in your CRM, broken down by status
-- **Open tasks** — to-do items needing attention
 - **Offer stats** — offer drafts by status
 - **Invoice draft stats** — invoice drafts by status
 - **Receipt stats** — total receipts, unexported count, total amount, by category
@@ -32,7 +31,6 @@ The dashboard (`/micro`) shows a summary of your business at a glance:
 
 Click any customer to see their full profile, including:
 - **Notes** — meeting notes, call logs, correspondence
-- **Tasks** — to-do items for this customer
 
 ### Customer Status
 

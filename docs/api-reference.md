@@ -9,7 +9,7 @@ Authentication is handled by Frappe's session system. All endpoints require the 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `get_customers` | List customers with filters, search, pagination |
-| GET | `get_customer` | Get single customer with related notes, tasks |
+| GET | `get_customer` | Get single customer with related notes |
 | POST | `create_customer` | Create a new customer |
 
 ### `get_customers`
@@ -41,7 +41,7 @@ GET /api/method/micro.api.customers.get_customer
 |-----------|------|----------|-------------|
 | `customer_id` | string | Yes | Customer document name |
 
-**Returns:** `{ customer: {...}, notes: [...], tasks: [...] }`
+**Returns:** `{ customer: {...}, notes: [...] }`
 
 ### `create_customer`
 
@@ -329,7 +329,6 @@ No parameters.
     "by_status": { "Potential": 15, "Active": 22, "Inactive": 5 },
     "by_source": { "Referral": 12, "Google Ads": 10, "Web Form": 8, "Manual": 7, "Unknown": 5 }
   },
-  "tasks": { "open": 5 },
   "offers": { "total": 15, "by_status": { "Draft": 5, "Sent": 7, "Accepted": 3 } },
   "invoices": { "total": 10, "by_status": { "Draft": 8, "Sent": 2 } },
   "receipts": {

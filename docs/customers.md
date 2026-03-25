@@ -101,12 +101,11 @@ GET /api/method/micro.api.customers.get_customer
 Parameters:
 - `customer_id` (string, required) — The customer document name
 
-Response includes the customer with related notes and tasks:
+Response includes the customer with related notes:
 ```json
 {
   "customer": {...},
-  "notes": [...],
-  "tasks": [...]
+  "notes": [...]
 }
 ```
 
@@ -195,16 +194,3 @@ A **Micro Note** stores context about interactions with a customer — meeting n
 | `date` | Date | Date of the interaction |
 | `content` | Text | Note body |
 
-## Tasks
-
-A **Micro Task** is a simple to-do item, optionally linked to a customer.
-
-### Fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `subject` | Data | Task description (required) |
-| `customer` | Link | Associated Micro Customer |
-| `status` | Select | Task status (e.g., Open, Completed) |
-| `priority` | Select | `Low`, `Medium`, `High` |
-| `due_date` | Date | Due date |

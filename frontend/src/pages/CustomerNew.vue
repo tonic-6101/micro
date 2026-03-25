@@ -121,7 +121,7 @@ const statuses = ['Potential', 'Active', 'Inactive']
           </router-link>
           <button
             :disabled="!isValid || submitting"
-            class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+            class="rounded-md bg-accent-600 px-4 py-2 text-sm font-medium text-white hover:bg-accent-700 disabled:opacity-50"
             @click="submit"
           >
             {{ submitting ? __('Saving...') : __('Save Customer') }}

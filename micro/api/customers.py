@@ -53,7 +53,7 @@ def get_customers(
 
 @frappe.whitelist()
 def get_customer(customer_id: str) -> dict:
-	"""Get a single customer with related notes and tasks."""
+	"""Get a single customer with related notes."""
 	frappe.has_permission("Micro Customer", throw=True)
 
 	customer = frappe.get_doc("Micro Customer", customer_id).as_dict()
@@ -66,17 +66,9 @@ def get_customer(customer_id: str) -> dict:
 		limit_page_length=20,
 	)
 
-	tasks = frappe.get_list(
-		"Micro Task",
-		filters={"contact": customer_id},
-		fields=["name", "subject", "status", "priority", "due_date"],
-		order_by="due_date asc",
-	)
-
 	return {
 		"customer": customer,
 		"notes": notes,
-		"tasks": tasks,
 	}
 
 

@@ -105,7 +105,7 @@ async function doExport() {
           <label
             class="flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 text-sm"
             :class="docType === 'Micro Receipt'
-              ? 'border-gray-900 bg-gray-900 text-white'
+              ? 'border-accent-600 bg-accent-600 text-white'
               : 'border-gray-300 text-gray-700 hover:bg-gray-50'"
           >
             <input v-model="docType" type="radio" value="Micro Receipt" class="sr-only" />
@@ -114,7 +114,7 @@ async function doExport() {
           <label
             class="flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 text-sm"
             :class="docType === 'Micro Invoice Draft'
-              ? 'border-gray-900 bg-gray-900 text-white'
+              ? 'border-accent-600 bg-accent-600 text-white'
               : 'border-gray-300 text-gray-700 hover:bg-gray-50'"
           >
             <input v-model="docType" type="radio" value="Micro Invoice Draft" class="sr-only" />
@@ -166,7 +166,7 @@ async function doExport() {
               <input
                 v-model="onlyUnexported"
                 type="checkbox"
-                class="rounded border-gray-300 text-gray-900 focus:ring-gray-500"
+                class="rounded border-gray-300 accent-accent-600 focus:ring-accent-500"
               />
               {{ __('Only unexported') }}
             </label>
@@ -196,7 +196,7 @@ async function doExport() {
             <input
               v-model="markExported"
               type="checkbox"
-              class="rounded border-gray-300 text-gray-900 focus:ring-gray-500"
+              class="rounded border-gray-300 accent-accent-600 focus:ring-accent-500"
             />
             {{ __('Mark as exported after download') }}
           </label>
@@ -207,7 +207,7 @@ async function doExport() {
       <div class="flex items-center gap-4">
         <button
           :disabled="!preview.data?.count || exporting"
-          class="rounded-md bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          class="rounded-md bg-accent-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-700 disabled:opacity-50"
           @click="doExport"
         >
           {{ exporting ? __('Exporting...') : __('Download CSV') }}

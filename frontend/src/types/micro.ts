@@ -26,19 +26,6 @@ export interface MicroCustomer {
   creation?: string
 }
 
-/** Micro Task DocType */
-export interface MicroTask {
-  name: string
-  title: string
-  status: 'Open' | 'In Progress' | 'Completed' | 'Cancelled'
-  priority?: 'Low' | 'Medium' | 'High'
-  due_date?: string
-  contact?: string
-  description?: string
-  modified?: string
-  creation?: string
-}
-
 /** Micro Note DocType */
 export interface MicroNote {
   name: string
@@ -85,7 +72,6 @@ export interface CustomersListResponse {
 export interface CustomerDetailResponse {
   customer: MicroCustomer
   notes: MicroNote[]
-  tasks: MicroTask[]
 }
 
 /** Micro Article DocType (Zone 2) */
@@ -235,7 +221,6 @@ export interface ReceiptDetailResponse {
 /** Dashboard KPI response */
 export interface DashboardKPIs {
   customers: { total: number; by_status: Record<string, number>; by_source: Record<string, number> }
-  tasks: { open: number }
   offers: { total: number; by_status: Record<string, number> }
   invoices: { total: number; by_status: Record<string, number> }
   receipts: {

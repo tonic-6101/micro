@@ -1,52 +1,149 @@
 # Micro
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
-![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-green)
-![Frappe](https://img.shields.io/badge/frappe-v16%2B-blue)
-![Tests](https://img.shields.io/badge/tests-272%20passing-brightgreen)
+**Business Organizer for Micro Businesses**
 
-**Business organizer for micro businesses.**
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/tonic-6101/micro/releases)
+[![Frappe](https://img.shields.io/badge/frappe-v16+-green.svg)](https://frappeframework.com)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-orange.svg)](LICENSE)
 
-Micro manages the complete customer lifecycle: customer tracking with status management, article catalog, offer drafts, invoice drafts, receipt collection, and tax advisor export — all without crossing into regulated invoicing or bookkeeping territory.
+Micro manages the complete customer lifecycle for micro businesses: customer tracking with status management, article catalog, offer drafts, invoice drafts, receipt collection, and tax advisor export — all without crossing into regulated invoicing or bookkeeping territory.
 
-Built on [Frappe Framework](https://frappeframework.com) with a Vue 3 frontend.
+---
 
 ## Features
 
-- **Customer Management** — CRM with status tracking (Potential/Active/Inactive), tasks, and notes
-- **Article Catalog** — Price catalog with selling (VK) and purchase (EK) pricing
-- **Offer Drafts** — Client-facing quotes with line items (watermarked, not legally binding)
-- **Invoice Drafts** — Preparation documents for your tax advisor, with offer-to-invoice conversion
-- **Receipt Collection** — Photo upload, 7 categories, and export tracking
-- **Tax Advisor Export** — Semicolon-delimited CSV export with date/category filters
-- **Dashboard** — KPI cards, customer status breakdown, recent activity feed, and alerts
-- **Compliance Engine** — 6 guardrails ensure drafts stay drafts (G1–G6, 8 languages)
-- **Internationalization** — Translated into 7 languages (DE, FR, ES, IT, PT, PL, NL)
+### Customer Management
+
+Track your customers from first contact to long-term relationship with a simple, effective CRM.
+
+- Customer profiles with contact details and notes
+- Status tracking through lifecycle stages (Potential, Active, Inactive)
+- Customer detail view with linked offers, invoices, and receipts
+- Quick-add for new customers
+
+### Article Catalog
+
+Maintain a price catalog for the products and services you offer.
+
+- Selling price (VK) and purchase price (EK) per article
+- Reusable across offers and invoice drafts
+- Simple list management
+
+### Offer Drafts
+
+Create client-facing quotes to share with potential customers — watermarked and clearly marked as non-binding.
+
+- Line items pulled from the article catalog
+- Watermarked output to signal draft status
+- Not legally binding — preparation documents only
+
+### Invoice Drafts
+
+Prepare invoice documents for your tax advisor or bookkeeper. Micro handles the draft; your professional handles the rest.
+
+- Offer-to-invoice conversion with one click
+- Line items with quantities and pricing
+- Compliance guardrails ensure drafts stay drafts (G1–G6)
+- Clearly labeled as preparation documents
+
+### Receipt Collection
+
+Photograph and organize your business receipts for easy handoff at tax time.
+
+- Photo upload from camera or file
+- Seven receipt categories for organization
+- Export tracking to know what's been sent
+- Date and category filtering
+
+### Tax Advisor Export
+
+Export your data as semicolon-delimited CSV files ready for your tax advisor's workflow.
+
+- One-click CSV export
+- Date and category filters
+- Structured format for professional handoff
+
+### Dashboard
+
+See your business at a glance with KPI cards, charts, and activity feeds.
+
+- KPI cards for key metrics
+- Customer status breakdown
+- Recent activity feed
+- Alerts for items needing attention
+
+### Compliance Engine
+
+Six built-in guardrails ensure Micro stays in its lane — draft documents only, no regulated invoicing.
+
+- Guardrails G1–G6 enforced automatically
+- Translated compliance messages in 8 languages
+- Clear separation between drafts and legal documents
+
+### Internationalization
+
+Use Micro in your language.
+
+- Translated into 7 languages: German, French, Spanish, Italian, Portuguese, Polish, Dutch
+- Compliance messages available in 8 languages
+
+### Dock Integration
+
+When [Dock](https://github.com/tonic-6101/dock) is installed, Micro integrates into the ecosystem navigation and settings.
+
+- App registered in the Dock app switcher
+- Settings accessible from Dock settings panel
+
+---
 
 ## What Micro is NOT
 
 Micro is **not** invoicing software, bookkeeping software, or ERP. It creates **draft documents only** — your tax advisor or bookkeeper handles the rest.
 
-## Quick Start
+---
+
+## Installation
+
+### Prerequisites
+
+- Frappe Framework v16 or higher
+- Python 3.14+
+- Node.js 24+
+- MariaDB 10.6+
+- [Dock](https://github.com/tonic-6101/dock) (required dependency)
+
+### Install via Bench
 
 ```bash
-bench get-app micro
+# Get the app
+bench get-app micro https://github.com/tonic-6101/micro.git
+
+# Install on your site
 bench --site your-site.localhost install-app micro
+
+# Run migrations
 bench --site your-site.localhost migrate
+
+# Build assets
 bench build --app micro
 ```
 
-Then visit `https://your-site.localhost/micro` to access the dashboard.
+### Access the Application
 
-For detailed setup instructions, see the [Getting Started guide](docs/getting-started.md).
+After installation, access Micro at: `https://your-site.localhost/micro`
 
-## Screenshots
+---
 
-The Micro frontend provides a clean, modern interface:
+## Quick Start
 
-- **Dashboard** — KPI overview with customer status breakdown and recent activity
-- **Customers** — CRM with status tracking, notes, and tasks
-- **Export** — One-click CSV export for your tax advisor
+1. **Add Customers**: Create your first customer profiles
+2. **Build Your Catalog**: Add articles with selling and purchase prices
+3. **Create an Offer**: Draft a quote for a customer
+4. **Convert to Invoice Draft**: Turn accepted offers into invoice preparation documents
+5. **Collect Receipts**: Photograph and categorize your business receipts
+6. **Export**: Send CSV exports to your tax advisor
+
+---
 
 ## Documentation
 
@@ -54,39 +151,61 @@ The Micro frontend provides a clean, modern interface:
 |----------|-------------|
 | [Getting Started](docs/getting-started.md) | Installation, setup, first steps |
 | [User Guide](docs/user-guide.md) | Workflows and day-to-day usage |
-| [Customers](docs/customers.md) | CRM, status tracking, notes, tasks |
-| [Articles](docs/articles.md) | Price catalog |
-| [Drafts](docs/drafts.md) | Offer drafts and invoice drafts |
-| [Receipts](docs/receipts.md) | Receipt collection |
-| [Export](docs/export.md) | Tax advisor CSV export |
-| [Configuration](docs/configuration.md) | Micro Settings |
+| [Customers](docs/customers.md) | CRM, status tracking, notes |
 | [API Reference](docs/api-reference.md) | All API endpoints |
 | [Developer Guide](docs/developer-guide.md) | Architecture, testing, contributing |
-| [FAQ](docs/faq.md) | Frequently asked questions |
 | [Changelog](docs/CHANGELOG.md) | Release history |
 
-## Tech Stack
+---
 
-- **Backend:** Python 3.14+ on Frappe v16
-- **Frontend:** Vue 3 + TypeScript + Tailwind CSS + FrappeUI
-- **Database:** MariaDB
-- **Build:** Vite
+## Technology Stack
+
+- **Backend**: Frappe Framework, Python 3.14+
+- **Frontend**: Vue 3, TypeScript, Tailwind CSS
+- **UI Components**: FrappeUI
+- **Database**: MariaDB
+- **Build**: Vite
+
+---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, code conventions, and how to submit changes.
-
-This app uses `pre-commit` for code quality. Install hooks with:
+Contributions are welcome! This project uses `pre-commit` for code formatting and linting:
 
 ```bash
 cd apps/micro
 pre-commit install
 ```
 
-## Security
+Pre-commit runs the following tools automatically:
 
-See [SECURITY.md](SECURITY.md) for our security policy and how to report vulnerabilities.
+- **ruff** — Python linting and formatting
+- **eslint** — TypeScript/JavaScript linting
+- **prettier** — Code formatting
+- **pyupgrade** — Python syntax modernization
+
+---
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/tonic-6101/micro/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/tonic-6101/micro/discussions)
+
+---
 
 ## License
 
-AGPL-3.0-or-later — see [license.txt](license.txt)
+GNU Affero General Public License v3.0 (AGPL-3.0)
+
+See [LICENSE](LICENSE) for details.
+
+```
+SPDX-License-Identifier: AGPL-3.0-or-later
+Copyright (C) 2024-2026 Tonic
+```
+
+---
+
+## Acknowledgments
+
+Built with [Frappe Framework](https://frappeframework.com) and [FrappeUI](https://github.com/frappe/frappe-ui).

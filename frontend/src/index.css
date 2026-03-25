@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 /* Copyright (C) 2026 Tonic */
 
+@import './app-tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

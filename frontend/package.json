@@ -1,7 +1,7 @@
 {
   "name": "micro-frontend",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "frappe-ui": "^0.1.262",
+    "lucide-vue-next": "^1.0.0",
     "vue": "^3.5.0",
     "vue-router": "^4.1.6"
   },

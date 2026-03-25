@@ -24,8 +24,6 @@ def get_dashboard_kpis() -> dict:
 	):
 		customers_by_source[row.source] = row.cnt
 
-	tasks_open = frappe.db.count("Micro Task", {"status": "Open"})
-
 	offers_total = frappe.db.count("Micro Offer Draft")
 	offers_by_status = {}
 	for row in frappe.db.sql(
@@ -67,7 +65,6 @@ def get_dashboard_kpis() -> dict:
 			"by_status": customers_by_status,
 			"by_source": customers_by_source,
 		},
-		"tasks": {"open": tasks_open},
 		"offers": {"total": offers_total, "by_status": offers_by_status},
 		"invoices": {"total": invoices_total, "by_status": invoices_by_status},
 		"receipts": {

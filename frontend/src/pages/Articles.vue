@@ -50,7 +50,7 @@ function formatCurrency(value: number | undefined): string {
       </h1>
       <a
         href="/app/micro-article/new"
-        class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800"
+        class="rounded-md bg-accent-600 px-3 py-2 text-sm font-medium text-white hover:bg-accent-700"
       >
         {{ __('New Article') }}
       </a>

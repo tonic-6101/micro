@@ -1,0 +1,19 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Tonic */
+
+/* Micro app accent — blue (per app-colors.md)
+   Overrides --app-accent-* from dock/tokens.css */
+
+:root {
+  --app-accent-50:  #eff6ff;
+  --app-accent-100: #dbeafe;
+  --app-accent-200: #bfdbfe;
+  --app-accent-300: #93c5fd;
+  --app-accent-400: #60a5fa;
+  --app-accent-500: #3b82f6;
+  --app-accent-600: #2563eb;
+  --app-accent-700: #1d4ed8;
+  --app-accent-800: #1e40af;
+  --app-accent-900: #1e3a8a;
+  --app-accent-950: #172554;
+}

@@ -110,6 +110,30 @@ after_install = "micro.install.after_install"
 # Automatically update python controller files with type annotations for this app.
 export_python_type_annotations = True
 
+# Dock integration
+# ------------------
+dock_app_registry = {
+	"label": "Micro",
+	"color": "#2563eb",
+	"route": "/micro",
+}
+
+dock_settings_sections = [
+	{
+		"label": "Micro",
+		"route": "micro",
+		"component": "MicroSettings",
+		"bundle": "/assets/micro/js/micro-settings.esm.js",
+		"sections": [
+			{"label": "Company Information", "key": "company"},
+			{"label": "Defaults", "key": "defaults"},
+			{"label": "Usage & Limits", "key": "usage"},
+			{"label": "Tax Advisor", "key": "tax-advisor"},
+			{"label": "Compliance", "key": "compliance"},
+		],
+	}
+]
+
 # Translation
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.

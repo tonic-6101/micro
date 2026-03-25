@@ -4,13 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Micro</title>
-    <script type="module" crossorigin src="/assets/micro/frontend/assets/index-o4eCTt3z.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/micro/frontend/assets/index-FdXVoL-P.css">
+        <link rel="stylesheet" href="/assets/dock/css/dock-tokens.css">
+    <link rel="stylesheet" href="/assets/dock/css/dock-navbar.css">
+    <script type="module" crossorigin src="/assets/micro/frontend/assets/index-CPsIejNN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/micro/frontend/assets/index-pUGtBDrB.css">
   </head>
   <body>
-    <div id="app"></div>
+    <script>
+      // Prevent flash of wrong theme before Vue loads
+      (function() {
+        var stored = localStorage.getItem('dock-theme');
+        var isDark = stored === 'dark' ||
+          (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDark) document.documentElement.classList.add('dark');
+        var cm = localStorage.getItem('color-mode');
+        if (cm === 'neutral') document.documentElement.setAttribute('data-color-mode', 'neutral');
+      })();
+    </script>
+    <div id="app" class="h-screen"></div>
+    <div id="modals"></div>
+    <div id="popovers"></div>
     <script>
       window.csrf_token = "{{ csrf_token }}";
     </script>
+    {% for key in boot %}
+    <script>
+      window["{{ key }}"] = {{ boot[key] | tojson }};
+    </script>
+    {% endfor %}
   </body>
 </html>
