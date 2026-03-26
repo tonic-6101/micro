@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Tonic
 
-/** Micro Customer DocType */
+/** Frappe Contact with Micro CRM custom fields */
 export interface MicroCustomer {
   name: string
-  name1: string
+  first_name: string
   last_name?: string
   full_name: string
-  contact_type: 'Person' | 'Organization'
-  status: 'Potential' | 'Active' | 'Inactive'
-  organization?: string
-  email?: string
+  micro_contact_type: 'Person' | 'Organization'
+  micro_status: 'Potential' | 'Active' | 'Inactive'
+  company_name?: string
+  email_id?: string
   phone?: string
-  mobile?: string
-  website?: string
-  source?: 'Manual' | 'Google Ads' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'Email Campaign' | 'Cold Call' | 'Web Form' | 'Organic Search' | 'Referral' | 'Partner' | 'Event' | 'Import' | 'Other'
-  pipeline_stage?: string
-  address?: string
-  city?: string
-  postal_code?: string
-  country?: string
-  notes?: string
+  mobile_no?: string
+  micro_website?: string
+  micro_source?: 'Manual' | 'Google Ads' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'Email Campaign' | 'Cold Call' | 'Web Form' | 'Organic Search' | 'Referral' | 'Partner' | 'Event' | 'Import' | 'Other'
+  micro_pipeline_stage?: string
+  micro_address?: string
+  micro_city?: string
+  micro_postal_code?: string
+  micro_country?: string
+  micro_notes?: string
   image?: string
   modified?: string
   creation?: string
@@ -252,6 +252,19 @@ export interface ExportCsvResponse {
   marked_exported?: number
 }
 
+/** Capacity indicator data from micro.api.capacity.get_capacity_data */
+export interface CapacityData {
+  month_label: string
+  capacity_hours: number
+  used_hours: number
+  available_hours: number
+  percentage: number
+  raw_percentage: number
+  source: 'watch' | 'orga_estimate' | 'none'
+  status_key: 'low' | 'good' | 'nearly_full' | 'overcommitted'
+  status_message: string
+}
+
 /** Micro Settings (Single DocType) */
 export interface MicroSettings {
   company_name: string
@@ -263,6 +276,7 @@ export interface MicroSettings {
   default_language: string
   customer_limit: number
   article_limit: number
+  monthly_capacity_hours: number
   draft_watermark_text: string
   draft_disclaimer?: string
   tax_advisor_name?: string

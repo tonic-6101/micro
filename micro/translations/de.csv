@@ -214,3 +214,17 @@ Unassigned,Nicht zugeordnet
 customers,Kunden
 Customer not found,Kunde nicht gefunden
 Pipeline stage not found,Pipeline-Stufe nicht gefunden
+Capacity,Kapazität
+Monthly Capacity Hours,Monatliche Kapazitätsstunden
+h available,h verfügbar
+h / month,h / Monat
+Based on task estimates&#44; not logged time,"Basierend auf Aufgabenschätzungen, nicht erfasster Zeit"
+Log time in Watch to see your capacity,Erfassen Sie Zeit in Watch um Ihre Kapazität zu sehen
+Or add estimated hours to your Orga tasks,Oder fügen Sie geschätzte Stunden zu Ihren Orga-Aufgaben hinzu
+Low utilization — a good month to reach out and fill the pipeline,"Geringe Auslastung — ein guter Monat, um die Pipeline zu füllen"
+Good capacity — room for one more project,Gute Kapazität — Platz für ein weiteres Projekt
+Nearly full — consider queuing new work for next month,"Fast voll — erwägen Sie, neue Arbeit für nächsten Monat einzuplanen"
+Overcommitted — consider adjusting a timeline or raising your rate for new inquiries,"Überbucht — erwägen Sie, einen Zeitplan anzupassen oder Ihren Satz für neue Anfragen zu erhöhen"
+~{hours}h available this month,~{hours}h verfügbar diesen Monat
+"You're at {pct}% capacity this month. Consider a later start date or adjusting your rate.","Sie sind diesen Monat bei {pct}% Kapazität. Erwägen Sie einen späteren Starttermin oder passen Sie Ihren Satz an."
+Billable hours you aim for per month (40–200),"Abrechnungsfähige Stunden, die Sie pro Monat anstreben (40–200)"

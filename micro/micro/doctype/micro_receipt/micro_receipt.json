@@ -90,7 +90,7 @@
 			"fieldtype": "Link",
 			"in_standard_filter": 1,
 			"label": "Customer",
-			"options": "Micro Customer"
+			"options": "Contact"
 		},
 		{
 			"fieldname": "column_break_references",

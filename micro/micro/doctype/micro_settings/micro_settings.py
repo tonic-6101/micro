@@ -9,6 +9,15 @@ class MicroSettings(Document):
 	def validate(self):
 		self.detect_orga_integration()
 		self.ensure_disclaimer()
+		self.validate_capacity_hours()
+
+	def validate_capacity_hours(self):
+		"""Clamp monthly capacity hours to 40–200 range."""
+		if self.monthly_capacity_hours:
+			if self.monthly_capacity_hours < 40:
+				self.monthly_capacity_hours = 40
+			elif self.monthly_capacity_hours > 200:
+				self.monthly_capacity_hours = 200
 
 	def detect_orga_integration(self):
 		"""Auto-detect if Orga app is installed."""

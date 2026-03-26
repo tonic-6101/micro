@@ -6,6 +6,7 @@
 import { computed } from 'vue'
 import { createResource } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
+import CapacityWidget from '@/components/CapacityWidget.vue'
 import type { DashboardKPIs } from '@/types/micro'
 
 const kpis = createResource({
@@ -62,7 +63,7 @@ function timeAgo(dateStr: string): string {
 }
 
 const doctypeLabels: Record<string, string> = {
-  'Micro Customer': 'Customer',
+  'Contact': 'Customer',
   'Micro Offer Draft': 'Offer',
   'Micro Invoice Draft': 'Invoice Draft',
   'Micro Receipt': 'Receipt',
@@ -136,6 +137,9 @@ const doctypeLabels: Record<string, string> = {
         </router-link>
       </div>
 
+      <!-- Capacity Indicator -->
+      <CapacityWidget />
+
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <!-- Recent Activity -->
         <div class="rounded-lg border border-gray-200 bg-white p-5">
@@ -152,7 +156,7 @@ const doctypeLabels: Record<string, string> = {
                 <span
                   class="inline-flex rounded px-1.5 py-0.5 text-[10px] font-medium uppercase"
                   :class="{
-                    'bg-blue-50 text-blue-700': item.doctype === 'Micro Customer',
+                    'bg-blue-50 text-blue-700': item.doctype === 'Contact',
                     'bg-purple-50 text-purple-700': item.doctype === 'Micro Offer Draft',
                     'bg-orange-50 text-orange-700': item.doctype === 'Micro Invoice Draft',
                     'bg-teal-50 text-teal-700': item.doctype === 'Micro Receipt',

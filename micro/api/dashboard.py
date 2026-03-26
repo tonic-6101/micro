@@ -9,9 +9,11 @@ from frappe import _
 def get_dashboard_kpis() -> dict:
 	"""Return aggregated KPIs for the Micro dashboard."""
 	customers_total = frappe.db.count("Micro Customer")
+
 	customers_by_status = {}
 	for row in frappe.db.sql(
-		"SELECT status, COUNT(*) as cnt FROM `tabMicro Customer` GROUP BY status",
+		"SELECT status, COUNT(*) as cnt FROM `tabMicro Customer` "
+		"WHERE IFNULL(status, '') != '' GROUP BY status",
 		as_dict=True,
 	):
 		customers_by_status[row.status] = row.cnt
@@ -80,13 +82,30 @@ def get_dashboard_kpis() -> dict:
 def _get_recent_activity(limit: int = 10) -> list[dict]:
 	"""Get the most recently modified documents across all Micro DocTypes."""
 	doctypes = [
-		("Micro Customer", "full_name"),
 		("Micro Offer Draft", "reference"),
 		("Micro Invoice Draft", "reference"),
 		("Micro Receipt", "vendor"),
 	]
 
 	activity = []
+
+	# Micro customers
+	customers = frappe.get_all(
+		"Micro Customer",
+		fields=["name", "full_name as label", "modified"],
+		order_by="modified desc",
+		limit_page_length=3,
+	)
+	for doc in customers:
+		activity.append(
+			{
+				"doctype": "Micro Customer",
+				"name": doc.name,
+				"label": doc.label or doc.name,
+				"modified": str(doc.modified),
+			}
+		)
+
 	for doctype, label_field in doctypes:
 		docs = frappe.get_all(
 			doctype,

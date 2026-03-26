@@ -37,7 +37,7 @@ const customers = createResource({
 const filteredCustomers = computed(() => {
   if (!sourceFilter.value || !customers.data?.customers) return customers.data?.customers
   return customers.data.customers.filter(
-    (c: MicroCustomer) => c.source === sourceFilter.value
+    (c: MicroCustomer) => c.micro_source === sourceFilter.value
   )
 })
 
@@ -131,21 +131,21 @@ const statusClasses: Record<string, string> = {
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
               <span
                 class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
-                :class="statusClasses[customer.status] || 'bg-gray-100 text-gray-600'"
+                :class="statusClasses[customer.micro_status] || 'bg-gray-100 text-gray-600'"
               >
-                {{ __(customer.status) }}
+                {{ __(customer.micro_status) }}
               </span>
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
               <span
                 class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
-                :class="customer.contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
+                :class="customer.micro_contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
               >
-                {{ __(customer.contact_type) }}
+                {{ __(customer.micro_contact_type) }}
               </span>
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
-              {{ customer.email || '—' }}
+              {{ customer.email_id || '—' }}
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
               {{ customer.phone || '—' }}

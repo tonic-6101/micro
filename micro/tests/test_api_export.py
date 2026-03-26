@@ -123,10 +123,11 @@ class TestExportAPI(FrappeTestCase):
 
 		# Create an invoice draft for export
 		contact = frappe.get_doc({
-			"doctype": "Micro Customer",
-			"name1": "Export",
+			"doctype": "Contact",
+			"first_name": "Export",
 			"last_name": "Test",
-			"contact_type": "Person",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
 		})
 		contact.insert()
 
@@ -150,7 +151,7 @@ class TestExportAPI(FrappeTestCase):
 		from micro.api.export import export_csv
 
 		with self.assertRaises(frappe.ValidationError):
-			export_csv(doc_type="Micro Customer")
+			export_csv(doc_type="Contact")
 
 	def test_mark_as_exported(self):
 		"""Bulk mark as exported works."""

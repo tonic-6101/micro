@@ -70,14 +70,15 @@ class TestDashboardAPI(FrappeTestCase):
 		"""Each activity item has doctype, name, label, modified."""
 		from micro.api.dashboard import get_dashboard_kpis
 
-		# Create a customer to ensure at least one activity item
+		# Create a Contact with micro_status to ensure at least one activity item
 		customer = frappe.get_doc({
-			"doctype": "Micro Customer",
-			"name1": "Dashboard",
+			"doctype": "Contact",
+			"first_name": "Dashboard",
 			"last_name": "Test",
-			"contact_type": "Person",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
 		})
-		customer.insert()
+		customer.insert(ignore_permissions=True)
 
 		result = get_dashboard_kpis()
 		if result["recent_activity"]:
@@ -95,12 +96,13 @@ class TestDashboardAPI(FrappeTestCase):
 		customers_before = before["customers"]["total"]
 
 		customer = frappe.get_doc({
-			"doctype": "Micro Customer",
-			"name1": "KPI",
+			"doctype": "Contact",
+			"first_name": "KPI",
 			"last_name": "Verify",
-			"contact_type": "Person",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
 		})
-		customer.insert()
+		customer.insert(ignore_permissions=True)
 
 		after = get_dashboard_kpis()
 		self.assertEqual(after["customers"]["total"], customers_before + 1)
@@ -121,17 +123,18 @@ class TestDashboardAPI(FrappeTestCase):
 		self.assertIsInstance(result["customers"]["by_source"], dict)
 
 	def test_by_source_reflects_created_data(self):
-		"""by_source counts update when customers with source are created."""
+		"""by_source counts update when contacts with source are created."""
 		from micro.api.dashboard import get_dashboard_kpis
 
 		customer = frappe.get_doc({
-			"doctype": "Micro Customer",
-			"name1": "Source",
+			"doctype": "Contact",
+			"first_name": "Source",
 			"last_name": "Test",
-			"contact_type": "Person",
-			"source": "Google Ads",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"micro_source": "Google Ads",
 		})
-		customer.insert()
+		customer.insert(ignore_permissions=True)
 
 		result = get_dashboard_kpis()
 		self.assertIn("Google Ads", result["customers"]["by_source"])

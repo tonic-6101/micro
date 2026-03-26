@@ -64,7 +64,7 @@ function onDrop(customerId: string, stageId: string) {
         (col: { stage: { name: string } }) => col.stage.name === stageId,
       )
       if (targetCol) {
-        movedCustomer.pipeline_stage = stageId
+        movedCustomer.micro_pipeline_stage = stageId
         targetCol.customers.unshift(movedCustomer)
       }
     }
@@ -147,7 +147,7 @@ const deskStagesUrl = computed(() => {
             @click="$router.push(`/micro/customers/${customer.name}`)"
           >
             <p class="text-sm font-medium text-gray-900">{{ customer.full_name }}</p>
-            <p v-if="customer.email" class="mt-1 truncate text-xs text-gray-500">{{ customer.email }}</p>
+            <p v-if="customer.email_id" class="mt-1 truncate text-xs text-gray-500">{{ customer.email_id }}</p>
           </component>
         </div>
       </div>

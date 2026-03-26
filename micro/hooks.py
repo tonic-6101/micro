@@ -11,7 +11,7 @@ app_version = "0.1.0"
 
 # Required Apps
 # ------------------
-# required_apps = []
+required_apps = ["frappe", "dock", "watch", "orga"]
 
 # Each item in the list will be shown as an app in the apps page
 add_to_apps_screen = [
@@ -69,6 +69,113 @@ after_install = "micro.install.after_install"
 # has_permission = {
 # }
 
+# DocType Class Overrides
+# -----------------------
+# Extend Frappe Contact with Micro CRM pipeline fields (D1 pattern from OWNERSHIP.md)
+
+override_doctype_class = {
+	"Contact": "micro.overrides.contact.MicroContact",
+}
+
+# Custom Fields
+# -------------
+# CRM metadata fields added to Frappe Contact — visible only when Micro is installed.
+
+custom_fields = {
+	"Contact": [
+		{
+			"fieldname": "micro_crm_section",
+			"fieldtype": "Section Break",
+			"label": "CRM (Micro)",
+			"insert_after": "image",
+			"collapsible": 1,
+		},
+		{
+			"fieldname": "micro_status",
+			"fieldtype": "Select",
+			"label": "CRM Status",
+			"options": "\nPotential\nActive\nInactive",
+			"insert_after": "micro_crm_section",
+			"in_standard_filter": 1,
+		},
+		{
+			"fieldname": "micro_pipeline_stage",
+			"fieldtype": "Link",
+			"label": "Pipeline Stage",
+			"options": "Micro Pipeline Stage",
+			"insert_after": "micro_status",
+		},
+		{
+			"fieldname": "micro_source",
+			"fieldtype": "Select",
+			"label": "Acquisition Source",
+			"options": "\nManual\nGoogle Ads\nFacebook\nInstagram\nLinkedIn\nEmail Campaign\nCold Call\nWeb Form\nOrganic Search\nReferral\nPartner\nEvent\nImport\nOther",
+			"insert_after": "micro_pipeline_stage",
+		},
+		{
+			"fieldname": "micro_crm_column",
+			"fieldtype": "Column Break",
+			"insert_after": "micro_source",
+		},
+		{
+			"fieldname": "micro_contact_type",
+			"fieldtype": "Select",
+			"label": "Contact Type",
+			"options": "\nPerson\nOrganization",
+			"insert_after": "micro_crm_column",
+		},
+		{
+			"fieldname": "micro_website",
+			"fieldtype": "Data",
+			"label": "Website",
+			"insert_after": "micro_contact_type",
+		},
+		{
+			"fieldname": "micro_notes",
+			"fieldtype": "Text",
+			"label": "Notes",
+			"insert_after": "micro_website",
+		},
+		{
+			"fieldname": "micro_address_section",
+			"fieldtype": "Section Break",
+			"label": "Address (Micro)",
+			"insert_after": "micro_notes",
+			"collapsible": 1,
+		},
+		{
+			"fieldname": "micro_address",
+			"fieldtype": "Small Text",
+			"label": "Street Address",
+			"insert_after": "micro_address_section",
+		},
+		{
+			"fieldname": "micro_city",
+			"fieldtype": "Data",
+			"label": "City",
+			"insert_after": "micro_address",
+		},
+		{
+			"fieldname": "micro_address_column",
+			"fieldtype": "Column Break",
+			"insert_after": "micro_city",
+		},
+		{
+			"fieldname": "micro_postal_code",
+			"fieldtype": "Data",
+			"label": "Postal Code",
+			"insert_after": "micro_address_column",
+		},
+		{
+			"fieldname": "micro_country",
+			"fieldtype": "Link",
+			"label": "Country",
+			"options": "Country",
+			"insert_after": "micro_postal_code",
+		},
+	],
+}
+
 # Document Events
 # ---------------
 # Hook on document methods and events
@@ -100,9 +207,9 @@ after_install = "micro.install.after_install"
 
 # user_data_fields = [
 # 	{
-# 		"doctype": "Micro Customer",
+# 		"doctype": "Contact",
 # 		"filter_by": "owner",
-# 		"redact_fields": ["email", "phone", "mobile"],
+# 		"redact_fields": ["email_id", "phone", "mobile_no"],
 # 		"partial": 1,
 # 	},
 # ]
@@ -117,6 +224,8 @@ dock_app_registry = {
 	"color": "#2563eb",
 	"route": "/micro",
 }
+
+dock_people_context = "micro.integrations.dock.get_people_context"
 
 dock_settings_sections = [
 	{

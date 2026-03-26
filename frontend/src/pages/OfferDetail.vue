@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { createResource } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
+import CapacityWidget from '@/components/CapacityWidget.vue'
 import type { MicroOfferDraft, MicroOfferItem } from '@/types/micro'
 
 const props = defineProps<{
@@ -86,6 +87,13 @@ const statusColors: Record<string, string> = {
         </div>
       </div>
     </div>
+
+    <!-- Capacity hint for draft/sent offers -->
+    <CapacityWidget
+      v-if="offer.data.status === 'Draft' || offer.data.status === 'Sent'"
+      :compact="true"
+      class="mb-4"
+    />
 
     <!-- Meta cards -->
     <div class="mb-6 grid grid-cols-4 gap-4">

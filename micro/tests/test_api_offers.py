@@ -17,10 +17,11 @@ class TestOfferAPI(FrappeTestCase):
 
 	def _make_contact(self, **kwargs):
 		defaults = {
-			"doctype": "Micro Customer",
-			"name1": "_Test Offer API Contact",
-			"contact_type": "Person",
-			"email": "offer-api@example.com",
+			"doctype": "Contact",
+			"first_name": "_Test Offer API Contact",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"email_id": "offer-api@example.com",
 		}
 		defaults.update(kwargs)
 		doc = frappe.get_doc(defaults)
@@ -61,8 +62,8 @@ class TestOfferAPI(FrappeTestCase):
 	def test_get_offers_pagination(self):
 		for i in range(3):
 			contact = self._make_contact(
-				name1=f"_Test Page Contact {i}",
-				email=f"page{i}@example.com",
+				first_name=f"_Test Page Contact {i}",
+				email_id=f"page{i}@example.com",
 			)
 			self._make_offer(contact=contact)
 

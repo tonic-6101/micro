@@ -18,13 +18,15 @@ class TestCustomersAPI(FrappeTestCase):
 		self.customers = []
 		for i in range(3):
 			doc = frappe.get_doc({
-				"doctype": "Micro Customer",
-				"name1": f"_Test API Customer {i}",
+				"doctype": "Contact",
+				"first_name": f"_Test API Customer {i}",
 				"last_name": "User",
-				"contact_type": "Person",
-				"email": f"apitest{i}@example.com",
+				"micro_contact_type": "Person",
+				"micro_status": "Potential",
+				"email_id": f"apitest{i}@example.com",
 				"phone": f"+49 100 {i:03d}",
 			})
+			doc.append("email_ids", {"email_id": f"apitest{i}@example.com", "is_primary": 1})
 			doc.insert(ignore_permissions=True)
 			self.customers.append(doc)
 
@@ -50,14 +52,14 @@ class TestCustomersAPI(FrappeTestCase):
 			customer = result["customers"][0]
 			self.assertIn("name", customer)
 			self.assertIn("full_name", customer)
-			self.assertIn("email", customer)
+			self.assertIn("email_id", customer)
 
 	def test_get_customers_custom_fields(self):
-		result = get_customers(fields=["name", "email"])
+		result = get_customers(fields=["name", "email_id"])
 		if result["customers"]:
 			customer = result["customers"][0]
 			self.assertIn("name", customer)
-			self.assertIn("email", customer)
+			self.assertIn("email_id", customer)
 
 	def test_get_customers_total_count(self):
 		result = get_customers()
@@ -73,8 +75,8 @@ class TestCustomersAPI(FrappeTestCase):
 	def test_get_customer_has_full_data(self):
 		result = get_customer(self.customers[0].name)
 		customer = result["customer"]
-		self.assertEqual(customer["name1"], "_Test API Customer 0")
-		self.assertEqual(customer["email"], "apitest0@example.com")
+		self.assertEqual(customer["first_name"], "_Test API Customer 0")
+		self.assertEqual(customer["email_id"], "apitest0@example.com")
 
 	def test_get_customer_with_related_note(self):
 		customer_id = self.customers[0].name
@@ -92,19 +94,19 @@ class TestCustomersAPI(FrappeTestCase):
 
 	def test_get_customer_nonexistent(self):
 		with self.assertRaises(frappe.DoesNotExistError):
-			get_customer("MC-9999")
+			get_customer("NONEXISTENT-CONTACT-9999")
 
 	# --- create_customer ---
 
 	def test_create_customer_minimal(self):
-		result = create_customer(name1="_Test Create Min", last_name="Person")
+		result = create_customer(first_name="_Test Create Min", last_name="Person")
 		self.assertIn("customer", result)
-		self.assertEqual(result["customer"]["name1"], "_Test Create Min")
-		self.assertEqual(result["customer"]["contact_type"], "Person")
+		self.assertEqual(result["customer"]["first_name"], "_Test Create Min")
+		self.assertEqual(result["customer"]["micro_contact_type"], "Person")
 
 	def test_create_customer_full(self):
 		result = create_customer(
-			name1="_Test Create Full",
+			first_name="_Test Create Full",
 			last_name="Vollständig",
 			contact_type="Organization",
 			email="full@example.com",
@@ -120,27 +122,27 @@ class TestCustomersAPI(FrappeTestCase):
 		)
 		customer = result["customer"]
 		self.assertEqual(customer["last_name"], "Vollständig")
-		self.assertEqual(customer["contact_type"], "Organization")
-		self.assertEqual(customer["email"], "full@example.com")
-		self.assertEqual(customer["city"], "Berlin")
-		self.assertEqual(customer["source"], "Referral")
+		self.assertEqual(customer["micro_contact_type"], "Organization")
+		self.assertEqual(customer["email_id"], "full@example.com")
+		self.assertEqual(customer["micro_city"], "Berlin")
+		self.assertEqual(customer["micro_source"], "Referral")
 
 	def test_create_customer_returns_name(self):
-		result = create_customer(name1="_Test Create Name", last_name="Ret")
+		result = create_customer(first_name="_Test Create Name", last_name="Ret")
 		self.assertIn("name", result["customer"])
-		self.assertTrue(result["customer"]["name"].startswith("MC-"))
 
 	def test_create_customer_computes_full_name(self):
-		result = create_customer(name1="_Test First", last_name="Last")
-		self.assertEqual(result["customer"]["full_name"], "_Test First Last")
+		result = create_customer(first_name="_Test First", last_name="Last")
+		self.assertIn("First", result["customer"]["full_name"])
+		self.assertIn("Last", result["customer"]["full_name"])
 
 	def test_create_customer_invalid_email_raises(self):
 		with self.assertRaises(frappe.ValidationError):
-			create_customer(name1="_Test Bad Email", email="not-an-email")
+			create_customer(first_name="_Test Bad Email", email="not-an-email")
 
 	# --- status field ---
 
 	def test_default_status_potential(self):
 		"""New customers default to 'Potential' status."""
-		result = create_customer(name1="_Test Status", last_name="Default")
-		self.assertEqual(result["customer"]["status"], "Potential")
+		result = create_customer(first_name="_Test Status", last_name="Default")
+		self.assertEqual(result["customer"]["micro_status"], "Potential")

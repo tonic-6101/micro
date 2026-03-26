@@ -38,24 +38,24 @@ function openCustomer() {
       </p>
       <span
         class="ml-2 inline-flex shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium"
-        :class="customer.contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
+        :class="customer.micro_contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
       >
-        {{ __(customer.contact_type) }}
+        {{ __(customer.micro_contact_type) }}
       </span>
     </div>
 
     <div class="mt-1.5 space-y-0.5">
-      <p v-if="customer.email" class="truncate text-xs text-gray-500">
-        {{ customer.email }}
+      <p v-if="customer.email_id" class="truncate text-xs text-gray-500">
+        {{ customer.email_id }}
       </p>
       <p v-if="customer.phone" class="text-xs text-gray-500">
         {{ customer.phone }}
       </p>
     </div>
 
-    <div v-if="customer.source" class="mt-2">
+    <div v-if="customer.micro_source" class="mt-2">
       <span class="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600">
-        {{ __(customer.source) }}
+        {{ __(customer.micro_source) }}
       </span>
     </div>
   </div>

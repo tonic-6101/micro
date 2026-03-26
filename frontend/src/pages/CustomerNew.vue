@@ -11,7 +11,7 @@ import { __ } from '@/composables/useTranslate'
 const router = useRouter()
 
 const form = ref({
-  name1: '',
+  first_name: '',
   last_name: '',
   contact_type: 'Person' as 'Person' | 'Organization',
   status: 'Potential' as 'Potential' | 'Active' | 'Inactive',
@@ -34,7 +34,7 @@ const submitting = ref(false)
 const isPerson = computed(() => form.value.contact_type === 'Person')
 
 const isValid = computed(() => {
-  if (!form.value.name1.trim()) return false
+  if (!form.value.first_name.trim()) return false
   if (isPerson.value && !form.value.last_name.trim()) return false
   return true
 })
@@ -51,7 +51,7 @@ const createCustomer = createResource({
 })
 
 function submit() {
-  if (!form.value.name1.trim()) {
+  if (!form.value.first_name.trim()) {
     error.value = isPerson.value ? __('First name is required') : __('Company name is required')
     return
   }
@@ -64,7 +64,7 @@ function submit() {
   submitting.value = true
 
   const params: Record<string, string> = {
-    name1: form.value.name1.trim(),
+    first_name: form.value.first_name.trim(),
     contact_type: form.value.contact_type,
     status: form.value.status,
   }
@@ -174,7 +174,7 @@ const statuses = ['Potential', 'Active', 'Inactive']
               {{ isPerson ? __('First Name') : __('Company Name') }} <span class="text-red-500">*</span>
             </label>
             <input
-              v-model="form.name1"
+              v-model="form.first_name"
               type="text"
               :placeholder="isPerson ? __('First Name') : __('Company Name')"
               class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"

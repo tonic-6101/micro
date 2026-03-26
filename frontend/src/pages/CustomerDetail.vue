@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { createResource } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
+import CapacityWidget from '@/components/CapacityWidget.vue'
 import type { CustomerDetailResponse } from '@/types/micro'
 
 const props = defineProps<{
@@ -52,52 +53,55 @@ const statusClasses: Record<string, string> = {
         <div class="mt-1 flex gap-2">
           <span
             class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
-            :class="statusClasses[customer.data.customer.status] || 'bg-gray-100 text-gray-600'"
+            :class="statusClasses[customer.data.customer.micro_status] || 'bg-gray-100 text-gray-600'"
           >
-            {{ __(customer.data.customer.status) }}
+            {{ __(customer.data.customer.micro_status) }}
           </span>
           <span
             class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
-            :class="customer.data.customer.contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
+            :class="customer.data.customer.micro_contact_type === 'Person' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
           >
-            {{ __(customer.data.customer.contact_type) }}
+            {{ __(customer.data.customer.micro_contact_type) }}
           </span>
           <span
-            v-if="customer.data.customer.source"
+            v-if="customer.data.customer.micro_source"
             class="inline-flex rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600"
           >
-            {{ __(customer.data.customer.source) }}
+            {{ __(customer.data.customer.micro_source) }}
           </span>
         </div>
       </div>
       <a
-        :href="`/app/micro-customer/${props.id}`"
+        :href="`/app/contact/${props.id}`"
         class="rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
       >
         {{ __('Edit in Desk') }}
       </a>
     </div>
 
+    <!-- Capacity hint for potential customers -->
+    <CapacityWidget v-if="customer.data.customer.micro_status === 'Potential'" :compact="true" class="mb-4" />
+
     <!-- Customer info grid -->
     <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div class="rounded-lg border border-gray-200 bg-white p-4">
         <h3 class="mb-3 text-sm font-medium text-gray-500">{{ __('Contact Details') }}</h3>
         <dl class="space-y-2 text-sm">
-          <div v-if="customer.data.customer.email">
+          <div v-if="customer.data.customer.email_id">
             <dt class="text-gray-500">{{ __('Email') }}</dt>
-            <dd class="text-gray-900">{{ customer.data.customer.email }}</dd>
+            <dd class="text-gray-900">{{ customer.data.customer.email_id }}</dd>
           </div>
           <div v-if="customer.data.customer.phone">
             <dt class="text-gray-500">{{ __('Phone') }}</dt>
             <dd class="text-gray-900">{{ customer.data.customer.phone }}</dd>
           </div>
-          <div v-if="customer.data.customer.mobile">
+          <div v-if="customer.data.customer.mobile_no">
             <dt class="text-gray-500">{{ __('Mobile') }}</dt>
-            <dd class="text-gray-900">{{ customer.data.customer.mobile }}</dd>
+            <dd class="text-gray-900">{{ customer.data.customer.mobile_no }}</dd>
           </div>
-          <div v-if="customer.data.customer.website">
+          <div v-if="customer.data.customer.micro_website">
             <dt class="text-gray-500">{{ __('Website') }}</dt>
-            <dd class="text-gray-900">{{ customer.data.customer.website }}</dd>
+            <dd class="text-gray-900">{{ customer.data.customer.micro_website }}</dd>
           </div>
         </dl>
       </div>
@@ -105,16 +109,16 @@ const statusClasses: Record<string, string> = {
       <div class="rounded-lg border border-gray-200 bg-white p-4">
         <h3 class="mb-3 text-sm font-medium text-gray-500">{{ __('Address') }}</h3>
         <dl class="space-y-2 text-sm">
-          <div v-if="customer.data.customer.address">
-            <dd class="text-gray-900">{{ customer.data.customer.address }}</dd>
+          <div v-if="customer.data.customer.micro_address">
+            <dd class="text-gray-900">{{ customer.data.customer.micro_address }}</dd>
           </div>
-          <div v-if="customer.data.customer.city || customer.data.customer.postal_code">
+          <div v-if="customer.data.customer.micro_city || customer.data.customer.micro_postal_code">
             <dd class="text-gray-900">
-              {{ [customer.data.customer.postal_code, customer.data.customer.city].filter(Boolean).join(' ') }}
+              {{ [customer.data.customer.micro_postal_code, customer.data.customer.micro_city].filter(Boolean).join(' ') }}
             </dd>
           </div>
-          <div v-if="customer.data.customer.country">
-            <dd class="text-gray-900">{{ customer.data.customer.country }}</dd>
+          <div v-if="customer.data.customer.micro_country">
+            <dd class="text-gray-900">{{ customer.data.customer.micro_country }}</dd>
           </div>
         </dl>
       </div>

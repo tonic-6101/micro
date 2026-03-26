@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CapacityWidget: typeof import('./src/components/CapacityWidget.vue')['default']
     KanbanCard: typeof import('./src/components/pipeline/KanbanCard.vue')['default']
     KanbanColumn: typeof import('./src/components/pipeline/KanbanColumn.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

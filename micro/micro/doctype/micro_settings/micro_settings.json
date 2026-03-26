@@ -17,6 +17,7 @@
 		"column_break_defaults",
 		"customer_limit",
 		"article_limit",
+		"monthly_capacity_hours",
 		"compliance_section",
 		"draft_watermark_text",
 		"column_break_compliance",
@@ -104,6 +105,13 @@
 			"fieldtype": "Int",
 			"label": "Article Limit",
 			"description": "Community edition: 50. Pro: unlimited."
+		},
+		{
+			"default": "100",
+			"fieldname": "monthly_capacity_hours",
+			"fieldtype": "Int",
+			"label": "Monthly Capacity Hours",
+			"description": "Billable hours you aim for per month (40–200)"
 		},
 		{
 			"fieldname": "compliance_section",

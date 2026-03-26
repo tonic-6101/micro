@@ -17,10 +17,11 @@ class TestMicroInvoiceDraft(FrappeTestCase):
 
 	def _make_contact(self, **kwargs):
 		defaults = {
-			"doctype": "Micro Customer",
-			"name1": "_Test Invoice Contact",
-			"contact_type": "Person",
-			"email": "invoice-contact@example.com",
+			"doctype": "Contact",
+			"first_name": "_Test Invoice Contact",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"email_id": "invoice-contact@example.com",
 		}
 		defaults.update(kwargs)
 		doc = frappe.get_doc(defaults)
@@ -110,8 +111,8 @@ class TestMicroInvoiceDraft(FrappeTestCase):
 		contact = self._make_contact()
 		inv1 = self._make_invoice(contact=contact)
 		contact2 = self._make_contact(
-			name1="_Test Invoice Contact 2",
-			email="inv-contact2@example.com",
+			first_name="_Test Invoice Contact 2",
+			email_id="inv-contact2@example.com",
 		)
 		inv2 = self._make_invoice(contact=contact2)
 		self.assertNotEqual(inv1.reference, inv2.reference)

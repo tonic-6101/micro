@@ -71,9 +71,10 @@ class TestMicroNote(FrappeTestCase):
 
 	def test_note_with_contact(self):
 		contact = frappe.get_doc({
-			"doctype": "Micro Customer",
-			"name1": "_Test Note Contact",
-			"contact_type": "Person",
+			"doctype": "Contact",
+			"first_name": "_Test Note Contact",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
 		}).insert(ignore_permissions=True)
 
 		note = self._make_note(

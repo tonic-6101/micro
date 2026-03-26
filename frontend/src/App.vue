@@ -41,7 +41,7 @@ const footer = {
       :footer="footer"
       aria-label="Micro navigation"
     />
-    <main class="flex flex-1 flex-col overflow-hidden">
+    <main class="flex flex-1 flex-col overflow-hidden bg-gray-50 dark:bg-gray-900">
       <div class="flex-1 overflow-auto p-6">
         <router-view />
       </div>

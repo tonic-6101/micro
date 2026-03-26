@@ -17,10 +17,11 @@ class TestInvoiceAPI(FrappeTestCase):
 
 	def _make_contact(self, **kwargs):
 		defaults = {
-			"doctype": "Micro Customer",
-			"name1": "_Test Invoice API Contact",
-			"contact_type": "Person",
-			"email": "inv-api@example.com",
+			"doctype": "Contact",
+			"first_name": "_Test Invoice API Contact",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"email_id": "inv-api@example.com",
 		}
 		defaults.update(kwargs)
 		doc = frappe.get_doc(defaults)
@@ -61,8 +62,8 @@ class TestInvoiceAPI(FrappeTestCase):
 	def test_get_invoices_pagination(self):
 		for i in range(3):
 			contact = self._make_contact(
-				name1=f"_Test Inv Page Contact {i}",
-				email=f"inv-page{i}@example.com",
+				first_name=f"_Test Inv Page Contact {i}",
+				email_id=f"inv-page{i}@example.com",
 			)
 			self._make_invoice(contact=contact)
 

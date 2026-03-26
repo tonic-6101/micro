@@ -14,31 +14,33 @@ def get_customers(
 	limit_page_length: int = 20,
 	search: str | None = None,
 ) -> dict:
-	"""Get customers with filters, pagination, and search."""
-	frappe.has_permission("Micro Customer", throw=True)
+	"""Get contacts that are Micro customers (have micro_status set)."""
+	frappe.has_permission("Contact", throw=True)
 
 	base_filters = filters or {}
+	base_filters["micro_status"] = ["is", "set"]
 
 	if search:
 		base_filters["full_name"] = ["like", f"%{search}%"]
 
 	default_fields = [
 		"name",
-		"name1",
+		"first_name",
 		"last_name",
 		"full_name",
-		"email",
+		"email_id",
 		"phone",
-		"contact_type",
-		"status",
-		"organization",
-		"city",
+		"micro_contact_type",
+		"micro_status",
+		"company_name",
+		"micro_city",
 		"image",
-		"pipeline_stage",
+		"micro_pipeline_stage",
+		"micro_source",
 	]
 
 	customers = frappe.get_list(
-		"Micro Customer",
+		"Contact",
 		filters=base_filters,
 		fields=fields or default_fields,
 		order_by=order_by,
@@ -46,17 +48,17 @@ def get_customers(
 		page_length=limit_page_length,
 	)
 
-	total = frappe.db.count("Micro Customer", filters=base_filters)
+	total = frappe.db.count("Contact", filters=base_filters)
 
 	return {"customers": customers, "total": total}
 
 
 @frappe.whitelist()
 def get_customer(customer_id: str) -> dict:
-	"""Get a single customer with related notes."""
-	frappe.has_permission("Micro Customer", throw=True)
+	"""Get a single contact (Micro customer) with related notes."""
+	frappe.has_permission("Contact", throw=True)
 
-	customer = frappe.get_doc("Micro Customer", customer_id).as_dict()
+	customer = frappe.get_doc("Contact", customer_id).as_dict()
 
 	notes = frappe.get_list(
 		"Micro Note",
@@ -74,7 +76,7 @@ def get_customer(customer_id: str) -> dict:
 
 @frappe.whitelist()
 def create_customer(
-	name1: str,
+	first_name: str,
 	contact_type: str = "Person",
 	status: str = "Potential",
 	last_name: str | None = None,
@@ -91,44 +93,48 @@ def create_customer(
 	country: str | None = None,
 	notes: str | None = None,
 ) -> dict:
-	"""Create a new customer."""
-	frappe.has_permission("Micro Customer", "create", throw=True)
+	"""Create a new Contact with Micro CRM fields."""
+	frappe.has_permission("Contact", "create", throw=True)
 
 	if contact_type == "Person" and not last_name:
 		frappe.throw(_("Last name is required for Person customers"))
 
-	customer = frappe.new_doc("Micro Customer")
-	customer.name1 = name1
-	customer.contact_type = contact_type
-	customer.status = status
-
+	contact = frappe.new_doc("Contact")
+	contact.first_name = first_name
 	if last_name:
-		customer.last_name = last_name
+		contact.last_name = last_name
 	if email:
-		customer.email = email
+		contact.email_id = email
+		contact.append("email_ids", {"email_id": email, "is_primary": 1})
 	if phone:
-		customer.phone = phone
+		contact.phone = phone
+		contact.append("phone_nos", {"phone": phone, "is_primary_phone": 1})
 	if mobile:
-		customer.mobile = mobile
-	if website:
-		customer.website = website
+		contact.mobile_no = mobile
+		contact.append("phone_nos", {"phone": mobile, "is_primary_mobile_no": 1})
 	if organization:
-		customer.organization = organization
+		contact.company_name = organization
+
+	# Micro CRM custom fields
+	contact.micro_status = status
+	contact.micro_contact_type = contact_type
 	if source:
-		customer.source = source
+		contact.micro_source = source
 	if pipeline_stage:
-		customer.pipeline_stage = pipeline_stage
-	if address:
-		customer.address = address
-	if city:
-		customer.city = city
-	if postal_code:
-		customer.postal_code = postal_code
-	if country:
-		customer.country = country
+		contact.micro_pipeline_stage = pipeline_stage
+	if website:
+		contact.micro_website = website
 	if notes:
-		customer.notes = notes
+		contact.micro_notes = notes
+	if address:
+		contact.micro_address = address
+	if city:
+		contact.micro_city = city
+	if postal_code:
+		contact.micro_postal_code = postal_code
+	if country:
+		contact.micro_country = country
 
-	customer.insert()
+	contact.insert()
 
-	return {"customer": customer.as_dict()}
+	return {"customer": contact.as_dict()}

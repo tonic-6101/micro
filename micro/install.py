@@ -40,6 +40,7 @@ def setup_defaults():
 			settings.default_language = "de"
 			settings.customer_limit = 100
 			settings.article_limit = 50
+			settings.monthly_capacity_hours = 100
 			settings.draft_watermark_text = "ENTWURF"
 			settings.save(ignore_permissions=True)
 			frappe.db.commit()

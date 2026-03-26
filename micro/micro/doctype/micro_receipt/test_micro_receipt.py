@@ -26,10 +26,11 @@ class TestMicroReceipt(FrappeTestCase):
 
 	def _make_contact(self, **kwargs):
 		defaults = {
-			"doctype": "Micro Customer",
-			"name1": "_Test Receipt Contact",
-			"contact_type": "Person",
-			"email": "receipt-contact@example.com",
+			"doctype": "Contact",
+			"first_name": "_Test Receipt Contact",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"email_id": "receipt-contact@example.com",
 		}
 		defaults.update(kwargs)
 		doc = frappe.get_doc(defaults)

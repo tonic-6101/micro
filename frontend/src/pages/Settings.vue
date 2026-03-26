@@ -18,7 +18,7 @@ const settings = createResource({
 
 const customerCount = createResource({
   url: 'frappe.client.get_count',
-  params: { doctype: 'Micro Customer' },
+  params: { doctype: 'Contact', filters: { micro_status: ['is', 'set'] } },
   auto: true,
 })
 
@@ -85,6 +85,12 @@ const articleCount = createResource({
             <div class="text-xs text-gray-400 dark:text-gray-500">{{ __('Language') }}</div>
             <div class="mt-1 text-sm font-medium text-gray-900 dark:text-white">
               {{ settings.data.default_language }}
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400 dark:text-gray-500">{{ __('Monthly Capacity Hours') }}</div>
+            <div class="mt-1 text-sm font-medium text-gray-900 dark:text-white">
+              {{ settings.data.monthly_capacity_hours || 100 }}{{ __('h / month') }}
             </div>
           </div>
         </div>

@@ -27,14 +27,17 @@ class TestPipelineAPI(FrappeTestCase):
 
 	def _make_customer(self, **kwargs):
 		defaults = {
-			"doctype": "Micro Customer",
-			"name1": "_Test Pipeline",
+			"doctype": "Contact",
+			"first_name": "_Test Pipeline",
 			"last_name": "Customer",
-			"contact_type": "Person",
-			"email": "pipeline@example.com",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+			"email_id": "pipeline@example.com",
 		}
 		defaults.update(kwargs)
 		doc = frappe.get_doc(defaults)
+		if defaults.get("email_id"):
+			doc.append("email_ids", {"email_id": defaults["email_id"], "is_primary": 1})
 		doc.insert(ignore_permissions=True)
 		return doc
 
@@ -44,8 +47,8 @@ class TestPipelineAPI(FrappeTestCase):
 
 		stage = self._make_stage(stage_name="_Test Pipeline Stage")
 		customer = self._make_customer(
-			pipeline_stage=stage.name,
-			email="pstage@example.com",
+			micro_pipeline_stage=stage.name,
+			email_id="pstage@example.com",
 		)
 
 		result = get_pipeline(show_closed=True)
@@ -91,21 +94,21 @@ class TestPipelineAPI(FrappeTestCase):
 		self.assertIn(closed_stage.name, stage_names)
 
 	def test_move_customer(self):
-		"""move_customer updates the customer's pipeline stage."""
+		"""move_customer updates the contact's pipeline stage."""
 		from micro.api.pipeline import move_customer
 
 		stage1 = self._make_stage(stage_name="_Test From", sort_order=10)
 		stage2 = self._make_stage(stage_name="_Test To", sort_order=20)
 		customer = self._make_customer(
-			pipeline_stage=stage1.name,
-			email="move@example.com",
+			micro_pipeline_stage=stage1.name,
+			email_id="move@example.com",
 		)
 
 		result = move_customer(customer.name, stage2.name)
 		self.assertTrue(result["success"])
 
-		loaded = frappe.get_doc("Micro Customer", customer.name)
-		self.assertEqual(loaded.pipeline_stage, stage2.name)
+		loaded = frappe.get_doc("Contact", customer.name)
+		self.assertEqual(loaded.micro_pipeline_stage, stage2.name)
 
 	def test_move_customer_invalid_customer(self):
 		"""move_customer throws for invalid customer."""
@@ -119,7 +122,7 @@ class TestPipelineAPI(FrappeTestCase):
 		"""move_customer throws for invalid stage."""
 		from micro.api.pipeline import move_customer
 
-		customer = self._make_customer(email="moveinv@example.com")
+		customer = self._make_customer(email_id="moveinv@example.com")
 		with self.assertRaises(frappe.ValidationError):
 			move_customer(customer.name, "NONEXISTENT")
 
@@ -140,14 +143,14 @@ class TestPipelineAPI(FrappeTestCase):
 			self.assertLess(names.index(s1.name), names.index(s2.name))
 
 	def test_unassigned_customers(self):
-		"""Customers without pipeline_stage appear in unassigned."""
+		"""Contacts with micro_status but no pipeline_stage appear in unassigned."""
 		from micro.api.pipeline import get_pipeline
 
 		customer = self._make_customer(
-			email="unassigned@example.com",
+			email_id="unassigned@example.com",
 		)
-		# Clear the auto-assigned pipeline stage from before_insert
-		frappe.db.set_value("Micro Customer", customer.name, "pipeline_stage", None)
+		# Clear the auto-assigned pipeline stage
+		frappe.db.set_value("Contact", customer.name, "micro_pipeline_stage", None)
 
 		result = get_pipeline()
 		unassigned_names = [c["name"] for c in result["unassigned"]]
