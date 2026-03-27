@@ -1,0 +1,171 @@
+{
+	"actions": [],
+	"autoname": "format:ML-{####}",
+	"creation": "2026-03-26 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"lead_section",
+		"lead_name",
+		"contact",
+		"status",
+		"column_break_lead",
+		"pipeline",
+		"stage",
+		"priority",
+		"details_section",
+		"expected_value",
+		"source",
+		"column_break_details",
+		"next_follow_up",
+		"lost_reason",
+		"notes_section",
+		"notes"
+	],
+	"fields": [
+		{
+			"fieldname": "lead_section",
+			"fieldtype": "Section Break",
+			"label": "Lead"
+		},
+		{
+			"fieldname": "lead_name",
+			"fieldtype": "Data",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Lead Name",
+			"reqd": 1
+		},
+		{
+			"fieldname": "contact",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Contact",
+			"options": "Contact"
+		},
+		{
+			"default": "Open",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Open\nWon\nLost\nArchived",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_lead",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "pipeline",
+			"fieldtype": "Link",
+			"label": "Pipeline",
+			"options": "Micro Pipeline",
+			"reqd": 1
+		},
+		{
+			"fieldname": "stage",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Stage",
+			"options": "Micro Pipeline Stage",
+			"reqd": 1
+		},
+		{
+			"default": "Medium",
+			"fieldname": "priority",
+			"fieldtype": "Select",
+			"in_standard_filter": 1,
+			"label": "Priority",
+			"options": "Low\nMedium\nHigh"
+		},
+		{
+			"fieldname": "details_section",
+			"fieldtype": "Section Break",
+			"label": "Details"
+		},
+		{
+			"description": "Estimated deal value for pipeline prioritization (internal only, not exported)",
+			"fieldname": "expected_value",
+			"fieldtype": "Currency",
+			"label": "Expected Value"
+		},
+		{
+			"fieldname": "source",
+			"fieldtype": "Select",
+			"label": "Source",
+			"options": "\nWebsite\nReferral\nCold\nSocial\nOther"
+		},
+		{
+			"fieldname": "column_break_details",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "next_follow_up",
+			"fieldtype": "Date",
+			"label": "Next Follow-Up"
+		},
+		{
+			"depends_on": "eval:doc.status=='Lost'",
+			"fieldname": "lost_reason",
+			"fieldtype": "Data",
+			"label": "Lost Reason"
+		},
+		{
+			"fieldname": "notes_section",
+			"fieldtype": "Section Break",
+			"label": "Notes"
+		},
+		{
+			"fieldname": "notes",
+			"fieldtype": "Text Editor",
+			"label": "Notes"
+		}
+	],
+	"links": [],
+	"modified": "2026-03-26 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Lead",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"write": 1
+		}
+	],
+	"quick_entry": 1,
+	"search_fields": "lead_name,contact,status,stage",
+	"sort_field": "modified",
+	"sort_order": "DESC",
+	"states": [],
+	"title_field": "lead_name",
+	"track_changes": 1
+}

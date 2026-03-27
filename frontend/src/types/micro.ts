@@ -21,6 +21,16 @@ export interface MicroCustomer {
   micro_postal_code?: string
   micro_country?: string
   micro_notes?: string
+  micro_client_loves?: string
+  micro_client_avoid?: string
+  micro_communication_style?: 'Email-first' | 'Phone-first' | 'WhatsApp' | 'Async (slow replies OK)' | 'Needs quick responses'
+  micro_personal_notes?: string
+  micro_opportunities?: string
+  micro_last_contact_date?: string
+  micro_last_contact_topic?: string
+  micro_referred_by?: string
+  micro_health_score?: 'A' | 'B' | 'C' | 'D'
+  micro_health_score_updated?: string
   image?: string
   modified?: string
   creation?: string
@@ -29,9 +39,12 @@ export interface MicroCustomer {
 /** Micro Note DocType */
 export interface MicroNote {
   name: string
-  note_type: 'Note' | 'Call' | 'Meeting' | 'Email Summary'
+  note_type: 'Note' | 'Quick Note' | 'Call' | 'Meeting' | 'Email Summary'
+  subject?: string
+  date?: string
   content: string
   contact?: string
+  is_scope_change?: boolean
   modified?: string
   creation?: string
 }
@@ -68,10 +81,23 @@ export interface CustomersListResponse {
   total: number
 }
 
+/** Unified timeline entry from both Micro Notes and Dock Notes */
+export interface TimelineNote {
+  name: string
+  source: 'micro' | 'dock'
+  note_type: 'Note' | 'Quick Note' | 'Call' | 'Meeting' | 'Email Summary'
+  subject?: string | null
+  content: string
+  date: string
+  modified?: string
+  pinned?: boolean
+  color?: string
+}
+
 /** API response: single customer with related data */
 export interface CustomerDetailResponse {
   customer: MicroCustomer
-  notes: MicroNote[]
+  notes: TimelineNote[]
 }
 
 /** Micro Article DocType (Zone 2) */

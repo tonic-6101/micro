@@ -37,6 +37,7 @@ def get_customers(
 		"image",
 		"micro_pipeline_stage",
 		"micro_source",
+		"micro_health_score",
 	]
 
 	customers = frappe.get_list(
@@ -55,22 +56,65 @@ def get_customers(
 
 @frappe.whitelist()
 def get_customer(customer_id: str) -> dict:
-	"""Get a single contact (Micro customer) with related notes."""
+	"""Get a single contact (Micro customer) with unified notes timeline."""
 	frappe.has_permission("Contact", throw=True)
 
 	customer = frappe.get_doc("Contact", customer_id).as_dict()
 
-	notes = frappe.get_list(
+	# CRM-structured notes (Call, Meeting, Email Summary, Note)
+	micro_notes = frappe.get_list(
 		"Micro Note",
 		filters={"contact": customer_id},
-		fields=["name", "subject", "note_type", "date", "content"],
+		fields=["name", "subject", "note_type", "date", "content", "modified"],
 		order_by="date desc",
-		limit_page_length=20,
+		limit_page_length=50,
 	)
+
+	# Dock Notes linked to this contact (quick notes + any context-linked notes)
+	dock_notes = []
+	if frappe.db.exists("DocType", "Dock Note"):
+		dock_notes = frappe.get_list(
+			"Dock Note",
+			filters={
+				"reference_doctype": "Contact",
+				"reference_name": customer_id,
+				"deleted_at": ["is", "not set"],
+			},
+			fields=["name", "content", "pinned", "color", "owner", "creation", "modified"],
+			order_by="creation desc",
+			limit_page_length=50,
+		)
+
+	# Build unified timeline sorted by date descending
+	timeline = []
+	for n in micro_notes:
+		timeline.append({
+			"name": n.name,
+			"source": "micro",
+			"note_type": n.note_type,
+			"subject": n.subject,
+			"content": n.content,
+			"date": str(n.date),
+			"modified": str(n.modified),
+		})
+	for n in dock_notes:
+		timeline.append({
+			"name": n.name,
+			"source": "dock",
+			"note_type": "Quick Note",
+			"subject": None,
+			"content": n.content,
+			"date": str(n.creation),
+			"modified": str(n.modified),
+			"pinned": n.pinned,
+			"color": n.color,
+		})
+
+	timeline.sort(key=lambda x: x["date"], reverse=True)
 
 	return {
 		"customer": customer,
-		"notes": notes,
+		"notes": timeline,
 	}
 
 
@@ -136,5 +180,33 @@ def create_customer(
 		contact.micro_country = country
 
 	contact.insert()
+
+	return {"customer": contact.as_dict()}
+
+
+@frappe.whitelist()
+def update_intelligence(customer_id: str, **kwargs) -> dict:
+	"""Update intelligence card fields on a customer contact."""
+	frappe.has_permission("Contact", "write", throw=True)
+
+	allowed_fields = {
+		"micro_client_loves",
+		"micro_client_avoid",
+		"micro_communication_style",
+		"micro_personal_notes",
+		"micro_opportunities",
+		"micro_last_contact_date",
+		"micro_last_contact_topic",
+	}
+
+	contact = frappe.get_doc("Contact", customer_id)
+	updated = False
+	for field in allowed_fields:
+		if field in kwargs:
+			contact.set(field, kwargs[field])
+			updated = True
+
+	if updated:
+		contact.save()
 
 	return {"customer": contact.as_dict()}

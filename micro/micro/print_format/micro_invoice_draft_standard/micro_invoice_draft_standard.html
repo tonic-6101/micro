@@ -1,226 +1,203 @@
-{#
-  SPDX-License-Identifier: AGPL-3.0-or-later
-  Copyright (C) 2026 Tonic
-
-  Micro Invoice Draft — Watermarked Print Format
-  Zone 2 Compliance: G1 (watermark), G4 (disclaimer), G5 (safe terminology)
-#}
+{%- set watermark = doc.watermark_text or "ENTWURF" -%}
+{%- set disclaimer = doc.disclaimer or "" -%}
+{%- set settings = frappe.get_single("Micro Settings") -%}
 
 <style>
-	.micro-invoice-watermark {
+	.micro-print-page {
+		position: relative;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		font-size: 10pt;
+		color: #1a1a1a;
+		padding: 20px;
+	}
+	/* G1: Diagonal watermark — visually prominent, semi-transparent */
+	.micro-watermark {
 		position: fixed;
-		top: 40%;
+		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%) rotate(-45deg);
-		font-size: 80px;
+		font-size: 100pt;
 		font-weight: bold;
-		color: rgba(0, 0, 0, 0.08);
-		z-index: -1;
-		pointer-events: none;
+		color: rgba(200, 0, 0, 0.08);
 		white-space: nowrap;
-		letter-spacing: 12px;
+		pointer-events: none;
+		z-index: 0;
+		letter-spacing: 0.1em;
 	}
-
-	.micro-invoice-header {
-		margin-bottom: 24px;
-	}
-
-	.micro-invoice-header h2 {
-		margin: 0 0 4px 0;
-		font-size: 22px;
-		font-weight: bold;
-	}
-
-	.micro-invoice-header .reference {
-		font-size: 12px;
-		color: #666;
-	}
-
-	.micro-invoice-meta {
+	.micro-header {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 24px;
-		gap: 24px;
+		margin-bottom: 30px;
 	}
-
-	.micro-invoice-meta .meta-block {
-		flex: 1;
+	.micro-company {
+		font-size: 9pt;
+		color: #555;
 	}
-
-	.micro-invoice-meta .meta-label {
-		font-size: 10px;
+	.micro-company-name {
+		font-size: 12pt;
+		font-weight: bold;
+		color: #1a1a1a;
+		margin-bottom: 4px;
+	}
+	.micro-company img {
+		max-height: 60px;
+		margin-bottom: 8px;
+	}
+	.micro-doc-title {
+		font-size: 16pt;
+		font-weight: bold;
+		margin-bottom: 4px;
+		color: #b91c1c;
+	}
+	.micro-reference {
+		font-size: 9pt;
+		color: #666;
+	}
+	.micro-contact-block {
+		margin-bottom: 20px;
+	}
+	.micro-contact-block h4 {
+		font-size: 8pt;
 		text-transform: uppercase;
-		color: #999;
-		margin-bottom: 2px;
+		color: #888;
+		margin-bottom: 4px;
 	}
-
-	.micro-invoice-meta .meta-value {
-		font-size: 13px;
-	}
-
-	.micro-invoice-items {
+	.micro-items-table {
 		width: 100%;
 		border-collapse: collapse;
-		margin-bottom: 24px;
+		margin: 20px 0;
 	}
-
-	.micro-invoice-items th {
+	.micro-items-table th {
+		background: #f3f4f6;
+		border-bottom: 2px solid #d1d5db;
+		padding: 8px 10px;
 		text-align: left;
-		font-size: 10px;
+		font-size: 8pt;
 		text-transform: uppercase;
-		color: #666;
-		border-bottom: 2px solid #333;
-		padding: 6px 8px;
+		color: #555;
 	}
-
-	.micro-invoice-items th.text-right {
+	.micro-items-table td {
+		border-bottom: 1px solid #e5e7eb;
+		padding: 8px 10px;
+	}
+	.micro-items-table .text-right {
 		text-align: right;
 	}
-
-	.micro-invoice-items td {
-		padding: 8px;
-		border-bottom: 1px solid #eee;
-		font-size: 12px;
-	}
-
-	.micro-invoice-items td.text-right {
-		text-align: right;
-	}
-
-	.micro-invoice-total {
-		text-align: right;
-		margin-bottom: 24px;
-		padding: 8px;
-		border-top: 2px solid #333;
-	}
-
-	.micro-invoice-total .total-label {
-		font-size: 12px;
-		color: #666;
-	}
-
-	.micro-invoice-total .total-value {
-		font-size: 18px;
+	.micro-total-row td {
+		border-top: 2px solid #1a1a1a;
 		font-weight: bold;
+		font-size: 11pt;
 	}
-
-	.micro-invoice-notes {
-		margin-bottom: 24px;
-		font-size: 12px;
-		color: #444;
+	.micro-notes {
+		margin-top: 20px;
+		font-size: 9pt;
+		color: #555;
 	}
-
-	.micro-invoice-notes h4 {
-		font-size: 11px;
-		text-transform: uppercase;
+	/* G4: Disclaimer footer */
+	.micro-disclaimer {
+		margin-top: 40px;
+		padding-top: 10px;
+		border-top: 1px solid #d1d5db;
+		font-size: 7.5pt;
 		color: #999;
-		margin: 0 0 4px 0;
-	}
-
-	.micro-invoice-disclaimer {
-		margin-top: 32px;
-		padding-top: 12px;
-		border-top: 1px solid #ccc;
-		font-size: 10px;
-		color: #999;
-		text-align: center;
 		font-style: italic;
 	}
-
-	.micro-draft-badge {
-		display: inline-block;
-		background: #f0f0f0;
-		color: #666;
-		font-size: 10px;
-		font-weight: bold;
-		text-transform: uppercase;
-		padding: 2px 8px;
-		border-radius: 3px;
-		letter-spacing: 1px;
-	}
-
-	.micro-invoice-source {
-		font-size: 11px;
-		color: #888;
-		margin-top: 4px;
+	@media print {
+		.micro-watermark {
+			position: fixed;
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
+		}
 	}
 </style>
 
-{# G1: Draft Watermark — prominently displayed #}
-<div class="micro-invoice-watermark">
-	{{ doc.watermark_text or "ENTWURF" }}
-</div>
+<div class="micro-print-page">
+	<!-- G1: Watermark -->
+	<div class="micro-watermark">{{ watermark }}</div>
 
-{# Header #}
-<div class="micro-invoice-header">
-	<h2>{{ doc.title or _("Invoice Draft") }}</h2>
-	<div class="reference">{{ doc.reference }}</div>
-	<span class="micro-draft-badge">{{ doc.watermark_text or "ENTWURF" }}</span>
-	{% if doc.source != "Manual" %}
-	<div class="micro-invoice-source">
-		{{ _("Source") }}: {{ _(doc.source) }}
-		{% if doc.offer_draft %} — {{ doc.offer_draft }}{% endif %}
+	<!-- Header -->
+	<div class="micro-header">
+		<div class="micro-company">
+			{% if settings.company_logo %}
+				<img src="{{ settings.company_logo }}" alt="">
+			{% endif %}
+			<div class="micro-company-name">{{ settings.company_name or "" }}</div>
+			{% if settings.company_address %}
+				<div>{{ settings.company_address | replace("\n", "<br>") }}</div>
+			{% endif %}
+			{% if settings.company_email %}
+				<div>{{ settings.company_email }}</div>
+			{% endif %}
+			{% if settings.company_phone %}
+				<div>{{ settings.company_phone }}</div>
+			{% endif %}
+		</div>
+		<div style="text-align: right;">
+			<div class="micro-doc-title">{{ watermark }}</div>
+			<div class="micro-reference">{{ doc.reference }}</div>
+			<div style="margin-top: 8px; font-size: 9pt; color: #555;">
+				{{ frappe.format(doc.date, {"fieldtype": "Date"}) }}
+			</div>
+		</div>
 	</div>
+
+	<!-- Contact -->
+	<div class="micro-contact-block">
+		<h4>{{ _("To") }}</h4>
+		{% set contact = frappe.get_doc("Contact", doc.contact) if doc.contact else None %}
+		{% if contact %}
+			<strong>{{ contact.first_name or "" }} {{ contact.last_name or "" }}</strong>
+			{% if contact.email_id %}<br>{{ contact.email_id }}{% endif %}
+		{% else %}
+			<span>{{ doc.contact or "" }}</span>
+		{% endif %}
+	</div>
+
+	{% if doc.title %}
+		<div style="font-size: 12pt; font-weight: bold; margin-bottom: 15px;">
+			{{ doc.title }}
+		</div>
 	{% endif %}
-</div>
 
-{# Metadata #}
-<div class="micro-invoice-meta">
-	<div class="meta-block">
-		<div class="meta-label">{{ _("Customer") }}</div>
-		<div class="meta-value">{{ doc.contact }}</div>
-	</div>
-	<div class="meta-block">
-		<div class="meta-label">{{ _("Date") }}</div>
-		<div class="meta-value">{{ doc.get_formatted("date") }}</div>
-	</div>
-	<div class="meta-block">
-		<div class="meta-label">{{ _("Status") }}</div>
-		<div class="meta-value">{{ _(doc.status) }}</div>
-	</div>
-</div>
+	<!-- Items -->
+	<table class="micro-items-table">
+		<thead>
+			<tr>
+				<th style="width: 5%;">#</th>
+				<th>{{ _("Description") }}</th>
+				<th class="text-right" style="width: 10%;">{{ _("Qty") }}</th>
+				<th style="width: 10%;">{{ _("Unit") }}</th>
+				<th class="text-right" style="width: 15%;">{{ _("Rate") }}</th>
+				<th class="text-right" style="width: 15%;">{{ _("Amount") }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in doc.items %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ item.description or "" }}</td>
+				<td class="text-right">{{ item.quantity or 0 }}</td>
+				<td>{{ item.unit or "" }}</td>
+				<td class="text-right">{{ frappe.format(item.rate, {"fieldtype": "Currency"}) }}</td>
+				<td class="text-right">{{ frappe.format(item.amount, {"fieldtype": "Currency"}) }}</td>
+			</tr>
+			{% endfor %}
+			<tr class="micro-total-row">
+				<td colspan="5" class="text-right">{{ _("Total") }}</td>
+				<td class="text-right">{{ frappe.format(doc.total, {"fieldtype": "Currency"}) }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-{# Items Table #}
-{% if doc.items %}
-<table class="micro-invoice-items">
-	<thead>
-		<tr>
-			<th style="width: 40%">{{ _("Description") }}</th>
-			<th class="text-right" style="width: 15%">{{ _("Qty") }}</th>
-			<th style="width: 10%">{{ _("Unit") }}</th>
-			<th class="text-right" style="width: 15%">{{ _("Rate") }}</th>
-			<th class="text-right" style="width: 20%">{{ _("Amount") }}</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for item in doc.items %}
-		<tr>
-			<td>{{ item.description }}</td>
-			<td class="text-right">{{ item.get_formatted("quantity") }}</td>
-			<td>{{ item.unit or "" }}</td>
-			<td class="text-right">{{ item.get_formatted("rate", doc) }}</td>
-			<td class="text-right">{{ item.get_formatted("amount", doc) }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+	{% if doc.notes %}
+		<div class="micro-notes">
+			<strong>{{ _("Notes") }}</strong><br>
+			{{ doc.notes }}
+		</div>
+	{% endif %}
 
-{# Total #}
-<div class="micro-invoice-total">
-	<span class="total-label">{{ _("Total") }}: </span>
-	<span class="total-value">{{ doc.get_formatted("total") }}</span>
-</div>
-{% endif %}
-
-{# Notes for Client #}
-{% if doc.notes %}
-<div class="micro-invoice-notes">
-	<h4>{{ _("Notes") }}</h4>
-	<p>{{ doc.notes }}</p>
-</div>
-{% endif %}
-
-{# G4: Disclaimer Footer — legally required #}
-<div class="micro-invoice-disclaimer">
-	{{ doc.disclaimer or _("Draft — not a legally binding invoice. Final invoice to be created by your tax advisor.") }}
+	<!-- G4: Disclaimer -->
+	{% if disclaimer %}
+		<div class="micro-disclaimer">{{ disclaimer }}</div>
+	{% endif %}
 </div>

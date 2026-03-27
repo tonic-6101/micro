@@ -15,6 +15,7 @@
 		"pipeline_stage",
 		"organization",
 		"image",
+		"linked_contact",
 		"contact_section",
 		"email",
 		"phone",
@@ -101,6 +102,14 @@
 			"fieldtype": "Attach Image",
 			"hidden": 1,
 			"label": "Image"
+		},
+		{
+			"description": "Link to the shared Frappe Contact record (for Dock People Hub integration)",
+			"fieldname": "linked_contact",
+			"fieldtype": "Link",
+			"label": "Linked Contact",
+			"options": "Contact",
+			"unique": 1
 		},
 		{
 			"fieldname": "contact_section",

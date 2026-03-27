@@ -28,9 +28,41 @@ const routes: RouteRecordRaw[] = [
     props: true,
   },
   {
+    path: '/micro/portfolio',
+    name: 'ClientPortfolio',
+    component: () => import('@/pages/ClientPortfolio.vue'),
+  },
+  {
     path: '/micro/pipeline',
     name: 'Pipeline',
     component: () => import('@/pages/Pipeline.vue'),
+  },
+  {
+    path: '/micro/leads',
+    name: 'Leads',
+    component: () => import('@/pages/Leads.vue'),
+  },
+  {
+    path: '/micro/leads/:id',
+    name: 'LeadDetail',
+    component: () => import('@/pages/LeadDetail.vue'),
+    props: true,
+  },
+  {
+    path: '/micro/tasks',
+    name: 'Tasks',
+    component: () => import('@/pages/Tasks.vue'),
+  },
+  {
+    path: '/micro/tasks/:id',
+    name: 'TaskDetail',
+    component: () => import('@/pages/TaskDetail.vue'),
+    props: true,
+  },
+  {
+    path: '/micro/intelligence',
+    name: 'Intelligence',
+    component: () => import('@/pages/Intelligence.vue'),
   },
   {
     path: '/micro/articles',

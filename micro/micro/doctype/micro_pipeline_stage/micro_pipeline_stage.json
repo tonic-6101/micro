@@ -6,12 +6,15 @@
 	"engine": "InnoDB",
 	"field_order": [
 		"stage_name",
+		"pipeline",
 		"column_break_1",
 		"sort_order",
 		"section_break_2",
 		"color",
 		"column_break_2",
-		"is_closed"
+		"is_closed",
+		"is_win_stage",
+		"is_loss_stage"
 	],
 	"fields": [
 		{
@@ -21,6 +24,13 @@
 			"in_standard_filter": 1,
 			"label": "Stage Name",
 			"reqd": 1
+		},
+		{
+			"fieldname": "pipeline",
+			"fieldtype": "Link",
+			"in_standard_filter": 1,
+			"label": "Pipeline",
+			"options": "Micro Pipeline"
 		},
 		{
 			"fieldname": "column_break_1",
@@ -56,6 +66,20 @@
 			"fieldtype": "Check",
 			"in_list_view": 1,
 			"label": "Is Closed"
+		},
+		{
+			"default": "0",
+			"description": "Marks lead as Won when moved to this stage",
+			"fieldname": "is_win_stage",
+			"fieldtype": "Check",
+			"label": "Is Win Stage"
+		},
+		{
+			"default": "0",
+			"description": "Marks lead as Lost when moved to this stage",
+			"fieldname": "is_loss_stage",
+			"fieldtype": "Check",
+			"label": "Is Loss Stage"
 		}
 	],
 	"index_web_pages_for_search": 0,

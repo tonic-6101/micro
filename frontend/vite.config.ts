@@ -54,9 +54,11 @@ const dockExternalPlugin: Plugin = {
 
 // Share Vue runtime with Dock so both use the same Vue instance,
 // preventing dual-instance crashes.
+// Only active during build — in dev mode Vue resolves normally from node_modules.
 const vueSharedPlugin: Plugin = {
   name: 'vue-shared',
   enforce: 'pre',
+  apply: 'build',
   resolveId(id: string) {
     if (id === 'vue' || id === '@vue/runtime-dom' || id === '@vue/runtime-core' || id === '@vue/reactivity') {
       return { id: '/assets/dock/js/vendor/vue.esm.js', external: true }
@@ -82,7 +84,7 @@ function settingsEsmPlugin(): Plugin {
         plugins: [
           vueSharedPlugin,
           vue(),
-          ...frappeui({ frappeProxy: false, lucideIcons: false, jinjaBootData: false }),
+          ...frappeui({ frappeProxy: false, lucideIcons: true, jinjaBootData: false }),
         ],
         resolve: {
           alias: {

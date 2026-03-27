@@ -10,6 +10,8 @@ from micro.services.compliance import (
 	get_disclaimer_text,
 	get_watermark_text,
 	validate_no_tax_fields,
+	validate_safe_terminology,
+	validate_no_payment_tracking,
 )
 
 
@@ -23,6 +25,8 @@ class MicroOfferDraft(Document):
 		self.set_disclaimer()
 		self.calculate_totals()
 		validate_no_tax_fields(self)
+		validate_safe_terminology(self)
+		validate_no_payment_tracking(self)
 
 	def generate_reference(self):
 		"""G2: Auto-generate non-sequential reference."""

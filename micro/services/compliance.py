@@ -118,3 +118,63 @@ def validate_no_tax_fields(doc) -> None:
 			for field in forbidden_fields:
 				if hasattr(item, field) and getattr(item, field):
 					frappe.throw(_("Tax fields are not allowed on draft line items (compliance guardrail G3)"))
+
+
+# G5: Safe terminology — forbidden terms that would classify Micro as a billing system
+FORBIDDEN_TERMS = {
+	"de": ["Rechnung", "Rechnungsnummer", "Rechnungsliste", "Rechnung senden"],
+	"en": ["Invoice", "Invoice Number", "Invoice List", "Send Invoice"],
+	"es": ["Factura", "Número de factura"],
+	"fr": ["Facture", "Numéro de facture"],
+	"it": ["Fattura", "Numero fattura"],
+	"pt": ["Fatura", "Número da fatura"],
+	"pl": ["Faktura", "Numer faktury"],
+	"nl": ["Factuur", "Factuurnummer"],
+}
+
+
+def validate_safe_terminology(doc) -> None:
+	"""G5: Ensure Zone 2 documents never use forbidden invoice terminology.
+
+	Checks the title field for terms that would classify Micro as a billing system.
+	Only validates user-editable fields — internal field names are not checked.
+	"""
+	fields_to_check = ["title"]
+	for field in fields_to_check:
+		value = getattr(doc, field, None)
+		if not value:
+			continue
+		value_lower = value.lower()
+		for lang, terms in FORBIDDEN_TERMS.items():
+			for term in terms:
+				if term.lower() == value_lower:
+					frappe.throw(
+						_(
+							'The term "{0}" is not allowed in draft documents. '
+							"Use draft-safe terminology instead (compliance guardrail G5)."
+						).format(term)
+					)
+
+
+# G6: No payment tracking — forbidden status values
+FORBIDDEN_STATUSES = [
+	"Paid", "Unpaid", "Partially Paid", "Overdue",
+	"Bezahlt", "Unbezahlt", "Teilweise bezahlt", "Überfällig",
+	"Payé", "Impayé", "Pagado", "Impagado",
+]
+
+
+def validate_no_payment_tracking(doc) -> None:
+	"""G6: Ensure Zone 2 documents never track payment status.
+
+	Document statuses must be workflow-based (Draft/Sent/Accepted),
+	never payment-based (Paid/Unpaid/Overdue).
+	"""
+	status = getattr(doc, "status", None)
+	if status and status in FORBIDDEN_STATUSES:
+		frappe.throw(
+			_(
+				'Payment status "{0}" is not allowed. Micro tracks document workflow, '
+				"not payment status (compliance guardrail G6)."
+			).format(status)
+		)

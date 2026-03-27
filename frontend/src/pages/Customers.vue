@@ -61,6 +61,13 @@ const statusClasses: Record<string, string> = {
   Active: 'bg-green-100 text-green-800',
   Inactive: 'bg-gray-100 text-gray-600',
 }
+
+const gradeClasses: Record<string, string> = {
+  A: 'bg-green-100 text-green-800',
+  B: 'bg-blue-100 text-blue-800',
+  C: 'bg-amber-100 text-amber-800',
+  D: 'bg-red-100 text-red-800',
+}
 </script>
 
 <template>
@@ -110,6 +117,9 @@ const statusClasses: Record<string, string> = {
             <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
               {{ __('Type') }}
             </th>
+            <th class="px-4 py-3 text-center text-xs font-medium uppercase text-gray-500">
+              {{ __('Health Score') }}
+            </th>
             <th class="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
               {{ __('Email') }}
             </th>
@@ -144,6 +154,16 @@ const statusClasses: Record<string, string> = {
                 {{ __(customer.micro_contact_type) }}
               </span>
             </td>
+            <td class="whitespace-nowrap px-4 py-3 text-center">
+              <span
+                v-if="customer.micro_health_score"
+                class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold"
+                :class="gradeClasses[customer.micro_health_score] || 'bg-gray-100 text-gray-500'"
+              >
+                {{ customer.micro_health_score }}
+              </span>
+              <span v-else class="text-xs text-gray-300">—</span>
+            </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
               {{ customer.email_id || '—' }}
             </td>
@@ -153,19 +173,19 @@ const statusClasses: Record<string, string> = {
           </tr>
 
           <tr v-if="customers.loading">
-            <td colspan="5" class="px-4 py-8 text-center text-sm text-gray-500">
+            <td colspan="6" class="px-4 py-8 text-center text-sm text-gray-500">
               {{ __('Loading...') }}
             </td>
           </tr>
 
           <tr v-else-if="customers.error">
-            <td colspan="5" class="px-4 py-8 text-center text-sm text-red-500">
+            <td colspan="6" class="px-4 py-8 text-center text-sm text-red-500">
               {{ __('Failed to load customers. Please try again.') }}
             </td>
           </tr>
 
           <tr v-else-if="!filteredCustomers?.length">
-            <td colspan="5" class="px-4 py-12 text-center">
+            <td colspan="6" class="px-4 py-12 text-center">
               <p class="text-sm text-gray-500">{{ search || sourceFilter ? __('No customers match your search') : __('No customers yet') }}</p>
               <router-link
                 v-if="!search"

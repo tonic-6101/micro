@@ -8,3 +8,4 @@ micro.patches.migrate_customer_to_contact
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 micro.patches.rename_contact_to_customer
+micro.patches.seed_pipeline_and_backfill_stages

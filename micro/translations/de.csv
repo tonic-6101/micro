@@ -228,3 +228,21 @@ Overcommitted — consider adjusting a timeline or raising your rate for new inq
 ~{hours}h available this month,~{hours}h verfügbar diesen Monat
 "You're at {pct}% capacity this month. Consider a later start date or adjusting your rate.","Sie sind diesen Monat bei {pct}% Kapazität. Erwägen Sie einen späteren Starttermin oder passen Sie Ihren Satz an."
 Billable hours you aim for per month (40–200),"Abrechnungsfähige Stunden, die Sie pro Monat anstreben (40–200)"
+Client Portfolio,Kundenportfolio
+Contact is not a Micro customer,Kontakt ist kein Micro-Kunde
+Contact not found,Kontakt nicht gefunden
+Health Score,Gesundheitsbewertung
+Health Score Updated,Gesundheitsbewertung aktualisiert
+Health Score (Micro),Gesundheitsbewertung (Micro)
+Lifetime Revenue,Umsatz (Lebenszeit)
+LTV,LTV
+No customers scored yet,Noch keine Kunden bewertet
+Recalculate,Neu berechnen
+Recalculate All,Alle neu berechnen
+Referred By,Empfohlen von
+Referrals,Empfehlungen
+Scope Change,Umfangsänderung
+"Tag this note as a scope change for health score calculation","Diese Notiz als Umfangsänderung für die Gesundheitsbewertung markieren"
+Your A-clients represent {pct}% of your revenue but only {contact_pct}% of your contacts. Focusing here is likely your highest-leverage move.,"Ihre A-Kunden machen {pct}% Ihres Umsatzes aus, aber nur {contact_pct}% Ihrer Kontakte. Hier zu fokussieren ist vermutlich Ihr größter Hebel."
+referral,Empfehlung
+referrals,Empfehlungen

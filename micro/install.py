@@ -8,6 +8,7 @@ def after_install():
 	"""Set up defaults after Micro is installed."""
 	create_roles()
 	setup_defaults()
+	seed_default_pipeline()
 	seed_pipeline_stages()
 
 
@@ -49,6 +50,24 @@ def setup_defaults():
 		pass
 
 
+def seed_default_pipeline():
+	"""Create the default 'Sales Pipeline' if none exist."""
+	try:
+		if not frappe.db.exists("DocType", "Micro Pipeline"):
+			return
+
+		if frappe.db.count("Micro Pipeline") > 0:
+			return
+
+		pipeline = frappe.new_doc("Micro Pipeline")
+		pipeline.pipeline_name = "Sales Pipeline"
+		pipeline.is_default = 1
+		pipeline.insert(ignore_permissions=True)
+		frappe.db.commit()
+	except Exception:
+		pass
+
+
 def seed_pipeline_stages():
 	"""Create default pipeline stages if none exist."""
 	try:
@@ -58,13 +77,18 @@ def seed_pipeline_stages():
 		if frappe.db.count("Micro Pipeline Stage") > 0:
 			return
 
+		# Get default pipeline (if it exists)
+		default_pipeline = frappe.db.get_value(
+			"Micro Pipeline", {"is_default": 1}, "name"
+		) if frappe.db.exists("DocType", "Micro Pipeline") else None
+
 		default_stages = [
-			{"stage_name": "New", "sort_order": 10, "color": "Blue", "is_closed": 0},
-			{"stage_name": "Contacted", "sort_order": 20, "color": "Yellow", "is_closed": 0},
-			{"stage_name": "Offer Sent", "sort_order": 30, "color": "Orange", "is_closed": 0},
-			{"stage_name": "Negotiating", "sort_order": 40, "color": "Purple", "is_closed": 0},
-			{"stage_name": "Won", "sort_order": 50, "color": "Green", "is_closed": 1},
-			{"stage_name": "Lost", "sort_order": 60, "color": "Red", "is_closed": 1},
+			{"stage_name": "New", "sort_order": 10, "color": "Blue", "is_closed": 0, "is_win_stage": 0, "is_loss_stage": 0},
+			{"stage_name": "Contacted", "sort_order": 20, "color": "Yellow", "is_closed": 0, "is_win_stage": 0, "is_loss_stage": 0},
+			{"stage_name": "Offer Sent", "sort_order": 30, "color": "Orange", "is_closed": 0, "is_win_stage": 0, "is_loss_stage": 0},
+			{"stage_name": "Negotiating", "sort_order": 40, "color": "Purple", "is_closed": 0, "is_win_stage": 0, "is_loss_stage": 0},
+			{"stage_name": "Won", "sort_order": 50, "color": "Green", "is_closed": 1, "is_win_stage": 1, "is_loss_stage": 0},
+			{"stage_name": "Lost", "sort_order": 60, "color": "Red", "is_closed": 1, "is_win_stage": 0, "is_loss_stage": 1},
 		]
 
 		for stage_data in default_stages:
@@ -73,6 +97,12 @@ def seed_pipeline_stages():
 			stage.sort_order = stage_data["sort_order"]
 			stage.color = stage_data["color"]
 			stage.is_closed = stage_data["is_closed"]
+			if hasattr(stage, "is_win_stage"):
+				stage.is_win_stage = stage_data["is_win_stage"]
+			if hasattr(stage, "is_loss_stage"):
+				stage.is_loss_stage = stage_data["is_loss_stage"]
+			if hasattr(stage, "pipeline") and default_pipeline:
+				stage.pipeline = default_pipeline
 			stage.insert(ignore_permissions=True)
 
 		frappe.db.commit()

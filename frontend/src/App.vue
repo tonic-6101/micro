@@ -6,7 +6,7 @@
 // @ts-ignore — served by Dock's built assets
 import { DockLayout, DockSidebarShell } from '/assets/dock/js/dock-navbar.esm.js'
 import {
-  LayoutDashboard, Users, Columns3,
+  LayoutDashboard, Users, Columns3, HeartPulse,
   Package, FileText, FileMinus, Receipt,
   Download,
 } from 'lucide-vue-next'
@@ -17,6 +17,7 @@ const navItems = [
   // CRM
   { key: 'customers',      label: __('Customers'),      icon: Users,       path: '/micro/customers',      divider: true },
   { key: 'pipeline',       label: __('Pipeline'),       icon: Columns3,    path: '/micro/pipeline' },
+  { key: 'portfolio',      label: __('Client Portfolio'), icon: HeartPulse, path: '/micro/portfolio' },
   // Documents
   { key: 'articles',       label: __('Articles'),       icon: Package,     path: '/micro/articles',       divider: true },
   { key: 'offers',         label: __('Offer Drafts'),   icon: FileText,    path: '/micro/offers' },

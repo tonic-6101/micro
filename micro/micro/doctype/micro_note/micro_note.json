@@ -11,6 +11,8 @@
 		"date",
 		"column_break_note",
 		"contact",
+		"lead",
+		"is_scope_change",
 		"content_section",
 		"content"
 	],
@@ -33,7 +35,7 @@
 			"in_list_view": 1,
 			"in_standard_filter": 1,
 			"label": "Type",
-			"options": "Note\nCall\nMeeting\nEmail Summary"
+			"options": "Note\nQuick Note\nCall\nMeeting\nEmail Summary"
 		},
 		{
 			"default": "Today",
@@ -54,6 +56,20 @@
 			"in_standard_filter": 1,
 			"label": "Customer",
 			"options": "Contact"
+		},
+		{
+			"fieldname": "lead",
+			"fieldtype": "Link",
+			"in_standard_filter": 1,
+			"label": "Lead",
+			"options": "Micro Lead"
+		},
+		{
+			"default": "0",
+			"description": "Tag this note as a scope change for health score calculation",
+			"fieldname": "is_scope_change",
+			"fieldtype": "Check",
+			"label": "Scope Change"
 		},
 		{
 			"fieldname": "content_section",

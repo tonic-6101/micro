@@ -97,8 +97,8 @@ async function doExport() {
 
     <div class="space-y-6">
       <!-- Document Type -->
-      <div class="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 class="mb-4 text-sm font-medium uppercase text-gray-500">
+      <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+        <h2 class="mb-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
           {{ __('Document Type') }}
         </h2>
         <div class="flex gap-3">
@@ -124,8 +124,8 @@ async function doExport() {
       </div>
 
       <!-- Filters -->
-      <div class="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 class="mb-4 text-sm font-medium uppercase text-gray-500">
+      <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+        <h2 class="mb-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
           {{ __('Filters') }}
         </h2>
         <div class="grid grid-cols-2 gap-4">
@@ -134,7 +134,7 @@ async function doExport() {
             <input
               v-model="fromDate"
               type="date"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500 dark:focus:ring-accent-400"
             />
           </div>
           <div>
@@ -142,7 +142,7 @@ async function doExport() {
             <input
               v-model="toDate"
               type="date"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500 dark:focus:ring-accent-400"
             />
           </div>
         </div>
@@ -153,7 +153,7 @@ async function doExport() {
             <label class="mb-1 block text-xs text-gray-500">{{ __('Category') }}</label>
             <select
               v-model="category"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500 dark:focus:ring-accent-400"
             >
               <option value="">{{ __('All Categories') }}</option>
               <option v-for="cat in categories.slice(1)" :key="cat" :value="cat">
@@ -175,8 +175,8 @@ async function doExport() {
       </div>
 
       <!-- Preview -->
-      <div class="rounded-lg border border-gray-200 bg-white p-5">
-        <h2 class="mb-4 text-sm font-medium uppercase text-gray-500">
+      <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+        <h2 class="mb-4 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
           {{ __('Preview') }}
         </h2>
         <div class="flex items-center justify-between">
