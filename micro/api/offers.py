@@ -57,7 +57,13 @@ def get_offer(offer_id: str) -> dict:
 
 
 @frappe.whitelist()
-def create_offer(contact: str, title: str | None = None, items: list | None = None) -> dict:
+def create_offer(
+	contact: str,
+	title: str | None = None,
+	items: list | None = None,
+	notes: str | None = None,
+	internal_notes: str | None = None,
+) -> dict:
 	"""Create a new offer draft.
 
 	Items should be a list of dicts with: article, description, quantity, rate, unit.
@@ -68,6 +74,10 @@ def create_offer(contact: str, title: str | None = None, items: list | None = No
 	offer.contact = contact
 	if title:
 		offer.title = title
+	if notes:
+		offer.notes = notes
+	if internal_notes:
+		offer.internal_notes = internal_notes
 
 	for item_data in items or []:
 		item = offer.append("items", {})
@@ -78,5 +88,52 @@ def create_offer(contact: str, title: str | None = None, items: list | None = No
 		item.unit = item_data.get("unit", "")
 
 	offer.insert()
+
+	return {"offer": offer.as_dict()}
+
+
+@frappe.whitelist(methods=["POST"])
+def update_offer(
+	offer_id: str,
+	title: str | None = None,
+	contact: str | None = None,
+	valid_until: str | None = None,
+	status: str | None = None,
+	items: list | None = None,
+	notes: str | None = None,
+	internal_notes: str | None = None,
+) -> dict:
+	"""Update an existing offer draft.
+
+	Items replaces the full child table — send all items, not just changed ones.
+	"""
+	frappe.has_permission("Micro Offer Draft", "write", throw=True)
+
+	offer = frappe.get_doc("Micro Offer Draft", offer_id)
+
+	if title is not None:
+		offer.title = title
+	if contact is not None:
+		offer.contact = contact
+	if valid_until is not None:
+		offer.valid_until = valid_until or None
+	if status is not None:
+		offer.status = status
+	if notes is not None:
+		offer.notes = notes
+	if internal_notes is not None:
+		offer.internal_notes = internal_notes
+
+	if items is not None:
+		offer.items = []
+		for item_data in items:
+			item = offer.append("items", {})
+			item.article = item_data.get("article")
+			item.description = item_data.get("description", "")
+			item.quantity = item_data.get("quantity", 1)
+			item.rate = item_data.get("rate", 0)
+			item.unit = item_data.get("unit", "")
+
+	offer.save()
 
 	return {"offer": offer.as_dict()}

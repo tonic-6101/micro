@@ -27,10 +27,12 @@ const navItems = [
   { key: 'export',         label: __('Export'),         icon: Download,    path: '/micro/export',         divider: true },
 ]
 
+declare const __APP_VERSION__: string
+
 const footer = {
   edition: __('Community Edition'),
-  version: '0.1.0',
-  sourceUrl: 'https://github.com/tonic/micro',
+  version: __APP_VERSION__,
+  sourceUrl: 'https://github.com/tonic-6101/micro',
 }
 </script>
 

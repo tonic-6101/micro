@@ -27,6 +27,98 @@ def get_nudges() -> dict:
 	}
 
 
+def send_nudge_notifications():
+	"""Daily scheduled task: publish Dock bell notifications for active nudges.
+
+	Deduplicates by checking for existing unread notifications of the same type
+	and reference within the last 7 days.
+	"""
+	today = getdate(nowdate())
+	user = frappe.session.user
+
+	# Only run for users with Micro access (System Users)
+	users = frappe.get_all(
+		"Has Role",
+		filters={"role": "System Manager", "parenttype": "User"},
+		pluck="parent",
+	)
+	# Also include all users who have Micro Offer Drafts
+	offer_owners = frappe.get_all(
+		"Micro Offer Draft",
+		filters={"status": "Sent"},
+		pluck="owner",
+		distinct=True,
+	)
+	all_users = set(users) | set(offer_owners)
+
+	from micro.integrations.dock_notification import (
+		notify_dormant_contact,
+		notify_task_overdue,
+		notify_unanswered_offer,
+	)
+
+	for nudge_user in all_users:
+		# Unanswered offers (owned by this user)
+		offers = frappe.get_all(
+			"Micro Offer Draft",
+			filters={
+				"status": "Sent",
+				"date": ["<=", add_days(today, -5)],
+				"owner": nudge_user,
+			},
+			fields=["name", "title", "contact", "date"],
+		)
+		for offer in offers:
+			contact_name = offer.get("contact") or offer.get("title") or offer.name
+			days_waiting = (today - getdate(offer["date"])).days
+			if not _nudge_already_sent(nudge_user, "unanswered_offer_nudge", "Micro Offer Draft", offer.name):
+				notify_unanswered_offer(nudge_user, offer.name, contact_name, days_waiting)
+
+		# Dormant contacts (owned by this user)
+		dormant = _get_dormant_contacts(today)
+		for contact in dormant:
+			if not _nudge_already_sent(nudge_user, "dormant_contact_nudge", "Contact", contact["name"]):
+				notify_dormant_contact(
+					nudge_user,
+					contact.get("full_name", contact["name"]),
+					contact["name"],
+					contact["days_inactive"],
+				)
+
+		# Overdue tasks (assigned to this user)
+		overdue_tasks = frappe.get_all(
+			"Micro Task",
+			filters={
+				"status": ["in", ["Open", "In Progress"]],
+				"due_date": ["<", today],
+				"assigned_to": nudge_user,
+			},
+			fields=["name", "subject", "due_date"],
+		)
+		for task in overdue_tasks:
+			days_overdue = (today - getdate(task["due_date"])).days
+			if not _nudge_already_sent(nudge_user, "task_overdue", "Micro Task", task["name"]):
+				notify_task_overdue(nudge_user, task["name"], task["subject"], days_overdue)
+
+
+def _nudge_already_sent(user: str, notification_type: str, ref_doctype: str, ref_name: str) -> bool:
+	"""Check if an unread notification of this type already exists for this reference in the last 7 days."""
+	if "dock" not in frappe.get_installed_apps():
+		return False
+	cutoff = add_days(nowdate(), -7)
+	return bool(frappe.db.exists(
+		"Dock Notification",
+		{
+			"for_user": user,
+			"notification_type": notification_type,
+			"reference_doctype": ref_doctype,
+			"reference_name": ref_name,
+			"read": 0,
+			"creation": [">=", cutoff],
+		},
+	))
+
+
 def _get_unanswered_offers(today, threshold_days: int = 5) -> list[dict]:
 	"""Offers in 'Sent' status for more than threshold_days."""
 	cutoff = add_days(today, -threshold_days)

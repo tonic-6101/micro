@@ -27,7 +27,10 @@
 		"column_break_tax",
 		"tax_advisor_email",
 		"orga_section",
-		"enable_orga_integration"
+		"enable_orga_integration",
+		"milestones_section",
+		"first_offer_sent_seen",
+		"annual_wrapped_year"
 	],
 	"fields": [
 		{
@@ -166,6 +169,26 @@
 			"fieldtype": "Check",
 			"label": "Enable Orga Integration",
 			"description": "Auto-detected if Orga is installed"
+		},
+		{
+			"fieldname": "milestones_section",
+			"fieldtype": "Section Break",
+			"label": "Milestones (Internal)",
+			"hidden": 1
+		},
+		{
+			"default": "0",
+			"fieldname": "first_offer_sent_seen",
+			"fieldtype": "Check",
+			"label": "First Offer Sent Milestone Seen",
+			"hidden": 1
+		},
+		{
+			"default": "0",
+			"fieldname": "annual_wrapped_year",
+			"fieldtype": "Int",
+			"label": "Annual Wrapped Year Seen",
+			"hidden": 1
 		}
 	],
 	"issingle": 1,

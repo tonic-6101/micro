@@ -62,12 +62,12 @@ function openOffer(name: string) {
       <h1 class="text-2xl font-bold text-gray-900">
         {{ __('Offer Drafts') }}
       </h1>
-      <a
-        href="/app/micro-offer-draft/new"
+      <router-link
+        to="/micro/offers/new"
         class="rounded-md bg-accent-600 px-3 py-2 text-sm font-medium text-white hover:bg-accent-700"
       >
         {{ __('New Offer Draft') }}
-      </a>
+      </router-link>
     </div>
 
     <!-- Search -->
@@ -152,13 +152,13 @@ function openOffer(name: string) {
           <tr v-else-if="!offers.data?.offers?.length">
             <td colspan="6" class="px-4 py-12 text-center">
               <p class="text-sm text-gray-500">{{ search ? __('No offers match your search') : __('No offer drafts yet') }}</p>
-              <a
+              <router-link
                 v-if="!search"
-                href="/app/micro-offer-draft/new"
+                to="/micro/offers/new"
                 class="mt-2 inline-block text-sm font-medium text-gray-900 hover:text-gray-700"
               >
                 {{ __('Create your first offer draft') }} &rarr;
-              </a>
+              </router-link>
             </td>
           </tr>
         </tbody>

@@ -70,9 +70,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Articles.vue'),
   },
   {
+    path: '/micro/articles/new',
+    name: 'ArticleNew',
+    component: () => import('@/pages/ArticleNew.vue'),
+  },
+  {
+    path: '/micro/articles/:id',
+    name: 'ArticleDetail',
+    component: () => import('@/pages/ArticleDetail.vue'),
+    props: true,
+  },
+  {
     path: '/micro/offers',
     name: 'Offers',
     component: () => import('@/pages/Offers.vue'),
+  },
+  {
+    path: '/micro/offers/new',
+    name: 'OfferNew',
+    component: () => import('@/pages/OfferNew.vue'),
   },
   {
     path: '/micro/offers/:id',

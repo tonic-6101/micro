@@ -100,11 +100,18 @@ export interface CustomerDetailResponse {
   notes: TimelineNote[]
 }
 
+/** Micro Article Category DocType */
+export interface MicroArticleCategory {
+  name: string
+  category_name: string
+}
+
 /** Micro Article DocType (Zone 2) */
 export interface MicroArticle {
   name: string
   article_name: string
   article_code?: string
+  barcode?: string
   category?: string
   unit?: string
   is_active?: boolean
@@ -289,6 +296,38 @@ export interface CapacityData {
   source: 'watch' | 'orga_estimate' | 'none'
   status_key: 'low' | 'good' | 'nearly_full' | 'overcommitted'
   status_message: string
+}
+
+/** Offer Accepted celebration card data */
+export interface OfferAcceptedMoment {
+  offer_total: number
+  contact_name: string
+  pipeline_this_month: number
+  is_best_month: boolean
+  best_month_label?: string
+  best_month_value?: number
+}
+
+/** First Offer Sent milestone status */
+export interface FirstOfferSentStatus {
+  should_show: boolean
+}
+
+/** Annual Business Wrapped summary data */
+export interface AnnualWrappedData {
+  should_show: boolean
+  year: number
+  offers_sent: number
+  offers_won: number
+  win_rate: number
+  pipeline_value: number
+  new_clients: number
+  best_month: string
+  best_month_value: number
+  top_client_name: string
+  top_client_value: number
+  yoy_growth_pct: number | null
+  projects_delivered: number | null
 }
 
 /** Micro Settings (Single DocType) */

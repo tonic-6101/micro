@@ -307,6 +307,7 @@ doc_events = {
 scheduler_events = {
 	"daily": [
 		"micro.services.health_score.recalculate_all_scores",
+		"micro.services.nudges.send_nudge_notifications",
 	],
 }
 
@@ -329,6 +330,48 @@ scheduler_events = {
 
 # Automatically update python controller files with type annotations for this app.
 export_python_type_annotations = True
+
+# Jana integration (AI assistant permissions)
+# ------------------
+
+jana_briefing_source = "micro.api.jana_briefing.get_briefing"
+
+jana_permissions = {
+	"doctypes": {
+		"read": [
+			"Micro Lead", "Micro Offer", "Micro Article",
+			"Micro Invoice", "Micro Receipt", "Micro Task",
+		],
+		"create": ["Micro Lead"],
+		"update": ["Micro Lead"],
+		"never": ["remove_watermark", "create_sequential_number", "calculate_vat"],
+	},
+	"endpoints": [
+		{
+			"label": "Micro — Sales Intelligence",
+			"description": "KPIs, nudges, pipeline, and weekly briefing",
+			"methods": [
+				"micro.api.dashboard.get_dashboard_kpis",
+				"micro.api.dashboard.get_nudges",
+				"micro.api.dashboard.get_weekly_briefing",
+				"micro.api.dashboard.get_win_rate",
+				"micro.api.dashboard.get_revenue_runway",
+				"micro.api.dashboard.get_client_portfolio",
+				"micro.api.pipeline.get_pipeline",
+				"micro.api.pipeline.get_stages",
+			],
+			"scoping": "user",
+		},
+		{
+			"label": "Micro — Daily Briefing",
+			"description": "Aggregated briefing data for Jana Daily Briefing agent",
+			"methods": [
+				"micro.api.jana_briefing.get_briefing",
+			],
+			"scoping": "user",
+		},
+	],
+}
 
 # Dock integration
 # ------------------

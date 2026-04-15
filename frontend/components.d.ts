@@ -9,8 +9,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CapacityWidget: typeof import('./src/components/CapacityWidget.vue')['default']
+    CategoryPicker: typeof import('./src/components/CategoryPicker.vue')['default']
+    FirstOfferSentOverlay: typeof import('./src/components/moments/FirstOfferSentOverlay.vue')['default']
     KanbanCard: typeof import('./src/components/pipeline/KanbanCard.vue')['default']
     KanbanColumn: typeof import('./src/components/pipeline/KanbanColumn.vue')['default']
+    OfferAcceptedCard: typeof import('./src/components/moments/OfferAcceptedCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

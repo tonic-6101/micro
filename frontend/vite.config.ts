@@ -10,6 +10,10 @@ import Components from 'unplugin-vue-components/vite'
 import * as LucideIcons from 'lucide-static'
 import path from 'path'
 import fs from 'fs'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 function camelToDash(key: string): string[] {
   // With numbers: barChart2 -> bar-chart-2
@@ -180,6 +184,9 @@ function microHtmlPlugin(): Plugin {
 }
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
     vueSharedPlugin,
     dockExternalPlugin,

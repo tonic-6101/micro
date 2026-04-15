@@ -200,6 +200,7 @@ def on_related_doc_update(doc, method):
 			contact_name=contact,
 			queue="short",
 			deduplicate=True,
+			job_id=f"health_score_{contact}",
 		)
 
 
@@ -212,6 +213,7 @@ def on_note_update(doc, method):
 			contact_name=contact,
 			queue="short",
 			deduplicate=True,
+			job_id=f"health_score_{contact}",
 		)
 
 
@@ -225,6 +227,7 @@ def on_contact_update(doc, method):
 		contact_name=doc.name,
 		queue="short",
 		deduplicate=True,
+		job_id=f"health_score_{doc.name}",
 	)
 	# If referred_by was set/changed, recalculate the referrer's score too
 	old_referred_by = doc.get_doc_before_save()
@@ -238,6 +241,7 @@ def on_contact_update(doc, method):
 				contact_name=referrer,
 				queue="short",
 				deduplicate=True,
+				job_id=f"health_score_{referrer}",
 			)
 
 

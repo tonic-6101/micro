@@ -8,17 +8,19 @@
 		"details_section",
 		"article_name",
 		"article_code",
+		"barcode",
 		"column_break_details",
 		"category",
 		"unit",
 		"is_active",
+		"image_section",
+		"image",
 		"pricing_section",
 		"selling_price",
 		"column_break_pricing",
 		"purchase_price",
 		"description_section",
 		"description",
-		"image",
 		"supplier_section",
 		"supplier",
 		"column_break_supplier",
@@ -39,10 +41,18 @@
 			"reqd": 1
 		},
 		{
+			"description": "Unique SKU or internal code",
 			"fieldname": "article_code",
 			"fieldtype": "Data",
 			"in_list_view": 1,
-			"label": "Article Code"
+			"label": "Article Code",
+			"unique": 1
+		},
+		{
+			"description": "EAN, UPC, or other barcode",
+			"fieldname": "barcode",
+			"fieldtype": "Data",
+			"label": "Barcode / EAN"
 		},
 		{
 			"fieldname": "column_break_details",
@@ -50,9 +60,10 @@
 		},
 		{
 			"fieldname": "category",
-			"fieldtype": "Data",
+			"fieldtype": "Link",
 			"in_standard_filter": 1,
-			"label": "Category"
+			"label": "Category",
+			"options": "Micro Article Category"
 		},
 		{
 			"default": "Stück",
@@ -67,6 +78,16 @@
 			"fieldtype": "Check",
 			"in_list_view": 1,
 			"label": "Active"
+		},
+		{
+			"fieldname": "image_section",
+			"fieldtype": "Section Break",
+			"label": "Image"
+		},
+		{
+			"fieldname": "image",
+			"fieldtype": "Attach Image",
+			"label": "Image"
 		},
 		{
 			"fieldname": "pricing_section",
@@ -102,12 +123,6 @@
 			"label": "Description"
 		},
 		{
-			"fieldname": "image",
-			"fieldtype": "Attach Image",
-			"hidden": 1,
-			"label": "Image"
-		},
-		{
 			"fieldname": "supplier_section",
 			"fieldtype": "Section Break",
 			"label": "Supplier & Notes"
@@ -129,7 +144,7 @@
 	],
 	"image_field": "image",
 	"links": [],
-	"modified": "2026-02-27 00:00:00.000000",
+	"modified": "2026-04-03 00:00:00.000000",
 	"modified_by": "Administrator",
 	"module": "Micro",
 	"name": "Micro Article",
@@ -173,7 +188,7 @@
 		}
 	],
 	"quick_entry": 1,
-	"search_fields": "article_name,article_code,category",
+	"search_fields": "article_name,article_code,category,barcode",
 	"sort_field": "modified",
 	"sort_order": "DESC",
 	"states": [],

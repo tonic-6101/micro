@@ -4,10 +4,21 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { createResource } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
 import CapacityWidget from '@/components/CapacityWidget.vue'
+import AnnualWrappedCard from '@/components/moments/AnnualWrappedCard.vue'
 import type { DashboardKPIs } from '@/types/micro'
+
+const route = useRoute()
+
+// Annual Wrapped: show in January for previous year,
+// or force via ?wrapped=YEAR query param (e.g. ?wrapped=2026)
+const now = new Date()
+const wrappedYearParam = route.query.wrapped ? Number(route.query.wrapped) : null
+const wrappedYear = wrappedYearParam || (now.getMonth() === 0 ? now.getFullYear() - 1 : null)
+const wrappedForce = !!wrappedYearParam
 
 const kpis = createResource({
   url: 'micro.api.dashboard.get_dashboard_kpis',
@@ -81,6 +92,9 @@ const doctypeLabels: Record<string, string> = {
     </div>
 
     <div v-else-if="kpis.data" class="space-y-6">
+      <!-- Annual Business Wrapped (January only) -->
+      <AnnualWrappedCard v-if="wrappedYear" :year="wrappedYear" :force="wrappedForce" />
+
       <!-- Primary KPI Cards -->
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         <div class="rounded-lg border border-gray-200 bg-white p-4">
@@ -212,12 +226,12 @@ const doctypeLabels: Record<string, string> = {
           >
             {{ __('New Customer') }}
           </router-link>
-          <a
-            href="/app/micro-offer-draft/new"
+          <router-link
+            to="/micro/offers/new"
             class="rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             {{ __('New Offer') }}
-          </a>
+          </router-link>
           <a
             href="/app/micro-receipt/new"
             class="rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"

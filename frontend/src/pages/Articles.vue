@@ -48,12 +48,12 @@ function formatCurrency(value: number | undefined): string {
       <h1 class="text-2xl font-bold text-gray-900">
         {{ __('Articles') }}
       </h1>
-      <a
-        href="/app/micro-article/new"
+      <router-link
+        to="/micro/articles/new"
         class="rounded-md bg-accent-600 px-3 py-2 text-sm font-medium text-white hover:bg-accent-700"
       >
         {{ __('New Article') }}
-      </a>
+      </router-link>
     </div>
 
     <!-- Search -->
@@ -96,10 +96,24 @@ function formatCurrency(value: number | undefined): string {
             v-for="article in articles.data?.articles"
             :key="article.name"
             class="cursor-pointer hover:bg-gray-50"
-            @click="$router.push(`/app/micro-article/${article.name}`)"
+            @click="$router.push(`/micro/articles/${article.name}`)"
           >
             <td class="whitespace-nowrap px-4 py-3 text-sm font-medium text-gray-900">
-              {{ article.article_name }}
+              <div class="flex items-center gap-3">
+                <img
+                  v-if="article.image"
+                  :src="article.image"
+                  :alt="article.article_name"
+                  class="h-8 w-8 rounded border border-gray-200 object-cover"
+                />
+                <span
+                  v-else
+                  class="flex h-8 w-8 items-center justify-center rounded border border-gray-200 bg-gray-50 text-xs text-gray-400"
+                >
+                  —
+                </span>
+                {{ article.article_name }}
+              </div>
             </td>
             <td class="whitespace-nowrap px-4 py-3 text-sm text-gray-500">
               {{ article.article_code || '—' }}
@@ -138,13 +152,13 @@ function formatCurrency(value: number | undefined): string {
           <tr v-else-if="!articles.data?.articles?.length">
             <td colspan="6" class="px-4 py-12 text-center">
               <p class="text-sm text-gray-500">{{ search ? __('No articles match your search') : __('No articles yet') }}</p>
-              <a
+              <router-link
                 v-if="!search"
-                href="/app/micro-article/new"
+                to="/micro/articles/new"
                 class="mt-2 inline-block text-sm font-medium text-gray-900 hover:text-gray-700"
               >
                 {{ __('Create your first article') }} &rarr;
-              </a>
+              </router-link>
             </td>
           </tr>
         </tbody>
