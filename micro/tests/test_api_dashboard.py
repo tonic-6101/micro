@@ -139,3 +139,36 @@ class TestDashboardAPI(FrappeTestCase):
 		result = get_dashboard_kpis()
 		self.assertIn("Google Ads", result["customers"]["by_source"])
 		self.assertGreater(result["customers"]["by_source"]["Google Ads"], 0)
+
+	def test_a_contact_that_is_not_a_customer_is_not_counted(self):
+		"""Customers are Contacts with a micro_status, not the whole address book."""
+		from micro.api.dashboard import get_dashboard_kpis
+
+		before = get_dashboard_kpis()["customers"]
+
+		# A plain Frappe Contact — someone else's app put it there.
+		frappe.get_doc({
+			"doctype": "Contact",
+			"first_name": "Address Book",
+			"last_name": "Only",
+		}).insert(ignore_permissions=True)
+
+		after = get_dashboard_kpis()["customers"]
+		self.assertEqual(after["total"], before["total"])
+		self.assertEqual(after["by_source"], before["by_source"])
+
+	def test_recent_activity_reports_customers_as_contacts(self):
+		"""The frontend labels activity rows by doctype; customers are Contacts."""
+		from micro.api.dashboard import get_dashboard_kpis
+
+		frappe.get_doc({
+			"doctype": "Contact",
+			"first_name": "Activity",
+			"last_name": "Test",
+			"micro_contact_type": "Person",
+			"micro_status": "Potential",
+		}).insert(ignore_permissions=True)
+
+		doctypes = {item["doctype"] for item in get_dashboard_kpis()["recent_activity"]}
+		self.assertIn("Contact", doctypes)
+		self.assertNotIn("Micro Customer", doctypes)

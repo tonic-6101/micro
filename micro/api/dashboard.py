@@ -7,21 +7,27 @@ from frappe import _
 
 @frappe.whitelist()
 def get_dashboard_kpis() -> dict:
-	"""Return aggregated KPIs for the Micro dashboard."""
-	customers_total = frappe.db.count("Micro Customer")
+	"""Return aggregated KPIs for the Micro dashboard.
+
+	Customers are Contacts carrying `micro_status`. That field is what makes a
+	Contact a customer — an address book entry Micro has never worked with is
+	not one, and counting the whole `tabContact` would report the address book
+	rather than the business.
+	"""
+	customers_total = frappe.db.count("Contact", {"micro_status": ["is", "set"]})
 
 	customers_by_status = {}
 	for row in frappe.db.sql(
-		"SELECT status, COUNT(*) as cnt FROM `tabMicro Customer` "
-		"WHERE IFNULL(status, '') != '' GROUP BY status",
+		"SELECT micro_status, COUNT(*) as cnt FROM `tabContact` "
+		"WHERE IFNULL(micro_status, '') != '' GROUP BY micro_status",
 		as_dict=True,
 	):
-		customers_by_status[row.status] = row.cnt
+		customers_by_status[row.micro_status] = row.cnt
 
 	customers_by_source = {}
 	for row in frappe.db.sql(
-		"SELECT COALESCE(NULLIF(source, ''), 'Unknown') as source, COUNT(*) as cnt "
-		"FROM `tabMicro Customer` GROUP BY source",
+		"SELECT COALESCE(NULLIF(micro_source, ''), 'Unknown') as source, COUNT(*) as cnt "
+		"FROM `tabContact` WHERE IFNULL(micro_status, '') != '' GROUP BY source",
 		as_dict=True,
 	):
 		customers_by_source[row.source] = row.cnt
@@ -89,9 +95,10 @@ def _get_recent_activity(limit: int = 10) -> list[dict]:
 
 	activity = []
 
-	# Micro customers
+	# Customers, which are Contacts that Micro has a status for.
 	customers = frappe.get_all(
-		"Micro Customer",
+		"Contact",
+		filters={"micro_status": ["is", "set"]},
 		fields=["name", "full_name as label", "modified"],
 		order_by="modified desc",
 		limit_page_length=3,
@@ -99,7 +106,7 @@ def _get_recent_activity(limit: int = 10) -> list[dict]:
 	for doc in customers:
 		activity.append(
 			{
-				"doctype": "Micro Customer",
+				"doctype": "Contact",
 				"name": doc.name,
 				"label": doc.label or doc.name,
 				"modified": str(doc.modified),

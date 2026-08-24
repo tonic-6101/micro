@@ -191,8 +191,22 @@ def update_contact_health_score(contact_name: str, revenues: dict[str, float] | 
 # Hooks — triggered by doc_events in hooks.py
 # ---------------------------------------------------------------------------
 
+def skip_health_score_recalc() -> bool:
+	"""Whether to leave the score alone for now.
+
+	A bulk import saves thousands of contacts in a row and would enqueue one job
+	per contact. Past ~550 pending jobs Frappe refuses to accept more, and then
+	the inserts themselves start failing. The nightly scheduler recalculates
+	every score anyway, so during an import this can wait.
+	"""
+	return bool(frappe.flags.get("micro_bulk_import"))
+
+
 def on_related_doc_update(doc, method):
 	"""Recalculate health score when an offer/invoice draft is saved."""
+	if skip_health_score_recalc():
+		return
+
 	contact = getattr(doc, "contact", None)
 	if contact and frappe.db.get_value("Contact", contact, "micro_status"):
 		frappe.enqueue(
@@ -206,6 +220,9 @@ def on_related_doc_update(doc, method):
 
 def on_note_update(doc, method):
 	"""Recalculate health score when a note is saved (scope change signal)."""
+	if skip_health_score_recalc():
+		return
+
 	contact = getattr(doc, "contact", None)
 	if contact and frappe.db.get_value("Contact", contact, "micro_status"):
 		frappe.enqueue(
@@ -219,6 +236,8 @@ def on_note_update(doc, method):
 
 def on_contact_update(doc, method):
 	"""Recalculate when referred_by changes (affects the referrer's score)."""
+	if skip_health_score_recalc():
+		return
 	if not doc.micro_status:
 		return
 	# Recalculate this contact's score

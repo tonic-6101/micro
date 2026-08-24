@@ -200,10 +200,12 @@ def get_annual_wrapped(year: int | str, force: bool | str = False) -> dict:
 		or 0
 	)
 
-	# New clients created this year
+	# New clients created this year. Customers are Contacts carrying a
+	# `micro_status`; the rest of the address book is not a client.
 	new_clients = frappe.db.count(
-		"Micro Customer",
+		"Contact",
 		filters={
+			"micro_status": ["is", "set"],
 			"creation": ["between", [f"{year_start} 00:00:00", f"{year_end} 23:59:59"]],
 		},
 	)
