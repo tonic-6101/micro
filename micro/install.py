@@ -53,6 +53,7 @@ def setup_defaults():
 
 		if not frappe.db.exists("Micro Settings"):
 			settings = frappe.new_doc("Micro Settings")
+			settings.company_name = "My Business"
 			settings.default_currency = "EUR"
 			settings.default_language = "de"
 			settings.customer_limit = 100
