@@ -1,3 +1,4 @@
+A typed name is only text. Pick an organization to link them properly.,"Ein eingegebener Name ist nur Text. Wählen Sie eine Organisation, um sie richtig zu verknüpfen."
 Active,Aktiv
 Active Leads,Aktive Leads
 Additional notes...,Zusätzliche Notizen...
@@ -16,7 +17,9 @@ Business organizer for micro businesses,Geschäftsorganizer für Kleinstunterneh
 Cancel,Abbrechen
 Cancelled,Abgebrochen
 Category,Kategorie
+Change,Ändern
 City,Ort
+Clear the field and save to detach them.,"Feld leeren und speichern, um die Zuordnung aufzuheben."
 Company Address,Firmenadresse
 Company Email,Firmen-E-Mail
 Company Information,Firmeninformationen
@@ -60,6 +63,11 @@ Export now,Jetzt exportieren
 Export to Tax Advisor,Export an Steuerberater
 Failed to create customer,Kunde konnte nicht erstellt werden
 Failed to load customer,Kunde konnte nicht geladen werden
+Failed to update customer,Kunde konnte nicht aktualisiert werden
+Classification,Einordnung
+Organization Name,Firmenname
+Street Address,Straße
+What is worth remembering about this contact...,Was über diesen Kontakt erinnerungswürdig ist...
 Failed to load customers. Please try again.,Kunden konnten nicht geladen werden. Bitte erneut versuchen.
 Filters,Filter
 First Name,Vorname
@@ -83,6 +91,7 @@ Items,Positionen
 just now,gerade eben
 Language,Sprache
 Last Name,Nachname
+Link,Verknüpfen
 Loading...,Wird geladen...
 lost,verloren
 Lost,Verloren
@@ -106,8 +115,10 @@ No customers yet,Noch keine Kunden
 No customers match your search,Keine Kunden entsprechen Ihrer Suche
 No invoice drafts found,Keine Rechnungsentwürfe gefunden
 No offer drafts found,Keine Angebotsentwürfe gefunden
+No organization linked.,Keine Organisation verknüpft.
 No receipts found,Keine Belege gefunden
 No recent activity,Keine aktuelle Aktivität
+Nobody is linked to this organization yet.,Dieser Organisation ist noch niemand zugeordnet.
 Notes,Notizen
 Notes for Client,Notizen für Kunden
 Offer,Angebot
@@ -120,6 +131,7 @@ Organization,Organisation
 Organization name,Name der Organisation
 Other,Sonstiges
 Page,Seite
+People,Personen
 Person,Person
 Phone,Telefon
 Potential,Potenziell
@@ -226,7 +238,7 @@ Good capacity — room for one more project,Gute Kapazität — Platz für ein w
 Nearly full — consider queuing new work for next month,"Fast voll — erwägen Sie, neue Arbeit für nächsten Monat einzuplanen"
 Overcommitted — consider adjusting a timeline or raising your rate for new inquiries,"Überbucht — erwägen Sie, einen Zeitplan anzupassen oder Ihren Satz für neue Anfragen zu erhöhen"
 ~{hours}h available this month,~{hours}h verfügbar diesen Monat
-"You're at {pct}% capacity this month. Consider a later start date or adjusting your rate.","Sie sind diesen Monat bei {pct}% Kapazität. Erwägen Sie einen späteren Starttermin oder passen Sie Ihren Satz an."
+You're at {pct}% capacity this month. Consider a later start date or adjusting your rate.,Sie sind diesen Monat bei {pct}% Kapazität. Erwägen Sie einen späteren Starttermin oder passen Sie Ihren Satz an.
 Billable hours you aim for per month (40–200),"Abrechnungsfähige Stunden, die Sie pro Monat anstreben (40–200)"
 Client Portfolio,Kundenportfolio
 Contact is not a Micro customer,Kontakt ist kein Micro-Kunde
@@ -242,7 +254,7 @@ Recalculate All,Alle neu berechnen
 Referred By,Empfohlen von
 Referrals,Empfehlungen
 Scope Change,Umfangsänderung
-"Tag this note as a scope change for health score calculation","Diese Notiz als Umfangsänderung für die Gesundheitsbewertung markieren"
+Tag this note as a scope change for health score calculation,Diese Notiz als Umfangsänderung für die Gesundheitsbewertung markieren
 Your A-clients represent {pct}% of your revenue but only {contact_pct}% of your contacts. Focusing here is likely your highest-leverage move.,"Ihre A-Kunden machen {pct}% Ihres Umsatzes aus, aber nur {contact_pct}% Ihrer Kontakte. Hier zu fokussieren ist vermutlich Ihr größter Hebel."
 referral,Empfehlung
 referrals,Empfehlungen
@@ -252,9 +264,9 @@ Dismiss,Schließen
 Got it,Verstanden
 Pipeline this month,Pipeline diesen Monat
 Project value,Projektwert
-"That's a real business moment — someone is reading your offer right now.","Das ist ein echter Geschäftsmoment — jemand liest gerade Ihr Angebot."
+That's a real business moment — someone is reading your offer right now.,Das ist ein echter Geschäftsmoment — jemand liest gerade Ihr Angebot.
 "We'll remind you to follow up in 5 days if you haven't heard back. In the meantime, the work is done.","Wir erinnern Sie in 5 Tagen an ein Follow-up, falls Sie nichts gehört haben. Die Arbeit ist vorerst getan."
-"We'll remind you to follow up on next steps in 3 days.","Wir erinnern Sie in 3 Tagen an die nächsten Schritte."
+We'll remind you to follow up on next steps in 3 days.,Wir erinnern Sie in 3 Tagen an die nächsten Schritte.
 Your first offer is out in the world.,Ihr erstes Angebot ist draußen in der Welt.
 your best month to date,Ihr bester Monat bisher
 Mark as Sent,Als gesendet markieren
@@ -268,7 +280,7 @@ New clients,Neue Kunden
 Projects delivered,Projekte abgeschlossen
 Best month,Bester Monat
 Top client,Top-Kunde
-"You grew {0}% vs. {1}.","Sie sind {0}% gewachsen im Vergleich zu {1}."
+You grew {0}% vs. {1}.,Sie sind {0}% gewachsen im Vergleich zu {1}.
 powered by Micro,powered by Micro
 Share as Image,Als Bild teilen
 January,Januar
@@ -283,3 +295,243 @@ September,September
 October,Oktober
 November,November
 December,Dezember
+Call List,Anrufliste
+Segment,Segment
+Segment Name,Segmentname
+Classifieds,Kleinanzeigen
+All segments,Alle Segmente
+All sources,Alle Quellen
+Any priority,Beliebige Priorität
+Due today,Heute fällig
+Clear filters,Filter zurücksetzen
+Edit Pipelines,Pipelines bearbeiten
+Create pipeline,Pipeline anlegen
+No pipeline configured,Keine Pipeline konfiguriert
+Add stage,Stufe hinzufügen
+No leads,Keine Leads
+leads,Leads
+Due,Fällig
+Follow-up,Wiedervorlage
+to work through,abzuarbeiten
+overdue,überfällig
+Include leads without a follow-up date,Leads ohne Wiedervorlagedatum einbeziehen
+Nothing due today.,Heute ist nichts fällig.
+Enjoy the quiet — or pick up the pipeline board.,Genieße die Ruhe — oder schau auf das Pipeline-Board.
+Last note,Letzte Notiz
+No phone number,Keine Telefonnummer
+Tomorrow,Morgen
+In a week,In einer Woche
+In a month,In einem Monat
+Open lead,Lead öffnen
+Lead not found,Lead nicht gefunden
+Please record why this lead was lost.,"Bitte festhalten, warum dieser Lead verloren ging."
+A stage cannot be both a win stage and a loss stage.,Eine Stufe kann nicht gleichzeitig Gewinn- und Verluststufe sein.
+Pipeline Limit,Pipeline-Limit
+Edit Pipeline,Pipeline bearbeiten
+New pipeline,Neue Pipeline
+Pipeline Name,Pipeline-Name
+No segment,Kein Segment
+Open this pipeline by default,Diese Pipeline standardmäßig öffnen
+Show in the tab bar,In der Tab-Leiste anzeigen
+Stages,Stufen
+New stage name,Name der neuen Stufe
+Delete,Löschen
+Create,Anlegen
+Save,Speichern
+Move and delete,Verschieben und löschen
+leads are in this stage. Move them to:,Leads sind in dieser Stufe. Verschieben nach:
+Delete pipeline,Pipeline löschen
+"Yes, delete permanently","Ja, endgültig löschen"
+This pipeline has no leads and can be removed.,Diese Pipeline hat keine Leads und kann entfernt werden.
+"leads are still in this pipeline — uncheck ""Show in the tab bar"" to hide it without losing history.","Leads liegen noch in dieser Pipeline — hake ""In der Tab-Leiste anzeigen"" ab, um sie ohne Datenverlust auszublenden."
+One pipeline per repeatable process — different stages mean a different pipeline.,Eine Pipeline pro wiederkehrendem Prozess — andere Stufen bedeuten eine andere Pipeline.
+A pipeline named {0} already exists.,Eine Pipeline namens {0} existiert bereits.
+Leads can only be moved to a stage of the same pipeline.,Leads können nur in eine Stufe derselben Pipeline verschoben werden.
+Unknown stage outcome: {0},Unbekannter Stufen-Ausgang: {0}
+Gray,Grau
+Blue,Blau
+Green,Grün
+Yellow,Gelb
+Orange,Orange
+Red,Rot
+Purple,Lila
+Pink,Rosa
+Clear,Entfernen
+Search contacts...,Kontakte suchen...
+No contacts found,Keine Kontakte gefunden
+New contact,Neuer Kontakt
+New Lead,Neuer Lead
+New lead,Neuer Lead
+New lead in this stage,Neuer Lead in dieser Stufe
+Lead Name,Lead-Name
+Lead name is required,Lead-Name ist erforderlich
+What is this deal about?,Worum geht es bei diesem Deal?
+Lands in,Landet in
+Lands in the first open stage of this pipeline.,Landet in der ersten offenen Stufe dieser Pipeline.
+Not set,Nicht gesetzt
+Creating...,Wird angelegt...
+Failed to create lead,Lead konnte nicht erstellt werden
+Failed to update lead,Lead konnte nicht aktualisiert werden
+Contact,Kontakt
+Add contact,Kontakt hinzufügen
+Change contact,Kontakt ändern
+Rename lead,Lead umbenennen
+Edit notes,Notizen bearbeiten
+Click to add...,Zum Hinzufügen klicken...
+Click to set...,Zum Setzen klicken...
+"What was said, what was agreed, what comes next...","Was wurde besprochen, was wurde vereinbart, wie geht es weiter..."
+Lost Reason,Verlustgrund
+Stage,Stufe
+Back to Leads,Zurück zu Leads
+Restore,Wiederherstellen
+Delete for good?,Endgültig löschen?
+Failed to restore lead,Lead konnte nicht wiederhergestellt werden
+Failed to delete lead,Lead konnte nicht gelöscht werden
+Leads,Leads
+Pipeline View,Pipeline-Ansicht
+Search leads...,Leads suchen...
+No leads yet,Noch keine Leads
+Trash,Papierkorb
+Move to trash,In den Papierkorb
+In trash,Im Papierkorb
+leads in the trash,Leads im Papierkorb
+The trash is empty,Der Papierkorb ist leer
+Search organizations...,Organisationen suchen...
+Search trash...,Papierkorb durchsuchen...
+Leads in the trash are off every board and list. Restore one to put it back where it was.,"Leads im Papierkorb sind auf keinem Board und in keiner Liste. Stelle einen wieder her, um ihn zurückzuholen."
+This lead is in the trash — it is hidden from the board and the lists. Restore it to make changes.,"Dieser Lead liegt im Papierkorb — er ist auf dem Board und in den Listen ausgeblendet. Stelle ihn wieder her, um ihn zu bearbeiten."
+Failed to move lead to trash,Lead konnte nicht in den Papierkorb verschoben werden
+Import,Import
+Import Contacts,Kontakte importieren
+Load contacts from a CSV or JSONL file. Financial documents are not imported.,Kontakte aus einer CSV- oder JSONL-Datei laden. Finanzdokumente werden nicht importiert.
+File,Datei
+rows,Zeilen
+unreadable lines skipped,unlesbare Zeilen übersprungen
+No rows found in this file,Keine Zeilen in dieser Datei gefunden
+Could not read this file,Datei konnte nicht gelesen werden
+Map columns,Spalten zuordnen
+Not imported,Nicht importiert
+Map a column to Name before importing.,Ordne dem Feld Name eine Spalte zu.
+Options,Optionen
+Find duplicates by,Dubletten finden über
+Do not check,Nicht prüfen
+On duplicate,Bei Dublette
+Skip,Überspringen
+Fill in blanks,Leere Felder ergänzen
+Also create a lead for every row — new and existing contacts,Für jede Zeile auch einen Lead anlegen — neue und bestehende Kontakte
+leads added,Leads angelegt
+No customer limit on this site.,Kein Kundenlimit auf dieser Instanz.
+customers used,Kunden belegt
+slots left,Plätze frei
+This file has more rows than you have slots left. The import will stop when the limit is reached.,Diese Datei hat mehr Zeilen als freie Plätze. Der Import stoppt beim Erreichen des Limits.
+Importing...,Importiere...
+Import failed,Import fehlgeschlagen
+created,angelegt
+updated,aktualisiert
+skipped as duplicates,als Dublette übersprungen
+failed,fehlgeschlagen
+Stopped: the customer limit was reached.,Gestoppt: Das Kundenlimit wurde erreicht.
+Rows that failed,Fehlgeschlagene Zeilen
+Row,Zeile
+View contacts,Kontakte ansehen
+"Address (street, postcode city)","Adresse (Straße, PLZ Ort)"
+Street,Straße
+Community Edition,Community Edition
+Showing,Zeige
+of,von
+fields left empty (too long),Felder zu lang und leer gelassen
+No pipeline,Keine Pipeline
+closed,abgeschlossen
+All Pipelines,Alle Pipelines
+Never in it,Noch nie darin
+Open in it,Aktuell darin offen
+Ever in it,Schon einmal darin
+Already in this pipeline,Bereits in dieser Pipeline
+Not in any pipeline yet. Add this contact to a pipeline from the board.,Noch in keiner Pipeline. Füge diesen Kontakt über das Board einer Pipeline hinzu.
+"{0} already has an open lead in this pipeline: {1}. Close that one first, or work it instead.",{0} hat in dieser Pipeline bereits einen offenen Lead: {1}. Schließe diesen zuerst ab oder arbeite ihn weiter.
+All,Alle
+Typed by hand — not linked to an organization record.,Manuell eingegeben – nicht mit einem Organisationsdatensatz verknüpft.
+Uncategorised,Ohne Kategorie
+All Tags,Alle Tags
+Clear all,Alle zurücksetzen
+Tag,Tag
+Tag name,Tag-Name
+Remove tag,Tag entfernen
+Create a category,Kategorie anlegen
+Enter a tag.,Bitte einen Tag eingeben.
+Search leads,Leads suchen
+Clear search,Suche zurücksetzen
+"No leads match ""{term}"".",Keine Leads passen zu „{term}“.
+"Won and lost leads sit in closed stages — tick ""Show closed stages"" to search those too.","Gewonnene und verlorene Leads liegen in abgeschlossenen Stufen — aktiviere „Abgeschlossene Stufen anzeigen“, um auch dort zu suchen."
+The name of this deal. Imported leads take the name of the company or person they came from — click it to rename.,"Der Name dieses Geschäfts. Importierte Leads übernehmen den Namen der Firma oder Person, aus der sie stammen — zum Umbenennen anklicken."
+"The person or organization this deal is about. One contact can run through several pipelines at once, which is why leads and contacts are kept apart.","Die Person oder Organisation, um die es in diesem Geschäft geht. Ein Kontakt kann gleichzeitig in mehreren Pipelines laufen — deshalb sind Leads und Kontakte getrennt."
+Where the deal stands in its pipeline. Moving it to a won or lost stage closes the lead and sets its status.,"Wo das Geschäft in seiner Pipeline steht. In eine Gewonnen- oder Verloren-Stufe verschoben, wird der Lead geschlossen und sein Status gesetzt."
+"Open, Won or Lost — this follows from the stage rather than being set by hand. Leads in the trash read ""In trash"".","Offen, Gewonnen oder Verloren — ergibt sich aus der Stufe, wird nicht von Hand gesetzt. Leads im Papierkorb zeigen „Im Papierkorb“."
+How urgently this deal needs you. High and Low show as a badge on the board card; Medium stays quiet.,Wie dringend dieses Geschäft dich braucht. Hoch und Niedrig erscheinen als Kennzeichen auf der Board-Karte; Mittel bleibt unauffällig.
+"Where the lead came from — an import, an ad, a referral. This is what tells you later which channels are worth the money.","Woher der Lead kam — Import, Anzeige, Empfehlung. Daran erkennst du später, welche Kanäle ihr Geld wert sind."
+"The day you mean to get back in touch. Today or earlier puts the lead in the call list and in the board's ""Due today"" filter.","Der Tag, an dem du dich wieder melden willst. Heute oder früher bringt den Lead in die Anrufliste und in den Board-Filter „Heute fällig“."
+"Why the deal fell through. Asked for when a lead lands in a lost stage, and worth writing plainly — it is the only record of why.","Warum das Geschäft geplatzt ist. Wird abgefragt, sobald ein Lead in einer Verloren-Stufe landet — schreib es klar auf, es ist die einzige Spur."
+"What was said, what was agreed, what comes next. Free text, kept on the lead rather than on the contact.","Was besprochen wurde, was vereinbart wurde, wie es weitergeht. Freitext, am Lead gespeichert und nicht am Kontakt."
+"The person's first name. For an organization, this holds the full company name.",Der Vorname der Person. Bei einer Organisation steht hier der vollständige Firmenname.
+The person's surname. Left empty for organizations.,Der Nachname der Person. Bei Organisationen bleibt das Feld leer.
+The company this contact writes under. Shown on the board card when it differs from the lead name.,"Die Firma, unter der dieser Kontakt auftritt. Erscheint auf der Board-Karte, wenn sie vom Lead-Namen abweicht."
+The main address for this contact. Offers and invoices go here.,Die Hauptadresse dieses Kontakts. Angebote und Rechnungen gehen hierhin.
+The landline. The call list dials whichever number is set.,"Das Festnetz. Die Anrufliste wählt die Nummer, die gesetzt ist."
+The mobile number. Preferred over the landline on board cards and in the call list.,Die Mobilnummer. Sie hat auf Board-Karten und in der Anrufliste Vorrang vor dem Festnetz.
+The contact's website — handy before a first call.,Die Website des Kontakts — nützlich vor dem ersten Anruf.
+Street and house number. Printed on offers and invoices.,Straße und Hausnummer. Erscheint auf Angeboten und Rechnungen.
+"Postal code, printed on documents and used to group contacts by area.","Postleitzahl, erscheint auf Dokumenten und gruppiert Kontakte nach Gebiet."
+"City, printed on documents and used to group contacts by area.","Ort, erscheint auf Dokumenten und gruppiert Kontakte nach Gebiet."
+"Country, printed on documents. Matters for VAT on invoices.","Land, erscheint auf Dokumenten. Für die Umsatzsteuer auf Rechnungen entscheidend."
+"Where the relationship stands overall: Potential, Active or Inactive. This describes the contact, not any single deal.","Wie die Beziehung insgesamt steht: Potenziell, Aktiv oder Inaktiv. Beschreibt den Kontakt, nicht ein einzelnes Geschäft."
+"How this contact first reached you. The deal has its own source, which may differ.","Wie dieser Kontakt ursprünglich zu dir kam. Das Geschäft hat eine eigene Quelle, die abweichen kann."
+Durable target group — independent of the pipeline stage of any single deal.,Dauerhafte Zielgruppe — unabhängig von der Pipeline-Stufe eines einzelnen Geschäfts.
+The organization this person belongs to. Documents are addressed to the organization; the conversation belongs to the person.,"Die Organisation, zu der diese Person gehört. Dokumente gehen an die Organisation; das Gespräch gehört der Person."
+Person or Organization. Organizations are addressed by company name; people carry a first and last name.,"Person oder Organisation. Organisationen werden mit Firmennamen angesprochen, Personen haben Vor- und Nachnamen."
+"Mirror of the contact's most recent open lead. The pipeline board reads Micro Lead — edit the lead, not this field.","Spiegel des zuletzt offenen Leads dieses Kontakts. Das Pipeline-Board liest Micro Lead — bearbeite den Lead, nicht dieses Feld."
+Anything worth remembering about this contact that has no field of its own.,"Alles Erwähnenswerte zu diesem Kontakt, für das es kein eigenes Feld gibt."
+What this client values — bring it up and the conversation goes easier.,"Worauf dieser Kunde Wert legt — sprich es an, und das Gespräch läuft leichter."
+"How this client likes to be approached: short and factual, or with time to talk.",Wie dieser Kunde angesprochen werden möchte: kurz und sachlich oder mit Zeit zum Reden.
+Show only leads whose follow-up date is today or already past.,"Zeigt nur Leads, deren Wiedervorlage heute oder bereits vorbei ist."
+"Also show the won and lost stages, which the board hides by default.","Zeigt zusätzlich die Gewonnen- und Verloren-Stufen, die das Board sonst ausblendet."
+"Finds a lead by its own name, or by the contact on the card — name, company, email or phone.","Findet einen Lead über seinen eigenen Namen oder über den Kontakt auf der Karte — Name, Firma, E-Mail oder Telefon."
+"What the deal is worth in euros if it is won — never negative, and capped so a slipped zero cannot distort the board totals. Raise the ceiling under Micro Settings → Max Expected Value. A guess is better than nothing.","Was das Geschäft in Euro wert ist, wenn es gewonnen wird — nie negativ und nach oben begrenzt, damit eine verrutschte Null die Board-Summen nicht verfälscht. Die Obergrenze änderst du unter Micro-Einstellungen → Max. erwarteter Wert. Eine Schätzung ist besser als nichts."
+Expected value cannot be negative — a deal is worth nothing at worst.,Der erwartete Wert kann nicht negativ sein — ein Geschäft ist schlimmstenfalls nichts wert.
+Expected value must be between {0} and {1}. Raise the ceiling in Micro Settings if this deal really is that big.,"Der erwartete Wert muss zwischen {0} und {1} liegen. Ist das Geschäft wirklich so groß, erhöhe die Obergrenze in den Micro-Einstellungen."
+Check the amount,Betrag prüfen
+Max Expected Value,Max. erwarteter Wert
+selected,ausgewählt
+Clear selection,Auswahl aufheben
+Remove from Micro,Aus Micro entfernen
+"Stops being a customer and frees a slot under your limit. Every document stays, and the contacts remain available to your other apps. You can add them back later.","Hört auf, Kunde zu sein, und gibt einen Platz unter Ihrem Limit frei. Alle Dokumente bleiben erhalten, und die Kontakte bleiben für Ihre anderen Apps verfügbar. Sie können sie später wieder hinzufügen."
+Removing...,Wird entfernt...
+Delete permanently,Endgültig löschen
+"Erases the contact records themselves. This cannot be undone. Any customer with documents that have to be kept is skipped, and reported once the rest are done.","Löscht die Kontaktdatensätze selbst. Dies kann nicht rückgängig gemacht werden. Kunden mit Dokumenten, die aufbewahrt werden müssen, werden übersprungen und nach Abschluss der übrigen gemeldet."
+Deleting...,Wird gelöscht...
+customers erased,Kunden endgültig gelöscht
+customers removed from Micro,Kunden aus Micro entfernt
+skipped:,übersprungen:
+Done,Fertig
+Monday,Montag
+Tuesday,Dienstag
+Wednesday,Mittwoch
+Thursday,Donnerstag
+Friday,Freitag
+Saturday,Samstag
+Sunday,Sonntag
+Morning (6–12),Morgens (6–12 Uhr)
+Midday (12–14),Mittags (12–14 Uhr)
+Afternoon (14–18),Nachmittags (14–18 Uhr)
+Evening (18–21),Abends (18–21 Uhr)
+Other times,Andere Zeiten
+Reached,Erreicht
+No Answer,Keine Antwort
+Voicemail,Mailbox
+Busy,Besetzt
+Wrong Number,Falsche Nummer
+Call Attempts,Anrufversuche
+Logging...,Wird protokolliert...
+Could not log this call,Dieser Anruf konnte nicht protokolliert werden
+Best time to reach:,Beste Erreichbarkeit:
+Reached {reached} of {attempts} times in this slot,In diesem Zeitfenster {reached} von {attempts} Mal erreicht
+Not enough of a pattern yet — keep logging attempts.,Noch kein klares Muster erkennbar — weiter Anrufversuche protokollieren.
