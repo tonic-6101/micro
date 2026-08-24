@@ -93,12 +93,10 @@ class TestMicroContact(FrappeTestCase):
 
 	# --- Pipeline stage ---
 
-	def test_default_pipeline_stage(self):
-		"""New Micro contacts get first pipeline stage by default."""
+	def test_contact_has_no_pipeline_stage_without_lead(self):
+		"""Pipeline position belongs to Micro Lead — a bare contact has none."""
 		customer = self._make_customer(email_id="pipeline@example.com")
-		# Should have been auto-set if pipeline stages exist
-		if frappe.db.count("Micro Pipeline Stage"):
-			self.assertTrue(customer.micro_pipeline_stage)
+		self.assertFalse(customer.micro_pipeline_stage)
 
 	# --- Community limit ---
 

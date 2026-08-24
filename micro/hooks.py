@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026 Tonic
 
+from micro.constants import MICRO_SOURCE_OPTIONS
+
 app_name = "micro"
 app_title = "Micro"
 app_publisher = "Tonic"
@@ -17,7 +19,7 @@ required_apps = ["frappe", "dock", "watch", "orga"]
 add_to_apps_screen = [
 	{
 		"name": "micro",
-		"logo": "/assets/micro/logo.png",
+		"logo": "/assets/micro/images/favicon.svg",
 		"title": "Micro",
 		"route": "/micro",
 	}
@@ -46,6 +48,7 @@ website_route_rules = [
 # ------------
 
 after_install = "micro.install.after_install"
+after_migrate = "micro.install.after_migrate"
 
 # Uninstallation
 # ------------
@@ -103,19 +106,31 @@ custom_fields = {
 			"fieldtype": "Link",
 			"label": "Pipeline Stage",
 			"options": "Micro Pipeline Stage",
+			"description": "Mirror of the contact's most recent open lead. The pipeline board reads Micro Lead — edit the lead, not this field.",
 			"insert_after": "micro_status",
+			"read_only": 1,
 		},
 		{
 			"fieldname": "micro_source",
 			"fieldtype": "Select",
 			"label": "Acquisition Source",
-			"options": "\nManual\nGoogle Ads\nFacebook\nInstagram\nLinkedIn\nEmail Campaign\nCold Call\nWeb Form\nOrganic Search\nReferral\nPartner\nEvent\nImport\nOther",
+			"options": MICRO_SOURCE_OPTIONS,
 			"insert_after": "micro_pipeline_stage",
+			"in_standard_filter": 1,
+		},
+		{
+			"fieldname": "micro_segment",
+			"fieldtype": "Link",
+			"label": "Segment",
+			"options": "Micro Segment",
+			"description": "Durable target group — independent of the pipeline stage of any single deal.",
+			"insert_after": "micro_source",
+			"in_standard_filter": 1,
 		},
 		{
 			"fieldname": "micro_crm_column",
 			"fieldtype": "Column Break",
-			"insert_after": "micro_source",
+			"insert_after": "micro_segment",
 		},
 		{
 			"fieldname": "micro_contact_type",
@@ -125,10 +140,20 @@ custom_fields = {
 			"insert_after": "micro_crm_column",
 		},
 		{
+			"fieldname": "micro_organization",
+			"fieldtype": "Link",
+			"label": "Organization",
+			"options": "Contact",
+			"description": "The organization this person belongs to. Documents are addressed to the organization; the conversation belongs to the person.",
+			"insert_after": "micro_contact_type",
+			"depends_on": "eval:doc.micro_contact_type=='Person'",
+			"in_standard_filter": 1,
+		},
+		{
 			"fieldname": "micro_website",
 			"fieldtype": "Data",
 			"label": "Website",
-			"insert_after": "micro_contact_type",
+			"insert_after": "micro_organization",
 		},
 		{
 			"fieldname": "micro_notes",
@@ -308,6 +333,7 @@ scheduler_events = {
 	"daily": [
 		"micro.services.health_score.recalculate_all_scores",
 		"micro.services.nudges.send_nudge_notifications",
+		"micro.api.duplicates.scan_for_duplicates",
 	],
 }
 

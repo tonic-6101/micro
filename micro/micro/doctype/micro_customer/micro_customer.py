@@ -5,6 +5,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from micro.limits import DEFAULT_CUSTOMER_LIMIT, get_limit
+
 
 class MicroCustomer(Document):
 	"""Micro's standalone CRM record.
@@ -63,9 +65,8 @@ class MicroCustomer(Document):
 				self.pipeline_stage = first_stage
 
 	def check_community_limit(self):
-		"""Enforce customer limit for Community edition."""
-		settings = frappe.get_single("Micro Settings")
-		limit = settings.customer_limit or 100
+		"""Enforce customer limit for Community edition. 0 = unlimited."""
+		limit = get_limit("customer_limit", DEFAULT_CUSTOMER_LIMIT)
 		if limit > 0:
 			count = frappe.db.count("Micro Customer")
 			if count >= limit:

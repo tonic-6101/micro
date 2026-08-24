@@ -7,9 +7,25 @@ import frappe
 def after_install():
 	"""Set up defaults after Micro is installed."""
 	create_roles()
+	sync_custom_fields()
 	setup_defaults()
 	seed_default_pipeline()
 	seed_pipeline_stages()
+
+
+def after_migrate():
+	"""Frappe does not apply the `custom_fields` hook by itself — we must."""
+	sync_custom_fields()
+
+
+def sync_custom_fields():
+	"""Create/update the Micro CRM fields on Frappe Contact."""
+	from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+	from micro.hooks import custom_fields
+
+	create_custom_fields(custom_fields, update=True)
+	frappe.db.commit()
 
 
 def create_roles():

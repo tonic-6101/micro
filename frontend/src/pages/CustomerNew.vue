@@ -3,10 +3,12 @@
   Copyright (C) 2026 Tonic
 -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { createResource } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
+import ContactPicker from '@/components/ContactPicker.vue'
+import type { DuplicateMatch } from '@/types/micro'
 
 const router = useRouter()
 
@@ -16,6 +18,7 @@ const form = ref({
   contact_type: 'Person' as 'Person' | 'Organization',
   status: 'Potential' as 'Potential' | 'Active' | 'Inactive',
   organization: '',
+  organization_contact: '',
   email: '',
   phone: '',
   mobile: '',
@@ -30,6 +33,7 @@ const form = ref({
 
 const error = ref('')
 const submitting = ref(false)
+const organizationLabel = ref('')
 
 const isPerson = computed(() => form.value.contact_type === 'Person')
 
@@ -38,6 +42,56 @@ const isValid = computed(() => {
   if (isPerson.value && !form.value.last_name.trim()) return false
   return true
 })
+
+// Warn before the save, never block it. A solo business owner who is told "no"
+// by their own CRM has nobody to appeal to — and sometimes two people really do
+// share a name.
+const duplicateHint = ref<DuplicateMatch[]>([])
+const hintDismissed = ref(false)
+let checkTimer: ReturnType<typeof setTimeout> | undefined
+
+const duplicateCheck = createResource({
+  url: 'micro.api.duplicates.check_duplicates',
+  onSuccess(data: { matches: DuplicateMatch[] }) {
+    // Only the confident bands are worth interrupting someone mid-form for.
+    duplicateHint.value = data.matches.filter((match) => match.band === 'Certain' || match.band === 'Likely')
+  },
+  onError() {
+    duplicateHint.value = []
+  },
+})
+
+watch(
+  () => [form.value.first_name, form.value.last_name, form.value.email, form.value.phone, form.value.organization],
+  () => {
+    hintDismissed.value = false
+    clearTimeout(checkTimer)
+
+    const hasEnough =
+      form.value.email.trim() || form.value.phone.trim() || form.value.first_name.trim().length >= 3
+    if (!hasEnough) {
+      duplicateHint.value = []
+      return
+    }
+
+    checkTimer = setTimeout(() => {
+      duplicateCheck.submit({
+        first_name: form.value.first_name.trim() || undefined,
+        last_name: form.value.last_name.trim() || undefined,
+        email: form.value.email.trim() || undefined,
+        phone: form.value.phone.trim() || undefined,
+        mobile: form.value.mobile.trim() || undefined,
+        organization: form.value.organization.trim() || organizationLabel.value || undefined,
+        contact_type: form.value.contact_type,
+        postal_code: form.value.postal_code.trim() || undefined,
+        address: form.value.address.trim() || undefined,
+        website: form.value.website.trim() || undefined,
+      })
+    }, 400)
+  },
+)
+
+onUnmounted(() => clearTimeout(checkTimer))
 
 const createCustomer = createResource({
   url: 'micro.api.customers.create_customer',
@@ -74,7 +128,8 @@ function submit() {
   if (form.value.phone.trim()) params.phone = form.value.phone.trim()
   if (form.value.mobile.trim()) params.mobile = form.value.mobile.trim()
   if (form.value.website.trim()) params.website = form.value.website.trim()
-  if (form.value.organization.trim()) params.organization = form.value.organization.trim()
+  if (form.value.organization_contact) params.organization_contact = form.value.organization_contact
+  else if (form.value.organization.trim()) params.organization = form.value.organization.trim()
   if (form.value.source) params.source = form.value.source
   if (form.value.address.trim()) params.address = form.value.address.trim()
   if (form.value.city.trim()) params.city = form.value.city.trim()
@@ -135,6 +190,40 @@ const statuses = ['Potential', 'Active', 'Inactive']
       <p class="text-sm text-red-700">{{ error }}</p>
     </div>
 
+    <!-- Possible duplicate, found while typing -->
+    <div
+      v-if="duplicateHint.length && !hintDismissed"
+      class="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4"
+    >
+      <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-amber-900">
+            {{ __('This contact may already exist') }}
+          </p>
+          <ul class="mt-2 space-y-2">
+            <li v-for="match in duplicateHint" :key="match.contact.name" class="text-sm">
+              <router-link
+                :to="`/micro/customers/${match.contact.name}`"
+                class="font-medium text-amber-900 underline hover:text-amber-700"
+              >
+                {{ match.contact.full_name || match.contact.name }}
+              </router-link>
+              <span class="text-amber-800">
+                · {{ [match.contact.email_id, match.contact.phone].filter(Boolean).join(' · ') }}
+              </span>
+              <span class="block text-xs text-amber-700">{{ match.reasons.join(' · ') }}</span>
+            </li>
+          </ul>
+        </div>
+        <button
+          class="shrink-0 text-xs font-medium text-amber-900 underline hover:text-amber-700"
+          @click="hintDismissed = true"
+        >
+          {{ __('Create anyway') }}
+        </button>
+      </div>
+    </div>
+
     <!-- Form -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       <!-- Basic Info -->
@@ -193,16 +282,29 @@ const statuses = ['Potential', 'Active', 'Inactive']
             />
           </div>
 
+          <!-- Pick the organization record when there is one, so the person is
+               really attached to it; otherwise the typed name is kept as before. -->
           <div v-if="isPerson">
             <label class="mb-1 block text-sm font-medium text-gray-700">
               {{ __('Organization') }}
             </label>
-            <input
-              v-model="form.organization"
-              type="text"
-              :placeholder="__('Organization name')"
-              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+            <ContactPicker
+              v-model="form.organization_contact"
+              v-model:label="organizationLabel"
+              contact-type="Organization"
+              :placeholder="__('Search organizations...')"
             />
+            <div v-if="!form.organization_contact" class="mt-2">
+              <input
+                v-model="form.organization"
+                type="text"
+                :placeholder="__('...or just type the company name')"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+              />
+              <p class="mt-1 text-xs text-gray-400">
+                {{ __('A typed name is only text. Pick an organization to link them properly.') }}
+              </p>
+            </div>
           </div>
 
           <div>

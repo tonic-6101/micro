@@ -9,3 +9,5 @@ micro.patches.migrate_customer_to_contact
 # Patches added in this section will be executed after doctypes are migrated
 micro.patches.rename_contact_to_customer
 micro.patches.seed_pipeline_and_backfill_stages
+micro.patches.migrate_contact_stage_to_leads
+micro.patches.link_people_to_organizations
