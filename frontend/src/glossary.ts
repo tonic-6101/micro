@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2024-2026 Tonic
+
+import { __ } from '@/composables/useTranslate'
+
+/**
+ * What every labelled point on screen means, keyed by fieldname.
+ *
+ * Ecosystem rule: a label never stands alone — hovering it explains itself.
+ * Wording is written once here and reused by every page, so the same field
+ * cannot end up explained two different ways. Where the DocType already
+ * carries a `description` (see `custom_fields` in hooks.py), the text is the
+ * same on purpose: the Desk and the app must not disagree.
+ *
+ * Explain what the field *does for the user* — where it shows up, what it
+ * changes downstream. "The lead's priority" tells nobody anything.
+ */
+const HINTS: Record<string, string> = {
+  // --- Micro Lead ---------------------------------------------------------
+  lead_name:
+    'The name of this deal. Imported leads take the name of the company or person they came from — click it to rename.',
+  contact:
+    'The person or organization this deal is about. One contact can run through several pipelines at once, which is why leads and contacts are kept apart.',
+  stage:
+    'Where the deal stands in its pipeline. Moving it to a won or lost stage closes the lead and sets its status.',
+  status:
+    'Open, Won or Lost — this follows from the stage rather than being set by hand. Leads in the trash read "In trash".',
+  priority:
+    'How urgently this deal needs you. High and Low show as a badge on the board card; Medium stays quiet.',
+  expected_value:
+    'What the deal is worth in euros if it is won — never negative, and capped so a slipped zero cannot distort the board totals. Raise the ceiling under Micro Settings → Max Expected Value. A guess is better than nothing.',
+  source:
+    'Where the lead came from — an import, an ad, a referral. This is what tells you later which channels are worth the money.',
+  next_follow_up:
+    'The day you mean to get back in touch. Today or earlier puts the lead in the call list and in the board\'s "Due today" filter.',
+  lost_reason:
+    'Why the deal fell through. Asked for when a lead lands in a lost stage, and worth writing plainly — it is the only record of why.',
+  notes:
+    'What was said, what was agreed, what comes next. Free text, kept on the lead rather than on the contact.',
+
+  // --- Contact (Micro CRM fields) -----------------------------------------
+  first_name: 'The person\'s first name. For an organization, this holds the full company name.',
+  last_name: 'The person\'s surname. Left empty for organizations.',
+  company_name: 'The company this contact writes under. Shown on the board card when it differs from the lead name.',
+  email_id: 'The main address for this contact. Offers and invoices go here.',
+  phone: 'The landline. The call list dials whichever number is set.',
+  mobile_no: 'The mobile number. Preferred over the landline on board cards and in the call list.',
+  micro_website: 'The contact\'s website — handy before a first call.',
+  micro_address: 'Street and house number. Printed on offers and invoices.',
+  micro_postal_code: 'Postal code, printed on documents and used to group contacts by area.',
+  micro_city: 'City, printed on documents and used to group contacts by area.',
+  micro_country: 'Country, printed on documents. Matters for VAT on invoices.',
+  micro_status:
+    'Where the relationship stands overall: Potential, Active or Inactive. This describes the contact, not any single deal.',
+  micro_source: 'How this contact first reached you. The deal has its own source, which may differ.',
+  micro_segment:
+    'Durable target group — independent of the pipeline stage of any single deal.',
+  micro_organization:
+    'The organization this person belongs to. Documents are addressed to the organization; the conversation belongs to the person.',
+  micro_contact_type:
+    'Person or Organization. Organizations are addressed by company name; people carry a first and last name.',
+  micro_pipeline_stage:
+    'Mirror of the contact\'s most recent open lead. The pipeline board reads Micro Lead — edit the lead, not this field.',
+  micro_notes: 'Anything worth remembering about this contact that has no field of its own.',
+  micro_client_loves: 'What this client values — bring it up and the conversation goes easier.',
+  micro_communication_style: 'How this client likes to be approached: short and factual, or with time to talk.',
+
+  // --- Board controls -----------------------------------------------------
+  due_only: 'Show only leads whose follow-up date is today or already past.',
+  show_closed: 'Also show the won and lost stages, which the board hides by default.',
+  search_leads: 'Finds a lead by its own name, or by the contact on the card — name, company, email or phone.',
+
+  // --- Customer list controls ----------------------------------------------
+  select_customer: 'Select this customer for a bulk action, such as deleting several at once.',
+  select_all_customers: 'Select every customer currently shown on this page.',
+
+  // --- Call attempts (Micro Lead) ------------------------------------------
+  log_call_attempt:
+    'Log how this call went, with the current time. Logged against the contact, not this deal, so the pattern of when they answer builds up across every lead they are ever part of.',
+  best_time_to_call:
+    'Worked out from every logged call: the weekday and time of day this contact has answered most often. Needs a couple of reached calls in the same slot before a pattern shows.',
+}
+
+/** The explanation for a field, translated, or '' when none is written yet. */
+export function hintFor(field?: string): string {
+  const hint = field ? HINTS[field] : ''
+  return hint ? __(hint) : ''
+}

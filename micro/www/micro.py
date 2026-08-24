@@ -4,6 +4,8 @@
 import frappe
 from frappe.translate import get_messages_for_boot
 
+from micro.limits import DEFAULT_MAX_EXPECTED_VALUE, get_limit
+
 no_cache = 1
 
 
@@ -57,6 +59,11 @@ def get_boot():
 			"site_name": frappe.local.site,
 			"read_only_mode": frappe.flags.read_only,
 			"lang": frappe.local.lang,
+			# The bounds the forms have to obey. They ride along with the page
+			# so no screen needs a round trip just to learn what it may accept.
+			"micro_limits": {
+				"max_expected_value": get_limit("max_expected_value", DEFAULT_MAX_EXPECTED_VALUE),
+			},
 			"__messages": get_messages_for_boot(),
 		}
 	)

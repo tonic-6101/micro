@@ -8,12 +8,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AnnualWrappedCard: typeof import('./src/components/moments/AnnualWrappedCard.vue')['default']
     CapacityWidget: typeof import('./src/components/CapacityWidget.vue')['default']
     CategoryPicker: typeof import('./src/components/CategoryPicker.vue')['default']
+    ContactPicker: typeof import('./src/components/ContactPicker.vue')['default']
+    FieldLabel: typeof import('./src/components/FieldLabel.vue')['default']
     FirstOfferSentOverlay: typeof import('./src/components/moments/FirstOfferSentOverlay.vue')['default']
+    InlineField: typeof import('./src/components/InlineField.vue')['default']
     KanbanCard: typeof import('./src/components/pipeline/KanbanCard.vue')['default']
     KanbanColumn: typeof import('./src/components/pipeline/KanbanColumn.vue')['default']
+    LeadDialog: typeof import('./src/components/pipeline/LeadDialog.vue')['default']
     OfferAcceptedCard: typeof import('./src/components/moments/OfferAcceptedCard.vue')['default']
+    PipelineManager: typeof import('./src/components/pipeline/PipelineManager.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

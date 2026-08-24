@@ -5,6 +5,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from micro.limits import DEFAULT_ARTICLE_LIMIT, get_limit
 from micro.services.compliance import validate_no_tax_fields
 
 
@@ -16,9 +17,8 @@ class MicroArticle(Document):
 		self.check_community_limit()
 
 	def check_community_limit(self):
-		"""Enforce article limit for Community edition."""
-		settings = frappe.get_single("Micro Settings")
-		limit = settings.article_limit or 50
+		"""Enforce article limit for Community edition. 0 = unlimited."""
+		limit = get_limit("article_limit", DEFAULT_ARTICLE_LIMIT)
 		if limit > 0:
 			count = frappe.db.count("Micro Article")
 			if count >= limit:

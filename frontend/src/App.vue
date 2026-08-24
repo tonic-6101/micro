@@ -8,7 +8,7 @@ import { DockLayout, DockSidebarShell } from '/assets/dock/js/dock-navbar.esm.js
 import {
   LayoutDashboard, Users, Columns3, HeartPulse,
   Package, FileText, FileMinus, Receipt,
-  Download,
+  Download, Upload, PhoneCall,
 } from 'lucide-vue-next'
 import { __ } from '@/composables/useTranslate'
 
@@ -17,6 +17,7 @@ const navItems = [
   // CRM
   { key: 'customers',      label: __('Customers'),      icon: Users,       path: '/micro/customers',      divider: true },
   { key: 'pipeline',       label: __('Pipeline'),       icon: Columns3,    path: '/micro/pipeline' },
+  { key: 'call-list',      label: __('Call List'),      icon: PhoneCall,   path: '/micro/call-list' },
   { key: 'portfolio',      label: __('Client Portfolio'), icon: HeartPulse, path: '/micro/portfolio' },
   // Documents
   { key: 'articles',       label: __('Articles'),       icon: Package,     path: '/micro/articles',       divider: true },
@@ -24,7 +25,8 @@ const navItems = [
   { key: 'invoice-drafts', label: __('Invoice Drafts'), icon: FileMinus,   path: '/micro/invoice-drafts' },
   { key: 'receipts',       label: __('Receipts'),       icon: Receipt,     path: '/micro/receipts' },
   // Tools
-  { key: 'export',         label: __('Export'),         icon: Download,    path: '/micro/export',         divider: true },
+  { key: 'import',         label: __('Import'),         icon: Upload,      path: '/micro/import',         divider: true },
+  { key: 'export',         label: __('Export'),         icon: Download,    path: '/micro/export' },
 ]
 
 declare const __APP_VERSION__: string

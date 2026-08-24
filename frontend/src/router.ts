@@ -22,6 +22,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/CustomerNew.vue'),
   },
   {
+    // Ahead of the :id route — a static segment must never read as a contact name.
+    path: '/micro/customers/duplicates',
+    name: 'Duplicates',
+    component: () => import('@/pages/Duplicates.vue'),
+  },
+  {
     path: '/micro/customers/:id',
     name: 'CustomerDetail',
     component: () => import('@/pages/CustomerDetail.vue'),
@@ -38,9 +44,32 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Pipeline.vue'),
   },
   {
+    path: '/micro/pipeline/:pipelineId',
+    name: 'PipelineBoard',
+    component: () => import('@/pages/Pipeline.vue'),
+    props: true,
+  },
+  {
+    path: '/micro/call-list',
+    name: 'CallList',
+    component: () => import('@/pages/CallList.vue'),
+  },
+  {
+    path: '/micro/call-list/:pipelineId',
+    name: 'CallListPipeline',
+    component: () => import('@/pages/CallList.vue'),
+    props: true,
+  },
+  {
     path: '/micro/leads',
     name: 'Leads',
     component: () => import('@/pages/Leads.vue'),
+  },
+  {
+    // Ahead of the :id route — a static segment must never read as a lead name.
+    path: '/micro/leads/trash',
+    name: 'LeadTrash',
+    component: () => import('@/pages/LeadTrash.vue'),
   },
   {
     path: '/micro/leads/:id',
@@ -111,6 +140,11 @@ const routes: RouteRecordRaw[] = [
     path: '/micro/receipts',
     name: 'Receipts',
     component: () => import('@/pages/Receipts.vue'),
+  },
+  {
+    path: '/micro/import',
+    name: 'Import',
+    component: () => import('@/pages/Import.vue'),
   },
   {
     path: '/micro/export',
