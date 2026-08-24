@@ -1,13 +1,19 @@
 {
 	"actions": [],
+	"allow_rename": 1,
 	"autoname": "field:pipeline_name",
 	"creation": "2026-03-26 00:00:00.000000",
 	"doctype": "DocType",
 	"engine": "InnoDB",
 	"field_order": [
 		"pipeline_name",
+		"segment",
 		"column_break_1",
-		"is_default"
+		"sort_order",
+		"is_default",
+		"is_active",
+		"section_break_1",
+		"description"
 	],
 	"fields": [
 		{
@@ -19,8 +25,23 @@
 			"unique": 1
 		},
 		{
+			"description": "Target group this pipeline acquires. New leads tag their contact with it.",
+			"fieldname": "segment",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"label": "Segment",
+			"options": "Micro Segment"
+		},
+		{
 			"fieldname": "column_break_1",
 			"fieldtype": "Column Break"
+		},
+		{
+			"default": "0",
+			"fieldname": "sort_order",
+			"fieldtype": "Int",
+			"in_list_view": 1,
+			"label": "Sort Order"
 		},
 		{
 			"default": "0",
@@ -28,6 +49,22 @@
 			"fieldtype": "Check",
 			"in_list_view": 1,
 			"label": "Is Default"
+		},
+		{
+			"default": "1",
+			"fieldname": "is_active",
+			"fieldtype": "Check",
+			"in_list_view": 1,
+			"label": "Is Active"
+		},
+		{
+			"fieldname": "section_break_1",
+			"fieldtype": "Section Break"
+		},
+		{
+			"fieldname": "description",
+			"fieldtype": "Small Text",
+			"label": "Description"
 		}
 	],
 	"links": [],
@@ -67,8 +104,8 @@
 		}
 	],
 	"search_fields": "pipeline_name",
-	"sort_field": "modified",
-	"sort_order": "DESC",
+	"sort_field": "sort_order",
+	"sort_order": "ASC",
 	"states": [],
 	"title_field": "pipeline_name",
 	"track_changes": 0

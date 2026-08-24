@@ -17,7 +17,9 @@
 		"column_break_defaults",
 		"customer_limit",
 		"article_limit",
+		"pipeline_limit",
 		"monthly_capacity_hours",
+		"max_expected_value",
 		"compliance_section",
 		"draft_watermark_text",
 		"column_break_compliance",
@@ -110,11 +112,25 @@
 			"description": "Community edition: 50. Pro: unlimited."
 		},
 		{
+			"default": "1",
+			"fieldname": "pipeline_limit",
+			"fieldtype": "Int",
+			"label": "Pipeline Limit",
+			"description": "Community edition: 1. Pro: unlimited (set to 0)."
+		},
+		{
 			"default": "100",
 			"fieldname": "monthly_capacity_hours",
 			"fieldtype": "Int",
 			"label": "Monthly Capacity Hours",
 			"description": "Billable hours you aim for per month (40–200)"
+		},
+		{
+			"default": "1000000",
+			"fieldname": "max_expected_value",
+			"fieldtype": "Currency",
+			"label": "Max Expected Value",
+			"description": "Largest amount a lead's expected value may hold — a guard against typing an extra zero. 0 = no limit."
 		},
 		{
 			"fieldname": "compliance_section",

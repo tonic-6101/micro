@@ -1,20 +1,27 @@
 <!--
   SPDX-License-Identifier: AGPL-3.0-or-later
-  Copyright (C) 2026 Tonic
+  Copyright (C) 2024-2026 Tonic
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { __ } from '@/composables/useTranslate'
-import type { MicroPipelineStage, MicroCustomer } from '@/types/micro'
+import type { MicroPipelineStage, MicroLead } from '@/types/micro'
 import KanbanCard from './KanbanCard.vue'
 
 const props = defineProps<{
   stage: MicroPipelineStage
-  customers: MicroCustomer[]
+  leads: MicroLead[]
+  /** Total in this column, which can be far more than the page shown. */
+  count?: number
+  value?: number
 }>()
 
+const total = computed(() => props.count ?? props.leads.length)
+const isTruncated = computed(() => total.value > props.leads.length)
+
 const emit = defineEmits<{
-  drop: [customerId: string, stageId: string]
+  drop: [leadId: string, stageId: string]
+  add: [stageId: string]
 }>()
 
 const isDragOver = ref(false)
@@ -41,6 +48,15 @@ const bgColorMap: Record<string, string> = {
   Pink: 'bg-pink-50',
 }
 
+const formattedValue = computed(() => {
+  if (!props.value) return ''
+  return props.value.toLocaleString('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  })
+})
+
 function onDragOver(e: DragEvent) {
   e.preventDefault()
   if (e.dataTransfer) {
@@ -56,9 +72,9 @@ function onDragLeave() {
 function onDrop(e: DragEvent) {
   e.preventDefault()
   isDragOver.value = false
-  const customerId = e.dataTransfer?.getData('text/plain')
-  if (customerId) {
-    emit('drop', customerId, props.stage.name)
+  const leadId = e.dataTransfer?.getData('text/plain')
+  if (leadId) {
+    emit('drop', leadId, props.stage.name)
   }
 }
 </script>
@@ -75,33 +91,44 @@ function onDrop(e: DragEvent) {
     @drop="onDrop"
   >
     <!-- Column header -->
-    <div class="flex items-center justify-between px-3 py-2.5">
-      <h3 class="text-sm font-semibold text-gray-700">
-        {{ __(stage.stage_name) }}
-      </h3>
-      <span
-        class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-medium"
-        :class="bgColorMap[stage.color || 'Gray'] + ' text-gray-600'"
-      >
-        {{ customers.length }}
-      </span>
+    <div class="px-3 py-2.5">
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="min-w-0 truncate text-sm font-semibold text-gray-700" :title="__(stage.stage_name)">
+          {{ __(stage.stage_name) }}
+        </h3>
+        <div class="flex shrink-0 items-center gap-1.5">
+          <span
+            class="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-medium text-gray-600"
+            :class="bgColorMap[stage.color || 'Gray']"
+          >
+            {{ total }}
+          </span>
+          <button
+            type="button"
+            class="text-base leading-none text-gray-400 hover:text-gray-900"
+            :title="__('New lead in this stage')"
+            @click="emit('add', stage.name)"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <p v-if="formattedValue" class="mt-0.5 text-[11px] text-gray-500">
+        {{ formattedValue }}
+      </p>
+      <p v-if="isTruncated" class="mt-0.5 text-[11px] text-gray-400">
+        {{ __('Showing') }} {{ leads.length }} {{ __('of') }} {{ total }}
+      </p>
     </div>
 
     <!-- Cards -->
     <div
-      class="flex min-h-[100px] flex-1 flex-col gap-2 overflow-auto px-2 pb-2"
+      class="flex min-h-[100px] flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden px-2 pb-2"
       :class="isDragOver ? 'bg-gray-100/50' : ''"
     >
-      <KanbanCard
-        v-for="customer in customers"
-        :key="customer.name"
-        :customer="customer"
-      />
-      <p
-        v-if="!customers.length"
-        class="py-8 text-center text-xs text-gray-400"
-      >
-        {{ __('No customers') }}
+      <KanbanCard v-for="lead in leads" :key="lead.name" :lead="lead" />
+      <p v-if="!leads.length" class="py-8 text-center text-xs text-gray-400">
+        {{ __('No leads') }}
       </p>
     </div>
   </div>
