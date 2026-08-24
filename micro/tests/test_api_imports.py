@@ -23,6 +23,7 @@ class TestImportsAPI(FrappeTestCase):
 	def setUp(self):
 		super().setUp()
 		frappe.db.set_single_value("Micro Settings", "customer_limit", 0)
+		frappe.db.set_single_value("Micro Settings", "pipeline_limit", 0)
 
 		self.tag = frappe.generate_hash(length=8)
 		# Frappe validates phone format, so the unique part has to stay numeric.

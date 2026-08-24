@@ -11,9 +11,11 @@ class TestCustomersAPI(FrappeTestCase):
 	def setUp(self):
 		super().setUp()
 		frappe.set_user("Administrator")
-		# Ensure limit is high enough
+		# Ensure limits are high enough — pipeline_limit too, since several
+		# tests here span more than the Community-edition default of one.
 		settings = frappe.get_single("Micro Settings")
 		settings.customer_limit = 9999
+		settings.pipeline_limit = 9999
 		settings.save(ignore_permissions=True)
 		self.customers = []
 		for i in range(3):

@@ -41,6 +41,7 @@
 			"label": "Company Information"
 		},
 		{
+			"default": "My Business",
 			"fieldname": "company_name",
 			"fieldtype": "Data",
 			"label": "Company Name",
