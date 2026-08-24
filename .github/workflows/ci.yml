@@ -91,6 +91,9 @@ jobs:
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
+          bench get-app --skip-assets dock https://github.com/tonic-6101/dock.git
+          bench get-app --skip-assets watch https://github.com/tonic-6101/watch.git
+          bench get-app --skip-assets orga https://github.com/tonic-6101/orga.git
           bench get-app --skip-assets micro $GITHUB_WORKSPACE
           (cd apps/micro/frontend && npm ci)
           bench setup requirements --dev
