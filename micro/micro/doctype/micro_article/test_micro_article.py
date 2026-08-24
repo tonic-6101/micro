@@ -71,6 +71,11 @@ class TestMicroArticle(FrappeTestCase):
 		self.assertEqual(article.article_code, "ART-001")
 
 	def test_category(self):
+		if not frappe.db.exists("Micro Article Category", "Tools"):
+			frappe.get_doc({"doctype": "Micro Article Category", "category_name": "Tools"}).insert(
+				ignore_permissions=True
+			)
+
 		article = self._make_article(category="Tools")
 		self.assertEqual(article.category, "Tools")
 

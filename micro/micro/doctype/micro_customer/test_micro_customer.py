@@ -50,8 +50,11 @@ class TestMicroContact(FrappeTestCase):
 		self.assertEqual(loaded.email_id, "test@example.com")
 
 	def test_update_customer(self):
+		# `phone` is fetched from the `phone_nos` child table on save, so a
+		# direct assignment alone is discarded — the child row is what has to
+		# change.
 		customer = self._make_customer()
-		customer.phone = "+49 123 456"
+		customer.append("phone_nos", {"phone": "+49 123 456", "is_primary_phone": 1})
 		customer.save(ignore_permissions=True)
 		loaded = frappe.get_doc("Contact", customer.name)
 		self.assertEqual(loaded.phone, "+49 123 456")
