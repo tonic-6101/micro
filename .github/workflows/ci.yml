@@ -91,7 +91,7 @@ jobs:
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
-          bench get-app micro $GITHUB_WORKSPACE
+          bench get-app --skip-assets micro $GITHUB_WORKSPACE
           (cd apps/micro/frontend && npm ci)
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
