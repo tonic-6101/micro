@@ -1,0 +1,182 @@
+{
+	"actions": [],
+	"autoname": "format:MDP-{####}",
+	"creation": "2026-08-05 00:00:00.000000",
+	"doctype": "DocType",
+	"engine": "InnoDB",
+	"field_order": [
+		"pair_section",
+		"contact_a",
+		"contact_b",
+		"column_break_pair",
+		"score",
+		"band",
+		"status",
+		"evidence_section",
+		"signals",
+		"fingerprint",
+		"audit_section",
+		"detected_on",
+		"resolved_on",
+		"column_break_audit",
+		"resolved_by",
+		"merged_into",
+		"snapshot"
+	],
+	"fields": [
+		{
+			"fieldname": "pair_section",
+			"fieldtype": "Section Break",
+			"label": "Pair"
+		},
+		{
+			"description": "Canonically the lower of the two contact names, so a pair is never stored twice mirrored.",
+			"fieldname": "contact_a",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"label": "Contact A",
+			"options": "Contact",
+			"reqd": 1
+		},
+		{
+			"fieldname": "contact_b",
+			"fieldtype": "Link",
+			"in_list_view": 1,
+			"label": "Contact B",
+			"options": "Contact",
+			"reqd": 1
+		},
+		{
+			"fieldname": "column_break_pair",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "score",
+			"fieldtype": "Float",
+			"in_list_view": 1,
+			"label": "Score",
+			"precision": "3",
+			"read_only": 1
+		},
+		{
+			"fieldname": "band",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Band",
+			"options": "Certain\nLikely\nPossible",
+			"read_only": 1
+		},
+		{
+			"default": "Open",
+			"fieldname": "status",
+			"fieldtype": "Select",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"label": "Status",
+			"options": "Open\nMerged\nDismissed",
+			"reqd": 1
+		},
+		{
+			"fieldname": "evidence_section",
+			"fieldtype": "Section Break",
+			"label": "Evidence"
+		},
+		{
+			"description": "Which fields agreed, as JSON. Drives the explanation shown in the review screen.",
+			"fieldname": "signals",
+			"fieldtype": "Small Text",
+			"label": "Signals",
+			"read_only": 1
+		},
+		{
+			"description": "Hash of what the pair was judged on. A dismissal sticks until one of the records materially changes.",
+			"fieldname": "fingerprint",
+			"fieldtype": "Data",
+			"label": "Fingerprint",
+			"read_only": 1
+		},
+		{
+			"fieldname": "audit_section",
+			"fieldtype": "Section Break",
+			"label": "Audit"
+		},
+		{
+			"fieldname": "detected_on",
+			"fieldtype": "Datetime",
+			"label": "Detected On",
+			"read_only": 1
+		},
+		{
+			"fieldname": "resolved_on",
+			"fieldtype": "Datetime",
+			"label": "Resolved On",
+			"read_only": 1
+		},
+		{
+			"fieldname": "column_break_audit",
+			"fieldtype": "Column Break"
+		},
+		{
+			"fieldname": "resolved_by",
+			"fieldtype": "Link",
+			"label": "Resolved By",
+			"options": "User",
+			"read_only": 1
+		},
+		{
+			"description": "The surviving contact, once this pair has been merged.",
+			"fieldname": "merged_into",
+			"fieldtype": "Data",
+			"label": "Merged Into",
+			"read_only": 1
+		},
+		{
+			"description": "JSON of the record that was merged away, kept so the merge can be undone.",
+			"fieldname": "snapshot",
+			"fieldtype": "Long Text",
+			"label": "Snapshot",
+			"read_only": 1
+		}
+	],
+	"links": [],
+	"modified": "2026-08-05 00:00:00.000000",
+	"modified_by": "Administrator",
+	"module": "Micro",
+	"name": "Micro Duplicate Pair",
+	"naming_rule": "Expression",
+	"owner": "Administrator",
+	"permissions": [
+		{
+			"create": 1,
+			"delete": 1,
+			"email": 1,
+			"print": 1,
+			"read": 1,
+			"report": 1,
+			"role": "System Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"create": 1,
+			"delete": 1,
+			"read": 1,
+			"report": 1,
+			"role": "Micro Manager",
+			"share": 1,
+			"write": 1
+		},
+		{
+			"read": 1,
+			"report": 1,
+			"role": "Micro User",
+			"write": 1
+		}
+	],
+	"search_fields": "contact_a,contact_b,status",
+	"sort_field": "score",
+	"sort_order": "DESC",
+	"states": [],
+	"track_changes": 1
+}
