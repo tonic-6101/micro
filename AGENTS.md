@@ -62,6 +62,28 @@ All new code in `frontend/src/` must be TypeScript (`.ts` or `<script lang="ts">
 
 Exceptions: JSON, Markdown, config files, auto-generated files.
 
+### Field Help — Every Label Explains Itself
+
+Ecosystem rule (`spec/design/unified-design.md`). No labelled point ships as bare
+text: fields, table headers, filters and status badges all explain themselves on
+hover.
+
+```vue
+<FieldLabel field="expected_value" :label="__('Expected Value')" />
+```
+
+- Wording lives in `frontend/src/glossary.ts`, keyed by fieldname — written once,
+  reused everywhere. No entry yet? Write one; don't drop the label.
+- The label is the hover target. No `?` badge, no `ⓘ` icon — a mark on every row
+  is clutter, and `cursor: help` says it already.
+- Say what the field does for the user, not what it is: "The board sums these per
+  column" beats "the expected value".
+- Where the DocType field carries a `description` in `hooks.py`, repeat it
+  verbatim so the Desk and the app agree.
+- Never `title="..."` for an explanation — slow, unstyleable, unreachable by
+  keyboard. It stays fine for text that merely overflows.
+- Hint strings are translated like any other string.
+
 ### Translation (i18n)
 
 All user-facing strings must be wrapped for translation:

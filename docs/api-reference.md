@@ -11,6 +11,8 @@ Authentication is handled by Frappe's session system. All endpoints require the 
 | GET | `get_customers` | List customers with filters, search, pagination |
 | GET | `get_customer` | Get single customer with related notes |
 | POST | `create_customer` | Create a new customer |
+| GET | `get_delete_preview` | What deleting this customer would cost |
+| POST | `delete_customer` | Remove from Micro, or erase the contact |
 
 ### `get_customers`
 
@@ -41,7 +43,11 @@ GET /api/method/micro.api.customers.get_customer
 |-----------|------|----------|-------------|
 | `customer_id` | string | Yes | Customer document name |
 
-**Returns:** `{ customer: {...}, notes: [...] }`
+**Returns:** `{ customer: {...}, notes: [...], tags: [...], leads: [...], organization: {...} | null, members: [...] }`
+
+`organization` is the organization a person belongs to, carrying its name rather
+than a bare docname. `members` is the people who belong to this organization,
+and is empty for a person. Only one of the two is ever populated.
 
 ### `create_customer`
 
@@ -59,7 +65,8 @@ POST /api/method/micro.api.customers.create_customer
 | `phone` | string | No | Phone number |
 | `mobile` | string | No | Mobile number |
 | `website` | string | No | Website URL |
-| `organization` | string | No | Organization name (Person customers only) |
+| `organization` | string | No | Employer as free text (Person customers only). A fallback for contacts with no organization record |
+| `organization_contact` | string | No | Docname of the organization Contact to link the person to. Takes precedence over `organization`, whose value it overwrites |
 | `source` | string | No | Customer source (`Manual`, `Google Ads`, `Facebook`, `Instagram`, `LinkedIn`, `Email Campaign`, `Cold Call`, `Web Form`, `Organic Search`, `Referral`, `Partner`, `Event`, `Import`, `Other`) |
 | `pipeline_stage` | string | No | Pipeline stage document name |
 | `address` | string | No | Street address |
@@ -69,6 +76,70 @@ POST /api/method/micro.api.customers.create_customer
 | `notes` | string | No | Free-text notes |
 
 **Returns:** `{ customer: {...} }`
+
+### `get_organization_members`
+
+```
+GET /api/method/micro.api.customers.get_organization_members
+```
+
+The people who belong to an organization — "who do I know at Müller Bau?"
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Docname of the organization Contact |
+
+**Returns:** `{ members: [...], total: 0 }`, ordered by full name.
+
+### `set_customer_organization`
+
+```
+POST /api/method/micro.api.customers.set_customer_organization
+```
+
+Attaches a person to an organization, or detaches them from one.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Docname of the person |
+| `organization` | string | No | Docname of the organization. Omit or pass `null` to detach |
+
+Attaching mirrors the organization's name into the person's `company_name`.
+Detaching leaves `company_name` standing: the employer was true when it was
+written, and dropping a relation is not a claim that the person never worked
+there.
+
+**Returns:** `{ customer: {...} }`
+
+### `get_delete_preview`
+
+```
+GET /api/method/micro.api.customers.get_delete_preview
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Contact document name |
+
+**Returns:** `{ customer, deletes: {doctype: count}, retention_blockers: [...], foreign_links: [...], can_erase: bool }`
+
+### `delete_customer`
+
+```
+POST /api/method/micro.api.customers.delete_customer
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `customer_id` | string | — | Contact document name |
+| `mode` | string | `"remove"` | `remove` or `erase` |
+
+`remove` clears the contact's Micro membership and keeps every document.
+`erase` deletes the Contact along with Micro's leads, notes, tasks and unsent
+drafts for it, and is refused while a receipt, a sent draft or another app still
+refers to the record. Requires `delete` on Contact.
+
+**Returns:** `{ customer, mode, erased: bool }`
 
 ---
 
@@ -248,6 +319,96 @@ GET /api/method/micro.api.receipts.get_receipt
 | `receipt_id` | string | Yes | Receipt document name |
 
 **Returns:** `{ receipt: {...} }`
+
+---
+
+## Duplicates — `micro.api.duplicates`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_duplicate_summary` | Open suggestion counts, for the banner |
+| GET | `get_duplicate_pairs` | Open suggestions with both records attached |
+| GET | `check_duplicates` | Live check for a contact that is not saved yet |
+| GET | `get_merge_preview` | What a merge would carry over and touch |
+| POST | `scan_for_duplicates` | Re-scan every contact (also runs daily) |
+| POST | `merge_contacts` | Fold one contact into another |
+| POST | `dismiss_pair` | Mark a suggestion as "not a duplicate" |
+| POST | `undo_merge` | Restore a merged-away contact within 30 days |
+
+### `get_duplicate_summary`
+
+```
+GET /api/method/micro.api.duplicates.get_duplicate_summary
+```
+
+**Returns:** `{ open: int, certain: int }`
+
+### `get_duplicate_pairs`
+
+```
+GET /api/method/micro.api.duplicates.get_duplicate_pairs
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `limit_start` | int | `0` | Pagination offset |
+| `limit_page_length` | int | `20` | Page size |
+| `band` | string | `None` | `Certain`, `Likely` or `Possible` |
+
+**Returns:** `{ pairs: [{ name, score, band, signals, reasons, contact_a, contact_b, documents_a, documents_b }], total: int }`
+
+`reasons` is the translated, human-readable form of `signals` — what the review
+screen shows as the explanation for a suggestion.
+
+### `check_duplicates`
+
+```
+GET /api/method/micro.api.duplicates.check_duplicates
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `first_name`, `last_name` | string | No | Name being typed |
+| `email`, `phone`, `mobile` | string | No | Contact details being typed |
+| `organization` | string | No | Company name |
+| `contact_type` | string | No | `Person` (default) or `Organization` |
+| `postal_code`, `address`, `website` | string | No | Further evidence |
+| `exclude` | string | No | Contact to leave out — itself, when editing |
+
+Writes nothing. Searches every contact on the site, not only Micro's customers,
+so a person another app already entered is found rather than duplicated.
+
+**Returns:** `{ matches: [{ contact, score, band, reasons }] }` — at most five.
+
+### `merge_contacts`
+
+```
+POST /api/method/micro.api.duplicates.merge_contacts
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `winner` | string | Yes | Contact that survives |
+| `loser` | string | Yes | Contact folded into it |
+| `pair` | string | No | Suggestion this resolves |
+
+Fills blanks on the survivor, keeps conflicting emails and phone numbers side by
+side, repoints every linked document, then deletes the loser. Requires `write`
+and `delete` on Contact.
+
+**Returns:** `{ winner, merged, pair, undo_days }`
+
+### `undo_merge`
+
+```
+POST /api/method/micro.api.duplicates.undo_merge
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pair` | string | Yes | The merged suggestion to reverse |
+
+**Returns:** `{ restored: string, documents_moved: int }`
 
 ---
 
