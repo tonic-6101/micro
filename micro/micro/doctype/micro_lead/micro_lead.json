@@ -94,10 +94,12 @@
 			"label": "Expected Value"
 		},
 		{
+			"description": "Keep in sync with MICRO_SOURCE_OPTIONS in micro/constants.py",
 			"fieldname": "source",
 			"fieldtype": "Select",
+			"in_standard_filter": 1,
 			"label": "Source",
-			"options": "\nWebsite\nReferral\nCold\nSocial\nOther"
+			"options": "\nManual\nClassifieds\nGoogle Ads\nFacebook\nInstagram\nLinkedIn\nEmail Campaign\nCold Call\nWeb Form\nOrganic Search\nReferral\nPartner\nEvent\nImport\nOther"
 		},
 		{
 			"fieldname": "column_break_details",

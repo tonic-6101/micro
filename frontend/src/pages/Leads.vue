@@ -40,12 +40,20 @@ watch([search, page], () => {
   <div class="p-6">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-xl font-semibold text-gray-900">{{ __('Leads') }}</h1>
-      <router-link
-        to="/micro/pipeline"
-        class="text-sm text-blue-600 hover:text-blue-800"
-      >
-        {{ __('Pipeline View') }}
-      </router-link>
+      <div class="flex items-center gap-4">
+        <router-link
+          to="/micro/leads/trash"
+          class="text-sm text-gray-500 hover:text-gray-700"
+        >
+          {{ __('Trash') }}
+        </router-link>
+        <router-link
+          to="/micro/pipeline"
+          class="text-sm text-blue-600 hover:text-blue-800"
+        >
+          {{ __('Pipeline View') }}
+        </router-link>
+      </div>
     </div>
 
     <div class="mb-4">
