@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { __ } from '@/composables/useTranslate'
+import FieldLabel from '@/components/FieldLabel.vue'
 import type { MicroSettings } from '@/types/micro'
 
 // Direct fetch to /api/method/ — works in both Desk (window.frappe)
@@ -99,7 +100,23 @@ onMounted(async () => {
               {{ settings.company_address || '—' }}
             </div>
           </div>
+          <div>
+            <FieldLabel
+              field="company_postal_code"
+              :label="__('Postal Code / City')"
+              :uppercase="false"
+              class="!font-normal !text-gray-400 dark:!text-gray-500"
+            />
+            <div class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+              {{ [settings.company_postal_code, settings.company_city].filter(Boolean).join(' ') || '—' }}
+            </div>
+          </div>
         </div>
+        <!-- Every lead card's distance hangs off this one field, so say where it
+             is missing rather than leaving the cards quietly blank. -->
+        <p v-if="!settings.company_postal_code" class="mt-3 text-xs text-amber-700 dark:text-amber-500">
+          {{ __('Add your postal code to see how far away each lead is.') }}
+        </p>
       </div>
 
       <!-- Defaults -->

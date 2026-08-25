@@ -10,6 +10,8 @@
 		"company_phone",
 		"column_break_company",
 		"company_address",
+		"company_postal_code",
+		"company_city",
 		"company_logo",
 		"defaults_section",
 		"default_currency",
@@ -67,6 +69,17 @@
 			"fieldname": "company_address",
 			"fieldtype": "Small Text",
 			"label": "Company Address"
+		},
+		{
+			"description": "Where you work from. Printed on documents, and the point every lead's distance is measured from — without it the cards show no distance at all.",
+			"fieldname": "company_postal_code",
+			"fieldtype": "Data",
+			"label": "Company Postal Code"
+		},
+		{
+			"fieldname": "company_city",
+			"fieldtype": "Data",
+			"label": "Company City"
 		},
 		{
 			"fieldname": "company_logo",

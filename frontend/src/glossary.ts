@@ -74,6 +74,12 @@ const HINTS: Record<string, string> = {
   select_customer: 'Select this customer for a bulk action, such as deleting several at once.',
   select_all_customers: 'Select every customer currently shown on this page.',
 
+  // --- Distance ------------------------------------------------------------
+  distance_km:
+    'Straight distance between your company postal code and this contact\'s — as the crow flies, so the drive is longer, usually by a fifth to a third. Set your postal code under Settings → Company Information; contacts without one show no distance.',
+  company_postal_code:
+    'Where you work from. Printed on documents, and the point every lead\'s distance is measured from — without it the cards show no distance at all.',
+
   // --- Call attempts (Micro Lead) ------------------------------------------
   log_call_attempt:
     'Log how this call went, with the current time. Logged against the contact, not this deal, so the pattern of when they answer builds up across every lead they are ever part of.',

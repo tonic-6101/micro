@@ -141,6 +141,12 @@ export interface LeadContactDetails {
   micro_communication_style?: string
   micro_client_loves?: string
   image?: string
+  micro_postal_code?: string
+  /**
+   * Straight-line kilometres from the company postal code in Micro Settings.
+   * Worked out server-side; null when either end has no usable postal code.
+   */
+  distance_km?: number | null
 }
 
 /** Micro Lead DocType — one deal in one pipeline */
@@ -698,6 +704,8 @@ export interface MicroSettings {
   company_email?: string
   company_phone?: string
   company_address?: string
+  company_postal_code?: string
+  company_city?: string
   company_logo?: string
   default_currency: string
   default_language: string

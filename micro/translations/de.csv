@@ -535,3 +535,9 @@ Could not log this call,Dieser Anruf konnte nicht protokolliert werden
 Best time to reach:,Beste Erreichbarkeit:
 Reached {reached} of {attempts} times in this slot,In diesem Zeitfenster {reached} von {attempts} Mal erreicht
 Not enough of a pattern yet — keep logging attempts.,Noch kein klares Muster erkennbar — weiter Anrufversuche protokollieren.
+Postal Code / City,PLZ / Ort
+Company Postal Code,Firmen-PLZ
+Company City,Firmenort
+Add your postal code to see how far away each lead is.,"Hinterlegen Sie Ihre PLZ, um zu sehen, wie weit jeder Lead entfernt ist."
+"Straight distance between your company postal code and this contact's — as the crow flies, so the drive is longer, usually by a fifth to a third. Set your postal code under Settings → Company Information; contacts without one show no distance.","Direkte Entfernung zwischen Ihrer Firmen-PLZ und der dieses Kontakts — Luftlinie, die Fahrstrecke ist also länger, meist um ein Fünftel bis ein Drittel. Ihre PLZ hinterlegen Sie unter Einstellungen → Firmendaten; bei Kontakten ohne PLZ wird keine Entfernung angezeigt."
+"Where you work from. Printed on documents, and the point every lead's distance is measured from — without it the cards show no distance at all.","Ihr Arbeitsort. Wird auf Dokumenten gedruckt und ist der Punkt, von dem aus die Entfernung jedes Leads gemessen wird — ohne ihn zeigen die Karten gar keine Entfernung."

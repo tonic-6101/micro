@@ -5,6 +5,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, today
 
+from micro.services.distance import attach_distance
+
 CALL_LIST_FIELDS = [
 	"name",
 	"lead_name",
@@ -29,6 +31,8 @@ CONTACT_DETAIL_FIELDS = [
 	"mobile_no",
 	"micro_segment",
 	"image",
+	# Feeds the distance on the card — see micro.services.distance.
+	"micro_postal_code",
 	# Frappe's display copy of the contact's tags — same row, no extra query.
 	"_user_tags",
 ]
@@ -46,6 +50,8 @@ CALL_CONTACT_FIELDS = [
 	"micro_segment",
 	"micro_communication_style",
 	"micro_client_loves",
+	# Worth knowing before offering to come round.
+	"micro_postal_code",
 ]
 
 PRIORITY_RANK = {"High": 0, "Medium": 1, "Low": 2}
@@ -353,7 +359,10 @@ def _contact_details(contact: str | None) -> dict | None:
 	if not contact:
 		return None
 
-	return frappe.db.get_value("Contact", contact, CONTACT_DETAIL_FIELDS, as_dict=True)
+	details = frappe.db.get_value("Contact", contact, CONTACT_DETAIL_FIELDS, as_dict=True)
+	attach_distance([details] if details else [])
+
+	return details
 
 
 def attach_contact_details(leads: list[dict], fields: list[str] | None = None) -> None:
@@ -375,6 +384,9 @@ def attach_contact_details(leads: list[dict], fields: list[str] | None = None) -
 			fields=fields or CONTACT_DETAIL_FIELDS,
 		)
 	}
+
+	# Once per contact, not once per lead — several leads can share one.
+	attach_distance(list(by_name.values()))
 
 	for lead in leads:
 		lead["contact_details"] = by_name.get(lead.get("contact"))

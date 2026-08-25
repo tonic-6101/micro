@@ -6,6 +6,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { __ } from '@/composables/useTranslate'
+import FieldLabel from '@/components/FieldLabel.vue'
 import type { MicroLead } from '@/types/micro'
 
 const props = defineProps<{
@@ -36,6 +37,13 @@ const tags = computed(() =>
 const phone = computed(() => {
   const contact = props.lead.contact_details
   return contact?.mobile_no || contact?.phone || ''
+})
+
+// Straight-line kilometres, worked out server-side. `0` is a real answer — the
+// contact shares your postal code — so only `null`/absent means "unknown".
+const distance = computed(() => {
+  const km = props.lead.contact_details?.distance_km
+  return typeof km === 'number' ? km : null
 })
 
 const isOverdue = computed(() => {
@@ -112,6 +120,17 @@ function openContact(e: Event) {
     <p v-if="phone" class="mt-0.5 truncate text-xs text-gray-500" :title="phone">
       {{ phone }}
     </p>
+
+    <!-- How far the job is. Straight-line, so the label says so on hover
+         rather than letting the number pass for a drive. -->
+    <FieldLabel
+      v-if="distance !== null"
+      field="distance_km"
+      :uppercase="false"
+      class="mt-0.5 !font-normal"
+    >
+      {{ distance }} {{ __('km') }}
+    </FieldLabel>
 
     <!-- Tags are the contact's own words about a lead — square chips, so they
          read apart from the round metadata pills below. -->
