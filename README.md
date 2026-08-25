@@ -2,7 +2,7 @@
 
 **Business Organizer for Micro Businesses**
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue.svg)](https://github.com/tonic-6101/micro/releases)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue.svg)](https://github.com/tonic-6101/micro/releases)
 [![Frappe](https://img.shields.io/badge/frappe-v16+-green.svg)](https://frappeframework.com)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange.svg)](LICENSE)
 
