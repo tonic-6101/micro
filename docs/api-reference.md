@@ -141,6 +141,81 @@ refers to the record. Requires `delete` on Contact.
 
 **Returns:** `{ customer, mode, erased: bool }`
 
+### `get_customer_facets`
+
+```
+GET /api/method/micro.api.customers.get_customer_facets
+```
+
+No parameters. **Returns:** the categories in use and how many contacts each holds — used to build the list filters.
+
+### `update_customer`
+
+```
+POST /api/method/micro.api.customers.update_customer
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Contact document name |
+
+Remaining fields are passed as keyword arguments. Only whitelisted fields are written:
+`first_name`, `last_name`, `company_name`, `micro_status`, `micro_contact_type`,
+`micro_organization`, `micro_source`, `micro_segment`, `micro_website`, `micro_address`,
+`micro_city`, `micro_postal_code` and the other `micro_*` CRM fields.
+
+> `email_id`, `phone` and `mobile_no` are **not** directly writable. Frappe recomputes them
+> from `email_ids` / `phone_nos` on every save, so a direct write is undone on the way to the
+> database. They go through the child-table helpers instead.
+
+### `add_customer_tag` / `remove_customer_tag`
+
+```
+POST /api/method/micro.api.customers.add_customer_tag
+POST /api/method/micro.api.customers.remove_customer_tag
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Contact document name |
+| `tag` | string | Yes | Label to add or remove |
+
+Removing a tag from one contact leaves the tag itself intact for other records.
+
+### `update_intelligence`
+
+```
+POST /api/method/micro.api.customers.update_intelligence
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `customer_id` | string | Yes | Contact document name |
+
+Writes the Client Intelligence Card fields: `micro_client_loves`, `micro_client_avoid`,
+`micro_communication_style`, `micro_personal_notes`, `micro_opportunities`,
+`micro_last_contact_date`, `micro_last_contact_topic`, `micro_referred_by`.
+
+### `bulk_delete_customers`
+
+```
+POST /api/method/micro.api.customers.bulk_delete_customers
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `customer_ids` | list \| JSON string | *(required)* | Contacts to act on |
+| `mode` | string | `remove` | `remove` or `erase` — see below |
+
+**`remove` vs `erase`:**
+
+| Mode | Effect |
+|------|--------|
+| `remove` | Clears Micro membership (`micro_status`, `micro_pipeline_stage`). Every document stays; re-adopting the contact later brings its history back |
+| `erase` | Destroys the record. **Refused while a retention obligation still points at it** — sent offers, invoices and receipts outrank a delete request |
+
+Use `get_delete_preview` first to show what each mode would do.
+
 ---
 
 ## Articles — `micro.api.articles`
@@ -179,6 +254,46 @@ GET /api/method/micro.api.articles.get_article
 | `article_id` | string | Yes | Article document name |
 
 **Returns:** `{ article: {...} }`
+
+### `create_article`
+
+```
+POST /api/method/micro.api.articles.create_article
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `article_name` | string | *(required)* | Display name |
+| `selling_price` | float | `0` | VK |
+| `purchase_price` | float | `0` | EK |
+| `article_code` | string | `None` | Internal code |
+| `barcode` | string | `None` | Barcode |
+| `category` | string | `None` | Link to Micro Article Category |
+| `unit` | string | `Stück` | Unit of measure |
+| `is_active` | bool | `True` | Show in pickers |
+| `description` | string | `None` | Long text |
+| `supplier` | string | `None` | Supplier name |
+| `notes` | string | `None` | Internal notes |
+
+Subject to `article_limit` (Community default: 50).
+
+### `update_article`
+
+```
+POST /api/method/micro.api.articles.update_article
+```
+
+Takes `article_id` plus any of the `create_article` fields. Omitted fields are left untouched.
+
+### `get_categories` / `create_category`
+
+```
+GET  /api/method/micro.api.articles.get_categories
+POST /api/method/micro.api.articles.create_category
+```
+
+`get_categories` takes no parameters and returns the list for dropdowns. `create_category`
+takes `category_name` and exists so a category can be added inline from the article form.
 
 ---
 
@@ -235,6 +350,25 @@ POST /api/method/micro.api.offers.create_offer
 **Item format:** `{ article: string, description: string, quantity: float, rate: float, unit: string }`
 
 **Returns:** `{ offer: {...} }`
+
+### `update_offer`
+
+```
+POST /api/method/micro.api.offers.update_offer
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `offer_id` | string | Offer draft document name *(required)* |
+| `title` | string | Offer title — checked against guardrail G5 (forbidden invoice terminology) |
+| `contact` | string | Contact the offer is addressed to |
+| `valid_until` | date | Validity date |
+| `status` | string | `Draft`, `Sent`, `Accepted`, `Declined`, `Expired` — guardrail G6 blocks payment-based statuses |
+| `items` | list | Replacement line items |
+| `notes` | string | Notes printed on the document |
+| `internal_notes` | string | Never printed |
+
+Omitted fields are left untouched.
 
 ---
 
@@ -416,9 +550,25 @@ POST /api/method/micro.api.duplicates.undo_merge
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `get_pipeline` | Get Kanban board data (stages with grouped customers) |
-| POST | `move_customer` | Move a customer to a different pipeline stage |
-| GET | `get_stages` | List all pipeline stages |
+| GET | `get_pipelines` | List active pipelines, for the board switcher |
+| GET | `get_pipeline` | Get Kanban board data (stages with grouped leads) |
+| POST | `move_lead` | Move a lead to another stage of its own pipeline |
+| GET | `get_stages` | List pipeline stages |
+| GET | `get_segments` | List active segments, for filter dropdowns |
+
+> **The cards on the board are leads, not customers.** One contact can run through
+> several pipelines at once, which is exactly why the two are kept apart. Pipeline
+> endpoints therefore take `lead_id`, not `customer_id`.
+
+### `get_pipelines`
+
+```
+GET /api/method/micro.api.pipeline.get_pipelines
+```
+
+No parameters.
+
+**Returns:** `{ pipelines: [{ name, pipeline_name, segment, is_default, sort_order, description, open_leads }] }`
 
 ### `get_pipeline`
 
@@ -428,33 +578,29 @@ GET /api/method/micro.api.pipeline.get_pipeline
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
+| `pipeline` | string | *(default pipeline)* | Pipeline to render |
 | `show_closed` | bool | `False` | Include closed stages (Won, Lost) |
+| `segment` | string | `None` | Filter by segment |
+| `source` | string | `None` | Filter by acquisition source |
+| `priority` | string | `None` | Filter by priority |
+| `due_only` | bool | `False` | Only leads with a follow-up due |
+| `search` | string | `None` | Search term |
+| `leads_per_stage` | int | `0` | Cap the cards per stage (`0` = no cap) |
 
-**Returns:**
-```json
-{
-  "stages": [
-    {
-      "stage": { "name": "MPS-0001", "stage_name": "New", "sort_order": 10, "color": "Blue", "is_closed": false },
-      "customers": [{ "name": "MC-0001", "full_name": "Max Mustermann", ... }]
-    }
-  ],
-  "unassigned": [{ "name": "MC-0005", "full_name": "Jane Doe", ... }]
-}
-```
+**Returns:** stages with their leads, grouped for the board.
 
-### `move_customer`
+### `move_lead`
 
 ```
-POST /api/method/micro.api.pipeline.move_customer
+POST /api/method/micro.api.pipeline.move_lead
 ```
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `customer_id` | string | Yes | Customer document name |
-| `stage_id` | string | Yes | Target pipeline stage document name |
+| `lead_id` | string | Yes | Lead document name |
+| `stage_id` | string | Yes | Target stage — must belong to the lead's own pipeline |
 
-**Returns:** `{ success: true }`
+**Returns:** `{ success: true, status, stage }`
 
 ### `get_stages`
 
@@ -462,11 +608,21 @@ POST /api/method/micro.api.pipeline.move_customer
 GET /api/method/micro.api.pipeline.get_stages
 ```
 
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pipeline` | string | `None` | Restrict to one pipeline; omit for all |
+
+**Returns:** `{ stages: [{ name, stage_name, pipeline, sort_order, color, is_closed, is_win_stage, is_loss_stage }] }`
+
+### `get_segments`
+
+```
+GET /api/method/micro.api.pipeline.get_segments
+```
+
 No parameters.
 
-**Returns:** `{ stages: [...] }`
-
----
+**Returns:** `{ segments: [{ name, segment_name, color, sort_order }] }`
 
 ## Dashboard — `micro.api.dashboard`
 
@@ -500,7 +656,7 @@ No parameters.
   },
   "recent_activity": [
     {
-      "doctype": "Micro Customer",
+      "doctype": "Contact",
       "name": "CUST-001",
       "label": "Max Mustermann",
       "modified": "2026-03-15 14:30:00"
@@ -518,5 +674,238 @@ No parameters.
 | GET | `get_export_preview` | Preview export count |
 | POST | `export_csv` | Generate CSV export |
 | POST | `mark_as_exported` | Mark documents as exported |
+| POST | `export_zip` | Download the export as a ZIP (CSV plus receipt images) |
 
 See [Export documentation](export.md) for full details.
+
+---
+
+## Leads — `micro.api.leads`
+
+Leads are the cards on the pipeline board. A lead is a **deal**, kept separate from the
+contact it is about — one contact can run through several pipelines at once.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_leads` | List leads with filters, pagination, search |
+| GET | `get_lead` | One lead, contact and stage resolved to names |
+| POST | `create_lead` | Create a lead |
+| POST | `update_lead` | Update editable fields (call list, detail page) |
+| POST | `move_lead` | Move a lead to another stage |
+| POST | `archive_lead` | Soft delete — off every board, still recoverable |
+| POST | `restore_lead` | Take a lead back out of the archive |
+| POST | `delete_lead` | Hard delete — Micro Manager only, gone for good |
+| GET | `get_archived_leads` | The archive view (Micro's trash), newest first |
+| POST | `snooze_lead` | Push the follow-up date out — the "not today" button |
+| GET | `get_call_list` | Today's queue: open leads that are due, most urgent first |
+
+### `get_leads`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `filters` | dict | `None` | Frappe filter dict |
+| `order_by` | string | `modified desc` | Sort order |
+| `limit_start` | int | `0` | Pagination offset |
+| `limit_page_length` | int | `20` | Page size |
+| `search` | string | `None` | Search term |
+| `include_archived` | bool | `False` | Include archived leads |
+
+### `create_lead`
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `lead_name` | string | Yes | Deal name |
+| `pipeline` | string | No | Defaults to the board it is created from |
+| `stage` | string | No | Defaults to the pipeline's first stage |
+| `contact` | string | No | Contact the deal is about |
+| `priority` | string | No | `Low`, `Medium` (default), `High` |
+| `source` | string | No | Acquisition source |
+| `expected_value` | float | No | Capped by `max_expected_value` in settings |
+| `next_follow_up` | date | No | Drives the call list |
+| `notes` | string | No | Rich text |
+
+### `snooze_lead`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `lead_id` | string | *(required)* | Lead document name |
+| `days` | int | `7` | Days to push the follow-up date out |
+
+### `get_call_list`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pipeline` | string | `None` | Restrict to one pipeline |
+| `segment` | string | `None` | Restrict to one segment |
+| `include_undated` | bool | `False` | Include leads with no follow-up date |
+| `limit` | int | `50` | Max entries |
+
+---
+
+## Call Attempts — `micro.api.call_attempts`
+
+A lightweight log of phone attempts. Attempts hang off the **contact**, not one lead, so the
+pattern of when somebody actually picks up builds up across every deal.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `log_call_attempt` | Record one attempt to reach a contact |
+| GET | `get_call_attempts` | Recent attempts for a contact, newest first |
+| GET | `get_best_time_to_call` | When the logged attempts say they tend to answer |
+
+### `log_call_attempt`
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `contact` | string | Yes | Contact document name |
+| `outcome` | string | Yes | `Reached`, `No Answer`, `Voicemail`, `Busy`, `Wrong Number` |
+| `lead` | string | No | Lead the call was about |
+| `attempted_at` | datetime | No | Defaults to now |
+| `notes` | string | No | Free text |
+
+---
+
+## Pipeline Administration — `micro.api.pipeline_admin`
+
+Backs the Pipeline Manager dialog, so pipelines and stages are configured without touching
+the Frappe Desk. Community edition allows `pipeline_limit` pipelines (default 1).
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_pipeline_setup` | Everything the dialog needs, including what blocks deletion |
+| POST | `create_pipeline` | Create a pipeline, with starter stages by default |
+| POST | `update_pipeline` | Update a pipeline; a changed name is a real rename |
+| POST | `delete_pipeline` | Delete with its stages — **refused while leads still live in it** |
+| POST | `reorder_pipelines` | Persist the tab order |
+| POST | `create_stage` | Append a stage |
+| POST | `update_stage` | Rename, recolour, or change what the stage means for the deal |
+| POST | `delete_stage` | Delete a stage, optionally moving its leads elsewhere first |
+| POST | `reorder_stages` | Persist one pipeline's column order |
+| POST | `create_segment` | Create a segment without leaving the dialog |
+
+### `create_pipeline`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pipeline_name` | string | *(required)* | Display name |
+| `segment` | string | `None` | Segment this pipeline serves |
+| `description` | string | `None` | Free text |
+| `with_starter_stages` | bool | `True` | Seed stages so the board is never born empty |
+
+### `delete_stage`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `stage` | string | *(required)* | Stage document name |
+| `move_leads_to` | string | `None` | Move the stage's leads here before deleting |
+
+---
+
+## Import — `micro.api.imports`
+
+CSV contact import. The frontend parses and maps columns client-side; this module does the
+row-by-row insert. **A failing row is reported individually — it never fails the batch.**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_import_setup` | Target fields plus remaining room under the customer limit |
+| GET | `get_capacity` | How many more contacts fit before the Community limit bites |
+| POST | `import_contacts` | Import one batch; returns an outcome per row |
+
+### `import_contacts`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `rows` | list \| JSON string | *(required)* | Parsed CSV rows |
+| `mapping` | dict \| JSON string | *(required)* | Column → contact field |
+| `contact_type` | string | `Organization` | `Person` or `Organization` |
+| `status` | string | `Potential` | Initial `micro_status` |
+| `source` | string | `Import` | Acquisition source |
+| `dedupe_by` | string | `phone` | Field used to detect existing contacts |
+| `on_duplicate` | string | `skip` | What to do on a match |
+| `create_leads` | bool | `False` | Also create a lead per imported contact |
+| `pipeline` | string | `None` | Pipeline for created leads |
+| `stage` | string | `None` | Stage for created leads |
+
+**Returns:** an outcome per row, never a bare count.
+
+> Health-score recalculation is skipped during import. A large import would otherwise queue
+> one job per row and exceed Frappe's pending-job ceiling; the nightly scheduler recalculates
+> every score anyway.
+
+---
+
+## Tasks — `micro.api.tasks`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_tasks` | List tasks with filters, pagination, search |
+| GET | `get_task` | One task |
+
+Tasks are created and edited through the Frappe Desk; the SPA is read-only here.
+
+---
+
+## Capacity — `micro.api.capacity`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_capacity_data` | Capacity indicator data for the current month |
+
+Compares committed work against `monthly_capacity_hours` in Micro Settings.
+
+---
+
+## Client Health — `micro.api.health`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_client_portfolio` | All Micro contacts ranked by health score, with portfolio insights |
+| POST | `recalculate_score` | Recalculate one contact's score on demand |
+
+Scores are stored on `Contact.micro_health_score` and refreshed nightly by the scheduler.
+
+---
+
+## Intelligence — `micro.api.intelligence`
+
+Read-only analysis over existing records. No new data is stored.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_nudges` | Unanswered offers, dormant contacts, upcoming follow-ups |
+| GET | `get_win_rate` | Win rate intelligence |
+| GET | `get_revenue_runway` | Revenue runway |
+| GET | `get_weekly_briefing` | Weekly business briefing |
+
+---
+
+## Moments — `micro.api.moments`
+
+Emotional-design milestones. Every moment is dismissible and remembers that it was seen.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_offer_accepted_data` | Context for the Offer Accepted celebration card |
+| GET | `get_first_offer_sent_status` | Whether to show the First Offer Sent overlay |
+| POST | `dismiss_first_offer_sent` | Mark that milestone as seen |
+| GET | `get_annual_wrapped` | Aggregated business summary for a year |
+| POST | `dismiss_annual_wrapped` | Mark the year's wrapped as seen |
+| POST | `reset_milestones` | Reset all milestone flags so moments re-trigger |
+
+`get_first_offer_sent_status` and `get_annual_wrapped` accept `force` to bypass the seen flag.
+
+---
+
+## Assistant Briefing — `micro.api.jana_briefing`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `get_briefing` | Micro's daily sales-intelligence summary |
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `date` | string | *(today)* | `YYYY-MM-DD` |
+
+Registered through the `jana_briefing_source` hook, so this feeds both the Jana assistant and
+Dock's briefing panel. See Dock's `docs/hooks.md` for the hook contract.

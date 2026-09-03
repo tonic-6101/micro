@@ -213,7 +213,7 @@ A customer can be in any pipeline stage regardless of their status. For example,
 
 ### Pipeline API
 
-See [API Reference](api-reference.md) for full details on the pipeline endpoints (`get_pipeline`, `move_customer`, `get_stages`).
+See [API Reference](api-reference.md) for full details on the pipeline endpoints (`get_pipelines`, `get_pipeline`, `move_lead`, `get_stages`, `get_segments`). Note that the board moves **leads**, not customers — one contact can appear in several pipelines at once.
 
 ---
 
